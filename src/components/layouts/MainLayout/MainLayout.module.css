@@ -1,0 +1,139 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #fffbeb;
+  min-height: calc(100vh);
+}
+
+.containerCollapsed {
+  padding-left: 120px;
+}
+
+.sidebar {
+  top: 0;
+  left: 0;
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
+  height: 100vh;
+  box-shadow: 0px 4px 4px 0px #00000050;
+}
+
+.sidebarCollapsed {
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
+}
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 64px;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  margin-bottom: 10px;
+  width: 100%;
+  /* max-width: 120px; */
+}
+
+.logo2 {
+  width: 90%;
+  padding-top: 10%;
+  padding-left: 14%;
+  margin-bottom: 10px;
+}
+
+.hr {
+  width: calc(100% - 60px);
+  height: 1px;
+  margin: 0 30px;
+  background-color: #acaeae;
+}
+
+.menuContainer {
+  overflow-y: auto;
+  /* background-color: rgba(255, 255, 255, 0.393); */
+  position: "sticky";
+  z-index: 0;
+  top: 0;
+  background-color: #fffbeb;
+  width: 100%;
+  height: calc(100% - 64px);
+  /* padding: 1rem; */
+}
+
+.menu {
+  background-color: transparent !important;
+  border: none !important;
+  font-size: calc(0.5vw + 0.4vh);
+  font-weight: 500;
+  font-variant: normal;
+}
+
+.menu ul[class~="ant-menu-sub"] {
+  background: transparent !important;
+}
+
+.menu > li[class~="ant-menu-item-selected"],
+.menu
+  > li[class~="ant-menu-submenu-selected"]
+  > div[class~="ant-menu-submenu-title"] {
+  color: var(--white-color);
+  background: var(--button-color);
+}
+
+.body {
+  position: relative;
+  /* width: 100%; */
+  /* height: max-content; */
+}
+
+.header {
+  position: sticky;
+  /* position:fixed; */
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  height: 68px;
+  /* padding-left: 1rem; */
+  background-color: rgba(255, 255, 255, 0);
+  /* background-color:#f1f7fd ; */
+  backdrop-filter: blur(5px);
+}
+
+.header_md {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 68px;
+  /* padding-left: 1rem; */
+  background-color: rgba(255, 255, 255, 0);
+  /* background-color:#f1f7fd ; */
+  backdrop-filter: blur(5px);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 15px;
+  background-color: #fffbeb;;
+}
+
+.hamburger {
+  cursor: pointer;
+}
+
+.noti {
+  font-size: 24px;
+}
+
+.content {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+}

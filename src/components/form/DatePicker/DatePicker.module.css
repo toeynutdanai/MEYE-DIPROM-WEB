@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 8px;
+}
+
+.datepicker {
+  width: 100%;
+}
+
+.error {
+  margin-top: 8px;
+}

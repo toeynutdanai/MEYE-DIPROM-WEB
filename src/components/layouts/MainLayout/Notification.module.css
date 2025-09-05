@@ -1,0 +1,7 @@
+.notificationText {
+  text-transform: uppercase;
+  font-weight: bold;
+  display: block;
+  text-align: right;
+  font-size: large;
+}

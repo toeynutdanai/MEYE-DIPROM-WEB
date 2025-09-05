@@ -1,0 +1,9 @@
+# โฟลเดอร์ node_modules ที่เก็บไลบรารี
+node_modules/
+
+# ไฟล์และโฟลเดอร์ที่สร้างโดยเครื่องมือหรือบรรณาธิการ
+.DS_Store
+Thumbs.db
+.vscode/
+
+build/

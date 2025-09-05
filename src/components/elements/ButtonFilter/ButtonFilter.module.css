@@ -1,0 +1,28 @@
+.buttonFilter{
+    width: 121px;
+    height: 36px;
+    background-color: var(--white-color);
+    border-style: solid;
+    border-color: var(--primary-color);
+    border-radius: 6px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    pointer-events:none
+}
+
+.textbuttonFilter {
+font-size: 16px;
+font-weight: bold;
+color: var(--primary-color);
+text-align: center;
+
+}
+.container{
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+}
+
+.iconFilter{
+    color: var(--primary-color);
+    font-size: 16px;
+}

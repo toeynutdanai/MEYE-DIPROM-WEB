@@ -1,0 +1,303 @@
+{
+  "translation": {
+    "welcome": "ยินดีต้อนรับกลับมา",
+    "header": "กรุณากรอกข้อมูลผู้ใช้งานเพื่อเข้าสู่ระบบ",
+    "header_forgot": "ลืมรหัสผ่าน",
+    "receive": "คุณจะได้รับอีเมลสำหรับแก้ไขรหัสผ่านภายใน 60 วินาที",
+    "header_reset": "รีเซ็ตรหัสผ่าน",
+    "sub_header_reset": "รหัสผ่านของคุณจะต้องประกอบไปด้วย 8 ตัวอักษรภาษาอังกฤษ โดยประกอบไปด้วยตัวพิมพ์ใหญ่ (A-Z) ตัวพิมพ์เล็ก (a-z) ตัวเลข (0-9) และอักขระพิเศษ (!,#,$,...)",
+    "human_format": {
+      "timespan": "{hh} {hour} {mm} {minute} {ss} {second}"
+    },
+    "background": {
+      "header": "แอพพลิเคชั่นติดตามและวิเคราะห์ความดันโลหิต"
+    },
+    "unit": {
+      "seconds": "วินาที",
+      "second": "วินาที",
+      "minutes": "นาที",
+      "minute": "นาที",
+      "hours": "ชั่วโมง",
+      "hour": "ชั่วโมง",
+      "days": "วัน",
+      "day": "วัน",
+      "months": "เดือน",
+      "month": "เดือน",
+      "years": "ปี",
+      "year": "ปี",
+      "baht": "บาท",
+      "meters": "เมตร"
+    },
+    "status": {
+      "entity": "สถานะ",
+      "active": "เปิดใช้งาน",
+      "inactive": "ปิด",
+      "delete": "ถูกลบ"
+    },
+    "step": {
+      "step": "ขั้นตอนที่",
+      "status": "สถานะ",
+      "wait": "กำลังรอ",
+      "process": "ดำเนินการ",
+      "finish": "เสร็จสิ้น"
+    },
+    "common": {
+      "required_field_suffix": " *",
+      "submit": "บันทึก",
+      "clear": "ล้างตัวกรอง",
+      "confirm": "ยืนยัน",
+      "cancel": "ยกเลิก",
+      "next": "ต่อไป",
+      "filter": "กรองข้อมูล",
+      "import": "นำเข้า",
+      "save": "บันทึก",
+      "create": "สร้างใหม่",
+      "edit": "แก้ไขข้อมูล",
+      "or": "หรือ",
+      "download": "ดาวน์โหลด",
+      "upload": "อัพโหลด",
+      "remove": "นำออก",
+      "index": "ลำดับ",
+      "announce": "ประกาศ",
+      "back": "ย้อนกลับ"
+    },
+    "action": {
+      "action": "จัดการ",
+      "view": "ดู",
+      "edit": "แก้ไข",
+      "delete": "ลบ",
+      "submit": "ยืนยัน",
+      "cancel": "ยกเลิก",
+      "reset_password": "รีเซ็ตรหัสผ่าน"
+    },
+    "dialog": {
+      "confirmation": {
+        "header": "ยืนยันการทำรายการ",
+        "create": "คุณยืนยันการสร้าง '{entity}' ใช่หรือไม่ ?",
+        "edit": "คุณยืนยันการแก้ไข '{entity}' ใช่หรือไม่ ?"
+      }
+    },
+    "paginate": {
+      "description": "กำลังแสดงผลรายการที่ {min} ถึง {max} จากทั้งหมด {total} รายการ"
+    },
+    "patient": {
+      "entity": "ผู้ป่วย",
+      "header": "ผู้ป่วย",
+      "info": "ข้อมูลผู้ป่วย",
+      "edit":"แก้ไขข้อมูลผู้ป่วย",
+      "message": {
+        "create":"คุณต้องการสร้างข้อมูลผู้ใช้งานหรือไม่ ?",
+        "edit":"คุณต้องการแก้ไขข้อมูลผู้ใช้งานหรือไม่ ?",
+        "delete": "คุณต้องการลบข้อมูลผู้ใช้งานหรือไม่ ?"
+      },
+      "label": {
+        "patient_information": "ข้อมูลผู้ป่วย",
+        "admin_information": "ข้อมูลผู้ดูแลระบบ",
+        "patient_id": "ลำดับ",
+        "hn": "รหัสผู้ป่วย",
+        "email": "อีเมล",
+        "full_name": "ชื่อ-นามสกุล",
+        "phone": "เบอร์โทรศัพท์",
+        "status": "สถานะ",
+        "first_name": "ชื่อ",
+        "last_name": "นามสกุล",
+        "line_name": "ชื่อ Line",
+        "level": "ระดับ",
+        "checkState": "สถานะการตรวจ",
+        "createBy": "สร้างโดย",
+        "createDate": "สร้างวันที่",
+        "updateBy": "อัพเดทโดย",
+        "updateDate": "อัพเดทวันที่",
+        "role": "บทบาท",
+        "status_flag": "สถานะ",
+        "age": "อายุ",
+        "gender": "เพศ"
+      }
+    },
+    "admin":{
+      "entity": "ผู้ดูแลระบบ",
+      "header": "ผู้ดูแลระบบ",
+      "info": "ข้อมูลผู้ดูแลระบบ",
+      "edit":"แก้ไขข้อมูลผู้ดูแลระบบ",
+      "create":"สร้างผู้ดูแลระบบ",
+      "message": {
+        "edit":"คุณต้องการแก้ไขข้อมูลผู้ใช้งานหรือไม่ ?",
+        "delete": "คุณต้องการลบข้อมูลผู้ใช้งานหรือไม่ ?"
+      },
+      "label": {
+        "admin_information": "ข้อมูลผู้ดูแลระบบ",
+        "admin_id": "ลำดับ",
+        "email": "อีเมล",
+        "full_name": "ชื่อ-นามสกุล",
+        "phone": "เบอร์โทรศัพท์",
+        "status": "สถานะ",
+        "first_name": "ชื่อ",
+        "last_name": "นามสกุล",
+        "line_name": "ชื่อ Line",
+        "level": "ระดับ",
+        "createBy": "สร้างโดย",
+        "createDate": "สร้างวันที่",
+        "updateBy": "อัพเดทโดย",
+        "updateDate": "อัพเดทวันที่",
+        "role": "บทบาท",
+        "password": "รหัสผ่าน"
+      }
+    },
+    "sign_up": {
+      "entity": "สมัครสมาชิก",
+      "header": "การตรวจสอบความดันโลหิต",
+      "sub_header": "สร้างข้อมูลสมาชิก",
+      "sub_header_address": "สร้างข้อมูลที่อยู่บริษัท",
+      "already_account": "มีสมาชิกอยู่แล้ว?",
+      "sign_in": "เข้าสู่ระบบ",
+      "accept_tc": "ฉันยอมรับ",
+      "tc": "ข้อตกลงและเงื่อนไขการใช้งาน",
+      "nextBtn": "ถัดไป",
+      "submitBtn": "สมัครสมาชิก",
+      "backBtn": "กลับ",
+      "label": {
+        "sign_up": "สมัครสมาชิก"
+      },
+      "input": {
+        "name": "ชื่อ",
+        "surName": "นามสกุล",
+        "email": "อีเมล",
+        "phoneNo": "เบอร์โทรศัพท์",
+        "password": "รหัสผ่าน"
+      },
+      "status": {
+        "failed": "การลงทะเบียนล้มเหลว",
+        "failed_description": "เพราะคุณอาจมีบัญชีนี้อยู่ในระบบอยู่แล้ว",
+        "successful": "ลงทะเบียนสำเร็จ"
+      },
+      "validation": {
+        "please_enter_your_name": "กรุณากรอกชื่อของคุณ.",
+        "please_enter_your_surname": "กรุณากรอกนามสกุลของคุณ",
+        "invalid_email": "อีเมลไม่ถูกต้อง",
+        "please_enter_your_email": "กรุณากรอกอีเมล์ของคุณ",
+        "password_must_be_at_least_8_characters": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร",
+        "please_enter_your_password": "กรุณาใส่รหัสผ่านของคุณ",
+        "invalid_phone_no": "หมายเลขโทรศัพท์ไม่ถูกต้อง",
+        "please_enter_your_phone_no": "กรุณากรอกหมายเลขโทรศัพท์ของคุณ"
+      }
+    },
+    "sign_in": {
+      "entity": "เข้าสู่ระบบ",
+      "header": "การตรวจสอบความดันโลหิต",
+      "label": {
+        "sign_in": "เข้าสู่ระบบ",
+        "remember_me": "จดจำฉัน",
+        "forgot_password": "ลืมรหัสผ่าน?"
+      },
+      "placeholders": {
+        "email": "อีเมล",
+        "password": "รหัสผ่าน",
+        "newPassword": "รหัสผ่านใหม่",
+        "confirm_password": "ยืนยันรหัสผ่าน"
+      },
+      "status": {
+        "successful": "เข้าสู่ระบบสำเร็จ",
+        "failed": "เข้าสู่ระบบล้มเหลว!!!",
+        "failed_description": "เนื่องจากชื่อผู้ใช้ และ รหัสผ่านไม่ตรงกัน"
+      },
+      "validate": {
+        "invalid_email": "อีเมลไม่ถูกต้อง",
+        "please_enter_your_email": "กรุณากรอกอีเมล์ของคุณ",
+        "password_must_be_at_least_8_characters": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร",
+        "please_enter_your_password": "กรุณาใส่รหัสผ่านของคุณ"
+      }
+    },
+    "blood_pressure": {
+      "entity": "ความดันโลหิต",
+      "header": "ความดันโลหิต",
+      "edit": "แก้ไขข้อมูลความดันโลหิต",
+      "message": {
+        "edit":"คุณต้องการแก้ไขข้อมูลความดันโลหิตหรือไม่ ?",
+        "delete": "คุณต้องการลบข้อมูลความดันโลหิตหรือไม่ ?"
+      },
+      "label": {
+        "blood_pressure_information": "ข้อมูลความดันโลหิต",
+        "blood_pressure": "ความดันโลหิต",
+        "blood_pressure_id": "ลำดับ.",
+        "updateBy": "อัพเดทโดย",
+        "updateDate": "อัพเดทวันที่",
+        "sys": "ซิสโตลิก",
+        "dia": "ไดแอสโตลิก",
+        "pul": "ชีพจร",
+        "create": "สร้างโดย",
+        "createBy": "สร้างโดย : ชื่อ",
+        "createByHN": "สร้างโดย : HN",
+        "name": "ชื่อ",
+        "hn": "HN",
+        "patient":"ผู้ป่วย"
+      }
+    },
+    "change_password": {
+      "header": "เปลี่ยนรหัสผ่าน",
+      "sub_Header": "รหัสผ่านของคุณจะต้องประกอบไปด้วย 8 ตัวอักษร"
+    },
+    "home": {
+      "entity": "หน้าหลัก",
+      "header": "หน้าหลัก",
+      "label": {
+        "loading": "กำลังโหลดข้อมูล ",
+        "card_zero": "อย่าลืมดาวน์โหลดในอีก : ",
+        "card_one": "ภาพรวมของระบบการวัดความดัน",
+        "card_one_date": "ณ วันที่ : ",
+        "card_one_time": "เวลา : ",
+        "card_two": "ผู้ใช้ทั้งหมด",
+        "card_three": "ส่งค่าแล้ว",
+        "card_four": "ไม่ส่งค่า",
+        "card_five": "เสี่ยง",
+        "card_six": "รายชื่อ ผู้ใช้ที่เสี่ยง",
+        "card_seven_one": "ล่าสุด",
+        "card_seven_two": "ผู้ส่ง : ",
+        "card_eight": "รายชื่อ ผู้ใช้ที่ยังไม่ส่งค่า"
+      },
+      "placeholders": {},
+      "unit": {
+        "day": "วัน"
+      }
+    },
+    "user": {
+      "entity": "user",
+      "header": "User",
+      "label": {
+        "profile": "โปรไฟล์",
+        "language": "ภาษา",
+        "change_password": "เปลี่ยนรหัสผ่าน",
+        "sign_out": "ออกจากระบบ"
+      }
+    },
+    "validation": {
+      "invalid_email": "อีเมลไม่ถูกต้อง",
+      "invalid_phone_no": "หมายเลขโทรศัพท์ไม่ถูกต้อง",
+      "required": "ต้องระบุข้อมูลในช่องนี้",
+      "password_min_length": "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร",
+      "passwords_must_match": "รหัสผ่านต้องตรงกัน"
+    },
+    "forgot": {
+      "status": {
+        "successful": "รีเซ็ตรหัสผ่านสำเร็จ",
+        "failed": "รีเซ็ตรหัสผ่านล้มเหลว",
+        "failed_description": "อีเมลและหมายเลขไม่ตรงกัน"
+      }
+    },
+    "user_management": {
+      "entity": "จัดการผู้ใช้งานระบบ",
+      "header": "จัดการผู้ใช้งานระบบ",
+      "add": "เพิ่มผู้ใช้ใหม่",
+      "edit": "แก้ไขข้อมูลผุ้ใช่",
+      "message": {
+        "edit":"คุณต้องยืนยันการแก้ไขข้อมูลหรือไม่"
+      },
+      "label": {
+        "record_no": "ลำดับ.",
+        "name": "ชื่อ-นามสกุล",
+        "email": "อีเมล",
+        "tel": "เบอร์โทรศัพท์",
+        "createBy": "สร้างโดย"
+      }
+    }
+  }
+}

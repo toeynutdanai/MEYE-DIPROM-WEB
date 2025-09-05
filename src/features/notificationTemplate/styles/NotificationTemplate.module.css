@@ -1,0 +1,67 @@
+.container {
+    position: sticky;
+    top: 76px;
+    width: 265px;
+    height: fit-content;
+}
+
+.container ul[class~="ant-menu"] {
+    border-inline-end-width: 0px !important;
+}
+
+.container {
+    width: 100%;
+}
+.content {
+    display: grid;
+    grid-template-columns: 265px auto;
+    grid-template-rows: auto;
+    column-gap: 24px;
+}
+
+.infoTopic {
+    font-size: 20px;
+}
+
+.switch {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+}
+
+.barStyle {
+    background: var(--primary-color);
+}
+
+.tooTipStyle {
+    background: var(--primary-color);
+    color: var(--white-color);
+    width: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.switchLabel {
+    font-size: 16px;
+}
+
+.widthTime {
+    width: 100%;
+}
+
+.timepiker{
+    width: 50%;
+}
+.miniplusBtn {
+    width: 20px !important;
+    height: 20px !important;
+    color: var(--primary-color) !important;
+}
+
+.miniMinusBtn {
+    width: 20px !important;
+    height: 20px !important;
+    color: var(--error-color) !important;
+}

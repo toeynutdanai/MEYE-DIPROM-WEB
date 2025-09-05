@@ -1,0 +1,12 @@
+version: '3.5'
+services:
+  flow-hr-ui-dev:
+      container_name: flow-hr-ui-dev
+      image: IMAGE_NAME:IMAGE_VERSION
+      # volumes:
+      #   - '.:/usr/src/app'
+      #   - '/usr/src/app/node_modules'
+      ports:
+        - '3500:80'
+      # environment:
+      #   - NODE_ENV=${NODE_ENV}

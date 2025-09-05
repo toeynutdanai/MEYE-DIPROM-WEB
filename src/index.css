@@ -1,0 +1,148 @@
+:root {
+  --primary-color: #2ba4dd;
+  --secondary-color: #0080b3;
+  --light-color: #f7f9fa;
+  --success-color: #52c41a;
+  --error-color: #ff4d4f;
+  --yellow-color: #fadb14;
+  --white-color: #ffffff;
+  --gray-color: #8392ab;
+  --gray2-color: #d2d6da;
+  --button-color: #134790;
+  --button-color-revert: #3b77cc;
+}
+
+/* --------------------------- */
+/*    RESET                    */
+/* --------------------------- */
+
+* {
+  box-sizing: border-box;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: NotoSansThai, NotoSans, sans-serif;
+}
+
+/* 
+.ant-menu-light.ant-menu-inline .ant-menu-item, .ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-item {
+  position: relative;
+  background: linear-gradient(to right, #ff0099, #493240); 
+} */
+/* .ant-menu-light .ant-menu-item-selected, .ant-menu-light>.ant-menu .ant-menu-item-selected {
+  background: linear-gradient(to right, #ff0099, #493240);  
+  color: #fff;
+}
+.ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title, .ant-menu-light>.ant-menu .ant-menu-submenu-selected >.ant-menu-submenu-title {
+  background: linear-gradient(to right, #ff0099, #493240); 
+  color: #fff;
+} */
+/* .ant-menu-item .ant-menu-item-selected .ant-menu-item-only-child {
+  position: relative;
+  color: #fff;
+  background: linear-gradient(to right, #493240, #ff0099);
+} */
+/* 
+ */
+
+.ant-btn {
+  color: var(--white-color);
+  background: var(--button-color);
+}
+.ant-btn:not(:disabled):not(.ant-btn-disabled):hover {
+  color: var(--black-color);
+  background: var(--button-color-revert);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* background: #acaeae; */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* --------------------------- */
+/*    Utility classes          */
+/* --------------------------- */
+
+.card {
+  width: 100%;
+  padding: 24px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: var(--white-color);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.card-mini {
+  width: 100%;
+  padding: 12px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: var(--white-color);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.error {
+  color: var(--error-color);
+}
+
+.small {
+  font-size: smaller;
+}
+
+.text-table {
+  color: var(--white-color);
+  font-size: 14px;
+  display: flex;
+  justify-content: center; /* จัดให้ข้อความอยู่ตรงกลาง */
+}
+
+/* --------------------------- */
+/*    Modify AntDesign         */
+/* --------------------------- */
+
+.ant-input,
+.ant-input-number-input {
+  font-family: NotoSansThai, NotoSans, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif !important;
+}
+
+.ant-notification-notice-message {
+  margin-bottom: 0px !important;
+}
+.ant-notification-notice-description {
+  margin-top: 8px !important;
+}
+.ant-notification-notice-close {
+  position: absolute;
+  top: 12px !important;
+  inset-inline-end: 10px !important;
+}
+
+.ant-divider {
+  border-block-start: 1px solid #d2d6da;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  background-color: #134790;
+}
+.ant-table-wrapper tr.ant-table-expanded-row > td {
+  background-color: var(--white-color);
+}
+
+.ant-table-column-sorter {
+  color: var(--white-color) !important; /* กำหนดสีของตัวอักษรเป็นสีดำเมื่อมีการเรียงลำดับ */
+}

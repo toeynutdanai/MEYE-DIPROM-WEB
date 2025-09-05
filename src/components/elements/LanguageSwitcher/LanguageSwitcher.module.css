@@ -1,0 +1,15 @@
+.customStyle {
+    position: absolute;
+    top: 5%;
+    right: 3%;
+    color: var(--black-color);
+    font-size: 15px;
+    background-color: var(--white-color);
+    padding: 8px 10px;
+    border-radius: 9px;
+    width: 150px;
+}
+
+.flag {
+    display: flex;
+}
