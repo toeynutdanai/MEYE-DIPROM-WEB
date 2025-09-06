@@ -191,7 +191,7 @@
         "forgot_password": "Forgot password?"
       },
       "placeholders": {
-        "email": "E-mail",
+        "username": "Username",
         "password": "Password",
         "newPassword": "New password",
         "confirm_password": "Confirm password"
@@ -202,8 +202,8 @@
         "failed_description": "Because the username and password do not match."
       },
       "validate": {
-        "invalid_email": "Invalid email",
-        "please_enter_your_email": "Please enter your email",
+        "invalid_username": "Invalid username",
+        "please_enter_your_username": "Please enter your username",
         "password_must_be_at_least_8_characters": "Password must be at least 8 characters",
         "please_enter_your_password": "Please enter your password"
       }

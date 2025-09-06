@@ -1,7 +1,7 @@
 import React from "react";
 
-import Logo from "assets/images/Logo1.png";
-import LanguageSwitcher from "components/elements/LanguageSwitcher/LanguageSwitcher";
+import background from "assets/images/bgLogin.png";
+// import LanguageSwitcher from "components/elements/LanguageSwitcher/LanguageSwitcher";
 import styles from "./AuthBackground.module.css";
 import { useTranslation } from "react-i18next";
 import { Grid } from "antd";
@@ -15,27 +15,27 @@ const AuthBackground = ({ children, showLanguageSwitcher = false }) => {
     <>
       {screens.lg ? (
         <div className={styles.container}>
-          <div className={styles.header}>
+          {/* <div className={styles.header}>
             <img src={Logo} alt="Logo" className={styles.logo} />
             <p className={styles.title}>{t("background.header")}</p>
-          </div>
+          </div> */}
           <div className={styles.body}>
-            {showLanguageSwitcher ? (
+            {/* {showLanguageSwitcher ? (
               <LanguageSwitcher className={styles.languageSwitcherContainer} />
             ) : (
               <React.Fragment />
-            )}
+            )} */ }
             {children}
           </div>
-          <div className={styles.background} />
+          {/* <div className={styles.background} /> */}
         </div>
       ) : (
-        <div className={styles.containerMd}>
-            {showLanguageSwitcher ? (
+        <div className={styles.containerMd}><img src={background} alt="background" className={styles.background} />
+            {/* {showLanguageSwitcher ? (
               <LanguageSwitcher className={styles.languageSwitcherContainer} />
             ) : (
               <React.Fragment />
-            )}
+            )} */ }
             {children}
           </div>
       )}

@@ -7,6 +7,8 @@
   min-height: 100vh;
   padding: 24px;
   background-color: #fffbeb;
+  height: calc(100% - 50px); /*ปรับขนาดตามต้องการ */
+  background: url("assets/images/bgLogin.png") center / cover no-repeat;
 }
 
 .containerMd {
@@ -18,9 +20,9 @@
 .background {
   position: absolute;
   z-index: -1;
-  width: 97%; /* ปรับขนาดตามต้องการ */
-  height: calc(100% - 50px); /* ปรับขนาดตามต้องการ */
-  background-color: #134790;
+  width: 97%;
+  height: calc(100% - 50px);
+  background-color: #138890;
   border-radius: 15px;
   box-shadow: 0px 4px 4px 0px #00000050;
 }

@@ -23,8 +23,8 @@ function useLogin() {
         dispatch(setIsLogin(false));
 
         const modifiedValues = {
-          type: "email",
-          email: values.email,
+          // type: "text",
+          username: values.username,
           password: values.password,
         };
 
@@ -35,7 +35,7 @@ function useLogin() {
           session.setAuthToken(token);
 
           if (values.rememberMe === "Y") {
-            window.localStorage.setItem("rememberUser", values.email);
+            window.localStorage.setItem("rememberUser", values.username);
           } else {
             window.localStorage.removeItem("rememberUser");
           }

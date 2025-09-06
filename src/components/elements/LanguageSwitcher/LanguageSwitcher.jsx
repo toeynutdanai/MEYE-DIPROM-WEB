@@ -12,7 +12,7 @@ import styles from "./LanguageSwitcher.module.css";
 
 const LANGUAGE_OPTIONS = [
   { flag: "data:image/png;base64, " + EN, label: "ENGLISH", value: "en" },
-  { flag: "data:image/png;base64, " + TH, label: "ภาษาไทย", value: "th" },
+  // { flag: "data:image/png;base64, " + TH, label: "ภาษาไทย", value: "th" },
 ];
 
 function LanguageSwitcher({ className = "" }) {

@@ -1,5 +1,5 @@
 {
-  "name": "estellar-hr-payroll",
+  "name": "meye-diprom-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,7 +11,7 @@
     "antd": "^5.12.2",
     "axios": "^1.7.7",
     "chart.js": "^4.4.1",
-    "estellar-hr-payroll": "file:",
+    "meye-diprom-web": "file:",
     "formik": "^2.4.5",
     "humps": "^2.0.1",
     "i18next": "^23.7.8",

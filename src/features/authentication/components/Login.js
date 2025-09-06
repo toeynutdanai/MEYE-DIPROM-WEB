@@ -19,10 +19,10 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
     <AuthBackground showLanguageSwitcher>
       <div className={styles.container}>
         <p className={styles.header}>{t("sign_in.header")}</p>
-        <Divider style={{ marginBottom: "35px" }} plain />
+        {/* <Divider style={{ marginBottom: "35px" }} plain /> */}
         <Formik
           initialValues={{
-            email: window.localStorage.getItem("rememberUser") || "",
+            username: window.localStorage.getItem("rememberUser") || "",
             password: "",
             rememberMe: window.localStorage.getItem("rememberUser") ? "Y" : "N",
           }}
@@ -35,14 +35,14 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
               <Row gutter={[24, 12]}>
                 <Col span={24}>
                   <Typography.Title level={5}>
-                    {t("sign_in.placeholders.email")} <span className={styles.request}>*</span>
+                    {t("sign_in.placeholders.username")} <span className={styles.request}>*</span>
                   </Typography.Title>
                   <Input
                     required
-                    name="email"
+                    name="username"
                     size="large"
                     type="text"
-                    placeholder={`Ex. example@gmail.com`}
+                    placeholder={`Username`}
                     className={styles.input}
                   />
                 </Col>
@@ -88,20 +88,7 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
               >
                 {t("sign_in.entity").toUpperCase()}
               </Button>
-              {/* <Divider style={{ margin: "0" }} plain>
-                {t("common.or")}
-              </Divider>
-              <Button
-                className={styles.button}
-                type="default"
-                size="large"
-                htmlType="button"
-                onClick={() => {
-                  navigate("/sign_up")
-                }}
-              >
-                {t("sign_up.entity").toUpperCase()}
-              </Button> */}
+              {}
             </Form>
           )}
         </Formik>

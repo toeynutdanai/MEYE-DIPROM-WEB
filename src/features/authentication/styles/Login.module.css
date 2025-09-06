@@ -18,13 +18,13 @@
   font-weight: bold;
   color: var(--white-color);
   text-align: center;
-  margin-top: 10%;
+  margin-top: 5%;
 }
 .formContainer {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: 80%;
+  width: 30%;
   max-width: 100%;
   padding: 24px;
   background-color: var(--white-color);

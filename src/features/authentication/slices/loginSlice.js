@@ -7,7 +7,7 @@ const loginSlice = createSlice({
     isLogin: false,
     profile: {
       id:"",
-      email: "",
+      username: "",
       name: "",
     },
   },
