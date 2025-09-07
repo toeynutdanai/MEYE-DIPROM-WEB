@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import session from "utils/session";
 
 import alert from "components/elements/Alert";
-import { login } from "../services/loginApi";
+import { login,permission } from "../services/loginApi";
 import { setIsLoading, setIsLogin, setProfile } from "../slices/loginSlice";
 import { useTranslation } from "react-i18next";
 
@@ -33,15 +33,23 @@ function useLogin() {
 
         if (token) {
           session.setAuthToken(token);
+          window.localStorage.setItem("permiss",JSON.stringify(response.data.permissions));
+          window.localStorage.setItem("username", response.data.username);
+          // const permiss = await permission();
+          // if (permiss){
+          //   window.localStorage.setItem("permiss", permiss.data);
+          // } else{
+          //   //clear session
+          // }
 
-          if (values.rememberMe === "Y") {
-            window.localStorage.setItem("rememberUser", values.username);
-          } else {
-            window.localStorage.removeItem("rememberUser");
-          }
+          // if (values.rememberMe === "Y") {
+          //   window.localStorage.setItem("rememberUser", values.username);
+          // } else {
+          //   window.localStorage.removeItem("rememberUser");
+          // }
 
-          window.localStorage.setItem("name", response.data.name);
-          window.localStorage.setItem("id", response.data.id);
+          // window.localStorage.setItem("name", response.data.name);
+          // window.localStorage.setItem("id", response.data.id);
 
           dispatch(setProfile(response.data));
           dispatch(setIsLogin(true));

@@ -1,6 +1,4 @@
 import React from "react";
-
-import background from "assets/images/bgLogin.png";
 // import LanguageSwitcher from "components/elements/LanguageSwitcher/LanguageSwitcher";
 import styles from "./AuthBackground.module.css";
 import { useTranslation } from "react-i18next";
@@ -30,7 +28,7 @@ const AuthBackground = ({ children, showLanguageSwitcher = false }) => {
           {/* <div className={styles.background} /> */}
         </div>
       ) : (
-        <div className={styles.containerMd}><img src={background} alt="background" className={styles.background} />
+        <div className={styles.containerMd}>
             {/* {showLanguageSwitcher ? (
               <LanguageSwitcher className={styles.languageSwitcherContainer} />
             ) : (

@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Home from "features/home/pages/Home";
+import MenuHome from "features/menu/pages/Menu";
 
 import ChangePassword from "features/authentication/pages/ChangePassword";
 import ForgotPassword from "features/authentication/pages/ForgotPassword";
@@ -18,11 +18,12 @@ import NotFound from "features/notfound/pages/NotFound";
 import UserManagement from "features/userManagement/pages/UserManagement";
 import UserManagementEdit from "features/userManagement/pages/UserManagementEdit";
 import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
+import { Menu } from "antd";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRoute element={<Home />} />,
+    element: <PrivateRoute element={<MenuHome />} />,
     errorElement: <NotFound />,
   },
   {

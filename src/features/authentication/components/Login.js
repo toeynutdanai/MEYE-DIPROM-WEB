@@ -9,6 +9,7 @@ import { AuthBackground } from "components/layouts";
 
 import useLoginSchema from "../schemas/loginSchema";
 import styles from "../styles/Login.module.css";
+import Logo from "assets/images/logo.png";
 
 function Login({ isLoading = false, handleLogin = () => {} }) {
   const navigate = useNavigate();
@@ -18,7 +19,9 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
   return (
     <AuthBackground showLanguageSwitcher>
       <div className={styles.container}>
-        <p className={styles.header}>{t("sign_in.header")}</p>
+        <img src={Logo} alt="Logo" />
+        <br></br>
+        {/* <p className={styles.header}>{t("sign_in.header")}</p> */}
         {/* <Divider style={{ marginBottom: "35px" }} plain /> */}
         <Formik
           initialValues={{

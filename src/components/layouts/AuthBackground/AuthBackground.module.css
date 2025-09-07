@@ -12,9 +12,19 @@
 }
 
 .containerMd {
-  background-color: #134790;
+  /* background-color: #134790;*/
+  /* width: 100%;
+  min-height: 100vh;  */
+  display: flex;
+  /* align-items: flex-start; */
+  position: relative;
+  z-index: 0;
   width: 100%;
   min-height: 100vh;
+  padding: 24px;
+  background-color: #fffbeb;
+  height: calc(100% - 50px); /*ปรับขนาดตามต้องการ */
+  background: url("assets/images/bgLogin.png") center / cover no-repeat;
 }
 
 .background {

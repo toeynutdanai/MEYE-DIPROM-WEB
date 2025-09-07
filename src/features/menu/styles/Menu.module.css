@@ -1,0 +1,163 @@
+.layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.header {
+  /* font-size: 2rem; */
+  /* font-weight: bold; */
+  /* text-align: center; */
+  background: white;
+  /* display: flex; */
+  align-items: center;
+  height: 64px;
+  flex-flow: nowrap;
+  justify-content: space-between;
+}
+
+.header_logo {
+    height: 40px !important;
+    width: auto;
+    max-width: 100%;
+    
+}
+
+.header_icon {
+    font-size: '20px';
+    color: '#000000ff';
+}
+
+.banner{
+    width: 100%;
+}
+
+.banner_container {
+  width: 100%;
+  position: relative; /* สำคัญ: ทำให้ลูกหลานที่ position: absolute อ้างอิงจากตัวมัน */
+  width: 100%; /* กำหนดความกว้างของ container ให้รูปภาพปรับตาม */
+  height: 200px; /* กำหนดความสูงของ container หากจำเป็น หรือปล่อยให้รูปภาพกำหนด */
+  display: inline-block; /* เพื่อให้ width และ height ทำงานได้ดีกับ block-level elements อื่นๆ */
+  overflow: hidden; /* ถ้าข้อความยาวเกินรูปจะได้ไม่ล้นออกมา */
+}
+
+.banner_container img { /* Ant Design Image component จะ render เป็น img */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ทำให้รูปภาพครอบคลุมพื้นที่โดยไม่บิดเบี้ยว */
+}
+
+.banner_text {
+  position: absolute;
+  top: 50%; /* จัดให้อยู่กึ่งกลางในแนวตั้ง */
+  left: 50%; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+  transform: translate(-50%, -50%); /* ปรับตำแหน่งให้กึ่งกลางที่แท้จริง */
+  color: white; /* สีข้อความ */
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0); /* เพิ่มพื้นหลังให้ข้อความอ่านง่ายขึ้น */
+  padding: 10px 20px;
+  border-radius: 5px;
+  user-select: none; /* ป้องกันไม่ให้ข้อความถูกเลือก */
+}
+
+/* .header_mini {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5rem 1rem;
+  padding: "1rem";
+}
+
+.header_mini_last {
+  font-weight: bold;
+  text-align: start;
+  margin: 0.5rem 1rem;
+  color: white;
+} */
+
+.menu_container_text{
+  text-align: center;
+  justify-content: center;
+  color: '#142950';
+}
+
+.menu_container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* .sub_header {
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5rem 1rem;
+}
+
+.align_right_header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon_and_text_container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.right_aligned_text {
+  margin-left: auto;
+}
+
+
+.font_size_main {
+  font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0.5rem 1rem;
+  }
+
+  .sub_header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout {
+    gap: 1rem;
+  }
+
+  .header {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0.5rem 1rem;
+  }
+
+  .sub_header {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0.5rem 1rem;
+    flex-wrap: wrap;
+  }
+} */
