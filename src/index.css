@@ -112,6 +112,20 @@ code {
 /*    Modify AntDesign         */
 /* --------------------------- */
 
+.ant-layout {
+  background-color: transparent;
+}
+
+.ant-layout.ant-layout-has-sider {
+  background-color: transparent;
+}
+
+.ant-layout .ant-layout-sider-children {
+  background-color: transparent;
+}
+
+
+
 .ant-input,
 .ant-input-number-input {
   font-family: NotoSansThai, NotoSans, -apple-system, BlinkMacSystemFont,

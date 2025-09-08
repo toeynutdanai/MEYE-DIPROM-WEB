@@ -1,61 +1,100 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 58px 24px 0;
-  margin: 0 auto 32px;
-  margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 650vw;
 }
+
 .logo {
-  height: 11.5rem;
-  width: auto;
-  margin-bottom: 2rem;
+    height: 6rem;
+    width: auto;
+    margin-bottom: 1rem;
 }
+
 .header {
-  font-size: 26px;
-  font-weight: bold;
-  color: var(--white-color);
-  text-align: center;
-  margin-top: 5%;
+    font-size: 5vh;
+    font-weight: bold;
+    color: var(#00275A);
+    /* text-align: left; */
+    margin-bottom: 20px;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-variation-settings: "slnt" 0;
 }
+
+
+.subHeader {
+    font-size: 2vh;
+    color: #00275A;
+    text-align: left;
+    font-weight: normal;
+    /* margin-bottom: 52px; */
+}
+
 .formContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 30%;
-  max-width: 100%;
-  padding: 24px;
-  background-color: var(--white-color);
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px 0px #00000050;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 100vw;
+    padding: 24px;
+    background-color: rgba(255, 255, 255, 0.697);
+    border-radius: 1.5rem;
+    box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.10);
+    backdrop-filter: blur(90px);
 }
+
 .formHeader {
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
+    color: #00275A;
+    font-size: 3vh;
+    font-weight: bold;
+    text-align: left;
+    /* font-family: "Inter", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: <weight>;
+      font-style: normal;
+      font-variation-settings:"slnt" 0; */
 }
-.input > input[class~="ant-input"],
-.input > span[class~="ant-input-password"] {
-  padding: 0 14px;
-  height: 60px !important;
+
+
+.input>input[class~="ant-input"],
+.input>span[class~="ant-input-password"] {
+    /* padding: 0 18px; */
+    width: 100%;
+    height: 4vh !important;
 }
+
+.input {
+    width: 100%;
+    height: 4vh !important;
+}
+
+.button .ant-btn-primary:hover {
+    background: red !important;
+}
+
 .button {
-  width: 100%;
-  height: 60px !important;
+    background-color: #00275A;
+    width: 100%;
+    height: 4vh;
+    font-size: 1vw;
 }
+
+.button2 {
+    background-color: transparent;
+    width: 100%;
+    height: 6vh !important;
+    font-size: 1vw;
+    border-radius: 0.5em;
+    color: #00275A;
+    border-color: #00275A;
+}
+
 .rememberMe {
-  padding-left: 8px;
-}
-
-.request {
-  color: red;
-}
-
-/* Media Query สำหรับหน้าจอ lg (992px ขึ้นไป) */
-@media (min-width: 992px) {
-  .container {
-    min-width: 680px;
-  }
+    padding-left: 8px;
+    font-size: 1.5vh;
 }

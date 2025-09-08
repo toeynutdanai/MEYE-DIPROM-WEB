@@ -1,43 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import background from "assets/images/bgLogin-2.png";
 // import LanguageSwitcher from "components/elements/LanguageSwitcher/LanguageSwitcher";
 import styles from "./AuthBackground.module.css";
 import { useTranslation } from "react-i18next";
-import { Grid } from "antd";
 
-const { useBreakpoint } = Grid;
 
 const AuthBackground = ({ children, showLanguageSwitcher = false }) => {
-  const { t } = useTranslation();
-  const screens = useBreakpoint();
+const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
+useEffect(() => {
+    const handleResize = () => setWindowHeight(window.innerHeight);
+    window.addEventListener("resize", handleResize);
+
+    // clean up
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <>
-      {screens.lg ? (
-        <div className={styles.container}>
-          {/* <div className={styles.header}>
-            <img src={Logo} alt="Logo" className={styles.logo} />
-            <p className={styles.title}>{t("background.header")}</p>
-          </div> */}
-          <div className={styles.body}>
-            {/* {showLanguageSwitcher ? (
-              <LanguageSwitcher className={styles.languageSwitcherContainer} />
-            ) : (
-              <React.Fragment />
-            )} */ }
-            {children}
-          </div>
-          {/* <div className={styles.background} /> */}
-        </div>
-      ) : (
-        <div className={styles.containerMd}>
-            {/* {showLanguageSwitcher ? (
-              <LanguageSwitcher className={styles.languageSwitcherContainer} />
-            ) : (
-              <React.Fragment />
-            )} */ }
-            {children}
-          </div>
-      )}
-    </>
+    <div className={styles.container} style={{
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      height: windowHeight, // ใช้ความสูงจริงของ window
+      width: "100vw",
+      margin: 0,
+        padding: 0,
+
+    }}>
+      {/* {showLanguageSwitcher ? <LanguageSwitcher /> : <React.Fragment />} */}
+      <div className={styles.body}
+      >{children}</div>
+    </div>
   );
 };
 
