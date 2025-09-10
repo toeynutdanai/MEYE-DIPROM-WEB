@@ -7,6 +7,7 @@ import {
   RightOutlined,
   UserOutlined,
   IdcardOutlined,
+  ToolOutlined,
 } from "@ant-design/icons";
 import {
   Alert,
@@ -22,7 +23,7 @@ import {
   theme,
 } from "antd";
 // import Logo2 from "assets/images/Logo1.png";
-// import Logo from "assets/images/Logo2.jpg";
+import Logo from "assets/images/logo.png";
 import cx from "classnames";
 import { setState } from "features/home/slices/homeSlice";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -33,7 +34,6 @@ import { generateRandomString } from "utils/helper";
 import * as services from "../../../features/home/services/homeApi";
 import Breadcrumb from "./Breadcrumb";
 import styles from "./MainLayout.module.css";
-import Notification from "./Notification";
 import User from "./User";
 import { setCollapsed } from "./slices/mainSlice";
 
@@ -64,9 +64,10 @@ const MainLayout = ({
 
   const getState = useCallback(async () => {
     try {
-      const res = await services.getState({
-        requestId: generateRandomString(),
-      });
+      const res = '';
+      // const res = await services.getState({
+      //   requestId: generateRandomString(),
+      // });
       dispatch(setState(res.data));
     } catch (err) {
       Alert({ type: "error", resultObject: err });
@@ -145,6 +146,12 @@ const MainLayout = ({
       "user_management",
       <IdcardOutlined />
     ),
+    getItem(
+      "system_log",
+      "System Log",
+      "system_log",
+      <ToolOutlined />
+    ),
   ];
 
   return (
@@ -156,7 +163,7 @@ const MainLayout = ({
             className={cx(styles.sidebar)}
             style={{
               position: "sticky",
-              backgroundColor: "#FFFBEB",
+              backgroundColor: "#ffffffff",
             }}
             trigger={null}
             collapsible
@@ -171,11 +178,11 @@ const MainLayout = ({
               }}
             >
               <div style={{ marginTop: "10px" }}>
-                {/* {collapsed ? (
+                {collapsed ? (
                   <img
-                    src={Logo2}
+                    src={Logo}
                     className={styles.logo2}
-                    alt="M logo"
+                    alt="logo"
                     onClick={() => dispatch(setCollapsed(!collapsed))}
                   />
                 ) : (
@@ -183,9 +190,10 @@ const MainLayout = ({
                     onClick={() => dispatch(setCollapsed(!collapsed))}
                     src={Logo}
                     className={styles.logo}
-                    alt="M logo"
+                    alt="logo"
                   />
-                )} */}
+                )}
+                {/* <hr style={{border: 'none',backgroundColor: '#e1e1e1', height: '1px',}}/> */}
                 <Menu
                   style={{
                     overflowY: "auto",
@@ -216,7 +224,7 @@ const MainLayout = ({
                   style={{
                     width: "100%",
                     height: "35px",
-                    color: "white",
+                    color: "var(--purple-coclor)",
                     borderRadius: "0px",
                   }}
                 >
@@ -228,7 +236,7 @@ const MainLayout = ({
           <Content
             style={{
               paddingLeft: 10,
-              backgroundColor: "#FFFBEB",
+              backgroundColor: "#f8f9fa",
               borderRadius: borderRadiusLG,
             }}
           >
@@ -257,7 +265,6 @@ const MainLayout = ({
                 <Col span={11}>
                   <Flex justify="right">
                     <Space justify="right" size={24}>
-                      <Notification />
                       <User />
                     </Space>
                   </Flex>
@@ -291,7 +298,7 @@ const MainLayout = ({
         <Layout className={cx(styles.container, className)}>
           <Content
             style={{
-              backgroundColor: "#FFFBEB",
+              backgroundColor: "#f8f9fa",
               borderRadius: borderRadiusLG,
             }}
           >
@@ -317,7 +324,6 @@ const MainLayout = ({
                 <Col span={11}>
                   <Flex justify="right">
                     <Space justify="right" size={24}>
-                      <Notification />
                       <User />
                       <Button
                         icon={<MenuOutlined />}

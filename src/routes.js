@@ -18,7 +18,8 @@ import NotFound from "features/notfound/pages/NotFound";
 import UserManagement from "features/userManagement/pages/UserManagement";
 import UserManagementEdit from "features/userManagement/pages/UserManagementEdit";
 import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
-import { Menu } from "antd";
+import SystemLog from "features/systemLog/pages/SystemLog";
+// import { Menu } from "antd";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
   {
     path: "/user_management/:id/edit",
     element: <PrivateRoute element={<UserManagementEdit />} />,
+  },
+  {
+    path: "/system_log",
+    element: <PrivateRoute element={<SystemLog />} />,
   },
 ]);
 

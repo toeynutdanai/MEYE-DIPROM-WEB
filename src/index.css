@@ -8,7 +8,9 @@
   --white-color: #ffffff;
   --gray-color: #8392ab;
   --gray2-color: #d2d6da;
-  --button-color: #134790;
+  --purple-coclor: #424ca1;
+  /* --button-color: #134790; */
+  --button-color: #d5d9e8;
   --button-color-revert: #3b77cc;
 }
 
@@ -47,12 +49,12 @@
  */
 
 .ant-btn {
-  color: var(--white-color);
+  color: var(--purple-coclor);
   background: var(--button-color);
 }
 .ant-btn:not(:disabled):not(.ant-btn-disabled):hover {
-  color: var(--black-color);
-  background: var(--button-color-revert);
+  color: var(--white-color);
+  background: var(--purple-coclor);
 }
 
 body {

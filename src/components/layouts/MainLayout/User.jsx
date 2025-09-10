@@ -1,4 +1,5 @@
 import { Avatar, Dropdown, Modal, Space } from "antd";
+// import { ModalCustom } from "./Modal";
 import i18n from "i18n";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +9,7 @@ import {
   LockOutlined,
   LoginOutlined,
   SettingOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 import EN from "components/elements/LanguageSwitcher/EN.json";
@@ -34,7 +36,22 @@ const User = () => {
     });
   };
 
+  // const odChangePassword = (e) => {
+  //   e.preventDefault();
+  //   ModalCustom.confirm({
+  //     title: "Are you sure?",
+  //     content: <p>Are you sure logout?</p>,
+  //     onOk() {
+  //       session.removeAuthToken();
+  //       navigate("/sign_in");
+  //     },
+  //     okText: "CONFIRM",
+  //     cancelText: "CANCEL",
+  //   });
+  // };
+
   return (
+    <div> <span style={{ fontWeight: "bold",padding: 3 }}>{profile}</span>
     <Dropdown
       menu={{
         items: [
@@ -59,9 +76,11 @@ const User = () => {
         ],
       }}
     >
-      <Avatar size={40} icon={<SettingOutlined />} />
+      <Avatar size={40} icon={<UserOutlined />} />
     </Dropdown>
+    </div>
   );
+  
 };
 
 export default User;

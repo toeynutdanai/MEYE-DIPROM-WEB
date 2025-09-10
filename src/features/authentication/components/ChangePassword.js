@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Input, Row, Table } from "antd";
 import { Field, Form, Formik } from "formik";
 import { Translation } from "react-i18next";
 
@@ -13,6 +13,61 @@ const ChangePassword = ({
   doChangePassword = () => {},
   onCancel = () => {},
 }) => {
+  const dataSource = [
+  {
+    key: '+',
+    desc: 'บวก',
+  },
+  {
+    key: '-',
+    desc: 'ลบ/ขีดกลาง'
+  },
+  {
+    key: '#',
+    desc: 'แฮช/ชาร์ป',
+  },
+  {
+    key: '<',
+    desc: 'น้อยกว่า'
+  },
+  {
+    key: '>',
+    desc: 'มากกว่า',
+  },
+  {
+    key: '=',
+    desc: 'เท่ากับ'
+  },
+  {
+    key: '@',
+    desc: 'แอท',
+  },
+  {
+    key: '_',
+    desc: 'ขีดล่าง/underscore'
+  },
+  {
+    key: '!',
+    desc: 'อัศเจรีย์',
+  },
+  {
+    key: '$',
+    desc: 'Dollar Sign / ดอลลาร์ไซน์'
+  },
+];
+
+const columns = [
+  {
+    title: 'ตัวอักษร',
+    dataIndex: 'key',
+    key: 'key',
+  },
+  {
+    title: 'คำอธิบาย',
+    dataIndex: 'desc',
+    key: 'desc',
+  },
+];
   return (
     <AuthBackground showLanguageSwitcher>
       <div className={styles.container}>
@@ -30,7 +85,7 @@ const ChangePassword = ({
           {({ isValid }) => {
             return (
               <Form className={styles.formContainer}>
-                <Field name="oldPassword">
+                <Field name="password">
                   {({ field, meta }) => (
                     <div>
                       <Input.Password
@@ -81,11 +136,28 @@ const ChangePassword = ({
                     </div>
                   )}
                 </Field>
+                <Row>
+                  <p>Standard Password:</p>
+                  <p>1. กำหนดให้ Password ต้องมีจำนวนตัวอักษร และอักขระพิเศษรวมกันไม่น้อยกว่า 8 ตัวอักษร</p>
+                  <p>2. กำหนด Standard ของ Password ต้องประกอบด้วย</p>
+                  <p>2.1. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ อย่างน้อย 1 ตัว</p>
+                  <p>2.2. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ อย่างน้อย 1 ตัว</p>
+                  <p>2.3. อักขระพิเศษ อย่างน้อย 1 ตัว โดยจะต้องเป็นอักขระพิเศษดังนี้</p>
+                </Row>
+                <Row>
+                  <Table 
+        dataSource={dataSource} 
+        columns={columns} 
+        showHeader={false}
+        pagination={false}
+        className={styles.bordered_table}
+      />
+                </Row>
                 <Button
                   className={styles.button}
                   size="large"
                   htmlType="submit"
-                  disabled={isLoading || !isValid}
+                  // disabled={isLoading || !isValid}
                 >
                   <p className={styles.textbuttonConfirm}>CONFIRM</p>
                 </Button>

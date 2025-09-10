@@ -15,7 +15,7 @@ import { Col } from "antd/lib";
 import { Image } from "antd/lib";
 import { Card } from "antd/lib";
 import { Space } from "antd/lib";
-import { useMediaQuery } from "react-responsive"
+import { useMediaQuery } from "react-responsive";
 
 
 function Login({ isLoading = false, handleLogin = () => {} }) {

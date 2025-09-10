@@ -73,8 +73,10 @@
   background-color: transparent !important;
   border: none !important;
   font-size: calc(0.5vw + 0.4vh);
-  font-weight: 500;
+  /* font-weight: 500; */
   font-variant: normal;
+  font-weight: bold;
+  color: var(--purple-coclor);
 }
 
 .menu ul[class~="ant-menu-sub"] {
@@ -85,7 +87,7 @@
 .menu
   > li[class~="ant-menu-submenu-selected"]
   > div[class~="ant-menu-submenu-title"] {
-  color: var(--white-color);
+  color: var(--purple-coclor);
   background: var(--button-color);
 }
 
@@ -122,7 +124,7 @@
 .title {
   font-weight: bold;
   font-size: 15px;
-  background-color: #fffbeb;;
+  background-color: #f8f9fa;
 }
 
 .hamburger {

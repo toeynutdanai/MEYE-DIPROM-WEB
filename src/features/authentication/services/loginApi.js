@@ -9,3 +9,7 @@ export const login = async (params = {}) => {
   }
   );
 };
+
+export const permission = async () => {
+  return await api.post(`/menu/permission`);
+};

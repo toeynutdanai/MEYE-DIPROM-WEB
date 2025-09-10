@@ -2,6 +2,7 @@ import styles from "../styles/Menu.module.css";
 import Logo from "assets/images/logo.png";
 import Banner from "assets/images/Banner.png";
 import BannerFooter from "assets/images/Footer.png";
+import { useNavigate } from "react-router-dom";
 import { UserOutlined } from '@ant-design/icons'; 
 import {
   Alert,
@@ -23,6 +24,7 @@ import User from "components/layouts/MainLayout/User";
 const { Header, Sider, Content, Footer } = Layout;
 
 function MenuHome() {
+  const navigate = useNavigate();
   const permissions = JSON.parse(window.localStorage.getItem("permiss"));
   const permissionData = permissions.map(item => ({
   permissionCode: item.permissionCode,
@@ -44,19 +46,11 @@ return (
             </Space>
           </Col>
             <Col>
-            <Row>
-              <Col>
-              <Flex justify="right">Admin</Flex></Col>
-              <Col>
-              <Flex justify="right">
+            <Flex justify="right">
             <Space >
-              {/* <UserOutlined className={styles.header_icon}/> */}
               <User/>
             </Space>
             </Flex>
-              </Col>
-
-            </Row>
           </Col>
         </Row>
       </Header>
@@ -70,7 +64,7 @@ return (
         </Row>
         <Row className={styles.menu_container}> 
           {permissionData.map(card => (
-            <Card key={card.permissionCode} style={{ width: 300 }}>
+            <Card key={card.permissionCode} style={{ width: 300 }} onClick={()=>navigate("/system_log")}>
               <p>{card.permissionName}</p>
               <p>{card.permissionCode}</p>
             </Card>

@@ -30,9 +30,9 @@ function useHome() {
       const values = { requestId: generateRandomString() };
 
       const [stateResponse, levelResponse, statusResponse] = await Promise.all([
-        services.getState(values),
-        services.getUserListByLevel(values),
-        services.getUserListByStatusFlag(values),
+        // services.getState(values),
+        // services.getUserListByLevel(values),
+        // services.getUserListByStatusFlag(values),
       ]);
 
       dispatch(setState(stateResponse.data));

@@ -9,5 +9,5 @@ export const resetPassword = async (params = {}) => {
 };
 
 export const changePassword = async (params = {}) => {
-  return await api.post("/v1/system/changePassword", params);
+  return await api.post("/changePassword", params);
 };

@@ -299,6 +299,10 @@
         "tel": "Phone Number",
         "createBy": "Create By"
       }
+    },
+    "system_log": {
+      "entity": "System Log",
+      "header": "System Log"
     }
   }
 }
