@@ -234,8 +234,11 @@
       }
     },
     "change_password": {
-      "header": "Change password",
-      "sub_Header": "Password must contain at least 8 characters."
+      "header": "Change My Password",
+      "sub_Header": "Password must contain at least 8 characters.",
+      "old_password":"Old Password",
+      "new_password":"New Password",
+      "Confirm_password":"Confirm New Password"
     },
     "home": {
       "entity": "home",
