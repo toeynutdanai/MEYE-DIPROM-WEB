@@ -287,25 +287,45 @@
         "failed_description": "Email and number don't match."
       }
     },
+    
+    "compare_dashboard": {
+      "entity": "Compare Dashboard",
+      "header": "Compare Dashboard"
+    },
+    "oee_dashboard": {
+      "entity": "OEE Dashboard",
+      "header": "OEE Dashboard"
+    },
+    "warehouse_and_order": {
+      "entity": "Warehouse Tracking & Order Estimation",
+      "header": "Warehouse Tracking & Order Estimation"
+    },
+    "authorize": {
+      "entity": "Authorize",
+      "header": "Authorize"
+    },
+    "company_detail": {
+      "entity": "Company Detail",
+      "header": "Company Detail"
+    },
+    "role_detail": {
+      "entity": "Role Detail",
+      "header": "Role Detail"
+    },
     "user_management": {
-      "entity": "User management",
-      "header": "User Management",
-      "add": "Add User",
-      "edit": "Edit User",
-      "message": {
-        "edit":"Are you sure to edit your information?"
-      },
-      "label": {
-        "record_no": "No.",
-        "name": "Name",
-        "email": "E-mail",
-        "tel": "Phone Number",
-        "createBy": "Create By"
-      }
+      "entity": "User Management",
+      "header": "User Management"
     },
     "system_log": {
       "entity": "System Log",
-      "header": "System Log"
+      "header": "System Log",
+      "label":{
+        "username": "Username",
+        "login_date_time":"Login date time",
+        "logout_date_time":"Logout date time",
+        "ip_address": "Ip address",
+        "status_login": "Status login" 
+      }
     }
   }
 }

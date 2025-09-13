@@ -9,8 +9,11 @@
   --gray-color: #8392ab;
   --gray2-color: #d2d6da;
   --purple-coclor: #424ca1;
+  --light-purple-color: #d5d9e8;
+  --black-coclor: #000000;
   /* --button-color: #134790; */
   --button-color: #d5d9e8;
+  /* --button-color: #424ca1; */
   --button-color-revert: #3b77cc;
 }
 
@@ -49,12 +52,12 @@
  */
 
 .ant-btn {
-  color: var(--purple-coclor);
-  background: var(--button-color);
-}
-.ant-btn:not(:disabled):not(.ant-btn-disabled):hover {
   color: var(--white-color);
   background: var(--purple-coclor);
+}
+.ant-btn:not(:disabled):not(.ant-btn-disabled):hover {
+  color: var(--purple-coclor);
+  background: var(--light-purple-color);
 }
 
 body {
@@ -104,7 +107,8 @@ code {
 }
 
 .text-table {
-  color: var(--white-color);
+  /* color: var(--white-color); */
+  color: var(--black-coclor);
   font-size: 14px;
   display: flex;
   justify-content: center; /* จัดให้ข้อความอยู่ตรงกลาง */
@@ -153,7 +157,8 @@ code {
 
 .ant-table-wrapper .ant-table-thead > tr > th,
 .ant-table-wrapper .ant-table-thead > tr > td {
-  background-color: #134790;
+  /* background-color: #134790; */
+  background-color: var(--white-color);
 }
 .ant-table-wrapper tr.ant-table-expanded-row > td {
   background-color: var(--white-color);

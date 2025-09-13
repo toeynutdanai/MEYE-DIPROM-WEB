@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  HeartOutlined,
+  BarChartOutlined,
   HomeOutlined,
   LeftOutlined,
   MenuOutlined,
@@ -8,6 +8,8 @@ import {
   UserOutlined,
   IdcardOutlined,
   ToolOutlined,
+  FundViewOutlined,
+  InboxOutlined
 } from "@ant-design/icons";
 import {
   Alert,
@@ -21,6 +23,7 @@ import {
   Row,
   Space,
   theme,
+  Avatar
 } from "antd";
 // import Logo2 from "assets/images/Logo1.png";
 import Logo from "assets/images/logo.png";
@@ -133,24 +136,60 @@ const MainLayout = ({
 
   const MENU_LIST = [
     getItem("home", "Home", "home", <HomeOutlined />),
-    getItem("patient", "Patient", "patient", <UserOutlined />),
     getItem(
-      "blood_pressure",
-      "Blood Pressure",
-      "blood_pressure",
-      <HeartOutlined />
+      "compare_dashboard",
+      "Compare Dashboard",
+      "compare_dashboard",
+      <FundViewOutlined />
     ),
     getItem(
-      "user_management",
-      "User management",
-      "user_management",
-      <IdcardOutlined />
+      "oee_dashboard",
+      "OEE Dashboard",
+      "oee_dashboard",
+      <BarChartOutlined />
+    ),
+    getItem(
+      "warehouse_and_order",
+      "Warehouse Tracking & Order Estimation",
+      "warehouse_and_order",
+      <InboxOutlined />
+    ),
+    getItem(
+      "authorize",
+      "Authorize",
+      "authorize",
+      <UserOutlined />,
+      [
+      getItem(
+        "company_detail",
+        "Company Detail",
+        "authorize/company_detail"
+      ),
+      getItem(
+        "role_detail",
+        "Role Detail",
+        "authorize/role_detail"
+      ),
+      getItem(
+        "user_management",
+        "User Management",
+        "authorize/user_management"
+      ),
+    ]
+     
     ),
     getItem(
       "system_log",
       "System Log",
       "system_log",
       <ToolOutlined />
+      // <Avatar shape="square" size={25} icon={<ToolOutlined />} style={{ backgroundColor: 'var(--purple-coclor)',color: 'var(--light-purple-color)' }} />
+    ),
+    getItem(
+      "user_management",
+      "User management",
+      "user_management",
+      <IdcardOutlined />
     ),
   ];
 
@@ -217,14 +256,14 @@ const MainLayout = ({
                   inlineCollapsed={collapsed}
                 />
               </div>
-              <div style={{ textAlign: "center", width: "100%" }}>
+              <div style={{ textAlign: "center", width: "100%"}}>
                 <Button
                   type="text"
                   onClick={() => dispatch(setCollapsed(!collapsed))}
                   style={{
                     width: "100%",
                     height: "35px",
-                    color: "var(--purple-coclor)",
+                    color: "var(--white-color)",
                     borderRadius: "0px",
                   }}
                 >

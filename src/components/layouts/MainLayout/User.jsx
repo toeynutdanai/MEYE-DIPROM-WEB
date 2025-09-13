@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Modal, Space } from "antd";
+import { Avatar, Dropdown, Modal, Space ,Row} from "antd";
 // import { ModalCustom } from "./Modal";
 import i18n from "i18n";
 import { useCallback ,useState} from "react";
@@ -27,6 +27,7 @@ const User = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const profile = window.localStorage.getItem("name");
+  const company = window.localStorage.getItem("companyCode")+" - "+window.localStorage.getItem("companyName");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const odSignOut = (e) => {
     e.preventDefault();
@@ -76,7 +77,11 @@ const User = () => {
   };
 
   return (
-    <div> <span style={{ fontWeight: "bold",padding: 3 }}>{profile}</span>
+    <Row><div style={{ display: "flex",flexDirection: "column",lineHeight: "15px",justifyContent: "center",textAlign: "right",fontSize: "90%" ,padding: "3px 15px"}} >
+      <span style={{ padding: 2 }}>{profile}</span>
+      <span style={{ padding: 2 }}>{company}</span>
+    </div>
+    <div>
     <Dropdown
       menu={{
         items: [
@@ -112,7 +117,7 @@ const User = () => {
       />
 
     </div>
-
+</Row>
     
   );
   

@@ -1,65 +1,56 @@
-import { Modal } from "antd";
-import alert from "components/elements/Alert";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { generateRandomString } from "utils/helper";
-import * as services from "../services/adminApi";
-import { setIsLoading, setAdminList } from "../slices/adminSlice";
-import session from "utils/session";
+import * as services from "../services/logApi";
+import { setIsLoading, setLogList } from "../slices/logSlice";
 import { useNavigate } from "react-router-dom";
 
-function toParams(params = {}) {
-  // const { pagination = {}, sortBy = [] } = params;
-  // return {
-  //   pagination: {
-  //     page: pagination.page,
-  //     size: pagination.pageSize,
-  //   },
-  //   sortBy: sortBy
-  //     .filter((s) => s.order !== undefined)
-  //     .map((s) => ({
-  //       direction: s.order === "descend" ? "desc" : "asc",
-  //       property: s.field,
-  //     })),
-  // };
-}
+// function toParams(params = {}) {
+//   const { pagination = {}, sortBy = [] } = params;
+//   return {
+//     pagination: {
+//       page: pagination.page,
+//       size: pagination.pageSize,
+//     },
+//     sortBy: sortBy
+//       .filter((s) => s.order !== undefined)
+//       .map((s) => ({
+//         direction: s.order === "descend" ? "desc" : "asc",
+//         property: s.field,
+//       })),
+//   };
+// }
 
 function useSystemLog(){
-  //   const { t } = useTranslation();
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const isLoading = useSelector((state) => state.admin.isLoading);
-  // const adminList = useSelector((state) => state.admin.adminList);
+    const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoading = useSelector((state) => state.log.isLoading);
+  const logList = useSelector((state) => state.log.logList);
   // const currentId = window.localStorage.getItem("id");
-  // const [pagination, setPagination] = useState({ page: 0, size: 10 });
-  // const [filter, setFilter] = useState({});
+  const [pagination, setPagination] = useState({ page: 0, size: 10 });
+  const [filter, setFilter] = useState({});
 
-  // const getAdminList = useCallback(
-  //   async (params = {}) => {
-  //     try {
-  //       dispatch(setIsLoading(true));
-  //       const response = ''
-  //       // const response = await services.getAdminList({
-  //       //   requestId: generateRandomString(),
-  //       //   ...params.pagination,
-  //       //   ...filter,
-  //       //   sortBy: params.sortBy,
-  //       // });
-  //       dispatch(setAdminList(response.data.content || []));
-  //       setPagination({
-  //         page: response.data.totalPages - 1,
-  //         total: response.data.totalItems,
-  //         size: pagination.size,
-  //       });
-  //     } catch (error) {
-  //       console.error("Error fetching patient list:", error);
-  //     } finally {
-  //       dispatch(setIsLoading(false));
-  //     }
-  //   },
-  //   [dispatch, filter, pagination.size]
-  // );
+  const getLogList = useCallback(
+    async (params = {}) => {
+      try {
+        dispatch(setIsLoading(true));
+        const response = await services.getSystemLog();
+        dispatch(setLogList(response.data.data || []));
+        setPagination({
+          page: response.data.totalPages - 1,
+          total: response.data.totalItems,
+          size: pagination.size,
+        });
+      } catch (error) {
+        console.error("Error fetching patient list:", error);
+      } finally {
+        dispatch(setIsLoading(false));
+      }
+    },
+    // [dispatch, filter, pagination.size]
+    [dispatch, filter, 10]
+  );
 
   // const handleOnChange = useCallback(
   //   (tablePagination, tableSorter) => {
@@ -126,17 +117,17 @@ function useSystemLog(){
   //   [dispatch, getAdminList, pagination.page, pagination.size, t, currentId, navigate]
   // );
 
-  // useEffect(() => {
-  //   getAdminList({ pagination: { page: 0, size: 10 } });
-  // }, [getAdminList]);
+  useEffect(() => {
+    getLogList({ pagination: { page: 0, size: 10 } });
+  }, [getLogList]);
 
   return {
-    // adminList,
-    // isLoading,
-    // pagination,
-    // filter,
+    logList,
+    isLoading,
+    pagination,
+    filter,
     // onChange: handleOnChange,
-    // onSubmit: handleOnSubmit,
+    onSubmit: getLogList,
     // onClear: () => setFilter({}),
     // onDelete: handleOnDelete,
   };

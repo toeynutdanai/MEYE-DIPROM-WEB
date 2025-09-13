@@ -35,6 +35,9 @@ function useLogin() {
           session.setAuthToken(token);
           window.localStorage.setItem("permiss",JSON.stringify(response.data.permissions));
           window.localStorage.setItem("username", response.data.username);
+          window.localStorage.setItem("name", response.data.name);
+          window.localStorage.setItem("companyCode", response.data.companyCode);
+          window.localStorage.setItem("companyName", response.data.companyName);
           // const permiss = await permission();
           // if (permiss){
           //   window.localStorage.setItem("permiss", permiss.data);

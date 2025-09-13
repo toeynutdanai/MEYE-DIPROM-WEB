@@ -83,6 +83,22 @@
   background: transparent !important;
 }
 
+.menu > li[class~="ant-menu-item-active"]{
+  color: var(--purple-coclor);
+}
+
+.menu > li[class~="ant-menu-item"],
+.menu 
+  > li[class~="ant-menu-submenu"]
+  > div[class~="ant-menu-submenu-title"],
+.menu 
+  > li[class~="ant-menu-submenu"]
+  > ul[class~="ant-menu-sub"]
+  >li[class~="ant-menu-item"]
+{
+  color: var(--gray-color);
+}
+
 .menu > li[class~="ant-menu-item-selected"],
 .menu
   > li[class~="ant-menu-submenu-selected"]
