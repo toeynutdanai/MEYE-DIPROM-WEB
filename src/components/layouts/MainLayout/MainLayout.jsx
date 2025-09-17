@@ -183,7 +183,7 @@ const MainLayout = ({
       "System Log",
       "system_log",
       <ToolOutlined />
-      // <Avatar shape="square" size={25} icon={<ToolOutlined />} style={{ backgroundColor: 'var(--purple-coclor)',color: 'var(--light-purple-color)' }} />
+      // <Avatar shape="square" size={25} icon={<ToolOutlined />} style={{ backgroundColor: 'var(--purple-color)',color: 'var(--light-purple-color)' }} />
     ),
     getItem(
       "user_management",

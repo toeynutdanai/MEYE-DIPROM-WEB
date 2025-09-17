@@ -19,6 +19,7 @@ import UserManagement from "features/userManagement/pages/UserManagement";
 import UserManagementEdit from "features/userManagement/pages/UserManagementEdit";
 import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
 import SystemLog from "features/systemLog/pages/SystemLog";
+import CompareDashboard from "features/compareDashboard/pages/CompareDashboard";
 // import { Menu } from "antd";
 
 const router = createBrowserRouter([
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
   {
     path: "/system_log",
     element: <PrivateRoute element={<SystemLog />} />,
+  },
+  {
+    path: "/compare_dashboard",
+    element: <PrivateRoute element={<CompareDashboard />} />,
   },
 ]);
 

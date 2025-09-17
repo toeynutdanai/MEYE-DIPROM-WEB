@@ -9,6 +9,7 @@ import homeSlice from "features/home/slices/homeSlice";
 import patientSlice from "features/patient/slices/patientSlice";
 import adminSlice from "features/userManagement/slices/adminSlice";
 import logSlice from "features/systemLog/slices/logSlice";
+import compareDashboardSlice from "features/compareDashboard/slices/compareDashboardSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     patient: patientSlice,
     admin: adminSlice,
     bloodPressure: bloodPressureSlice,
-    log: logSlice
+    log: logSlice,
+    compareDashboard:compareDashboardSlice
   },
 });

@@ -76,7 +76,7 @@
   /* font-weight: 500; */
   font-variant: normal;
   font-weight: bold;
-  color: var(--purple-coclor);
+  color: var(--purple-color);
 }
 
 .menu ul[class~="ant-menu-sub"] {
@@ -84,7 +84,7 @@
 }
 
 .menu > li[class~="ant-menu-item-active"]{
-  color: var(--purple-coclor);
+  color: var(--purple-color);
 }
 
 .menu > li[class~="ant-menu-item"],
@@ -103,7 +103,7 @@
 .menu
   > li[class~="ant-menu-submenu-selected"]
   > div[class~="ant-menu-submenu-title"] {
-  color: var(--purple-coclor);
+  color: var(--purple-color);
   background: var(--button-color);
 }
 

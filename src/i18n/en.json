@@ -290,7 +290,15 @@
     
     "compare_dashboard": {
       "entity": "Compare Dashboard",
-      "header": "Compare Dashboard"
+      "header": "Compare Dashboard",
+      "label":{
+        "card_compare_product": "Compare Product",
+        "production_date": "Product Date",
+        "per_production":"% Production",
+        "per_time_utilization":"% Time Utilization",
+        "actual_production": "Actual Production",
+        "actual_machine_running_time": "Actual Machine Running Time(hr)"
+      }
     },
     "oee_dashboard": {
       "entity": "OEE Dashboard",

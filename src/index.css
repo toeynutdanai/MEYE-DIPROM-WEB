@@ -8,9 +8,9 @@
   --white-color: #ffffff;
   --gray-color: #8392ab;
   --gray2-color: #d2d6da;
-  --purple-coclor: #424ca1;
+  --purple-color: #424ca1;
   --light-purple-color: #d5d9e8;
-  --black-coclor: #000000;
+  --black-color: #000000;
   /* --button-color: #134790; */
   --button-color: #d5d9e8;
   /* --button-color: #424ca1; */
@@ -53,10 +53,10 @@
 
 .ant-btn {
   color: var(--white-color);
-  background: var(--purple-coclor);
+  background: var(--purple-color);
 }
 .ant-btn:not(:disabled):not(.ant-btn-disabled):hover {
-  color: var(--purple-coclor);
+  color: var(--purple-color);
   background: var(--light-purple-color);
 }
 
@@ -108,7 +108,7 @@ code {
 
 .text-table {
   /* color: var(--white-color); */
-  color: var(--black-coclor);
+  color: var(--black-color);
   font-size: 14px;
   display: flex;
   justify-content: center; /* จัดให้ข้อความอยู่ตรงกลาง */
