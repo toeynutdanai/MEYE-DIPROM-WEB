@@ -130,6 +130,12 @@ code {
   background-color: transparent;
 }
 
+.ant-modal-title {
+  font-weight: 600;
+  color: #424CA1;
+  margin-bottom: 50px;
+}
+
 
 
 .ant-input,

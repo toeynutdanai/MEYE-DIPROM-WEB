@@ -2,7 +2,7 @@ import cx from "classnames";
 import { Form, Formik } from "formik";
 import { useTranslation ,Translation} from "react-i18next";
 
-import { Col, Divider, Modal, Row, Space } from "antd";
+import { Col, Divider, Modal, Row, Space,Table } from "antd";
 import { Button } from "components/elements";
 import SubInfoSwitch from "components/elements/InfoSwitch/SubInfoSwitch";
 import { Input, Select } from "components/form";
@@ -34,9 +34,31 @@ function ModalChangePassword({
 
   const { t } = useTranslation();
 
+  const dataSource = [
+    { key: '+', desc: 'บวก' },
+    { key: '-', desc: 'ลบ/ขีดกลาง' },
+    { key: '#', desc: 'แฮช/ชาร์ป' },
+    { key: '<', desc: 'น้อยกว่า' },
+    { key: '>', desc: 'มากกว่า' },
+    { key: '=', desc: 'เท่ากับ' },
+    { key: '@', desc: 'แอท' },
+    { key: '_', desc: 'ขีดล่าง/underscore' },
+    { key: '!', desc: 'อัศเจรีย์' },
+    { key: '$', desc: 'Dollar Sign / ดอลลาร์ไซน์' },
+  ];
+
+  const columns = [
+    { title: 'ตัวอักษร', dataIndex: 'key', key: 'key' },
+    { title: 'คำอธิบาย', dataIndex: 'desc', key: 'desc' },
+  ];
+
   return (
     <Modal
-      title={title}
+      title={
+        <b className={styles.infoTopic}>
+          {title}
+        </b>
+      }
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -58,11 +80,8 @@ function ModalChangePassword({
                 size={24}
                 direction="vertical"
               >
-                <p className={styles.header}>
-                    <Translation>{(t) => t("change_password.header")}</Translation>
-                 </p>
-                <Divider />
-                <Row justify="left" gutter={[12, 10]}>
+                
+                <Row justify="left" gutter={[6, 10]}>
                   <Col span={12}>
                     <Input
                       name="oldPassword"
@@ -100,12 +119,25 @@ function ModalChangePassword({
                 </Row>
                 
                 <Row justify="left" gutter={[12, 10]}>
-                  <p>Standard Password:<br />
-                  1. กำหนดให้ Password ต้องมีจำนวนตัวอักษร และอักขระพิเศษรวมกันไม่น้อยกว่า 8 ตัวอักษร<br />
-                  2. กำหนด Standard ของ Password ต้องประกอบด้วย<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;2.1. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ อย่างน้อย 1 ตัว<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;2.2. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ อย่างน้อย 1 ตัว<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;2.3. อักขระพิเศษ อย่างน้อย 1 ตัว โดยจะต้องเป็นอักขระพิเศษดังนี้</p>
+                  <p>&nbsp;&nbsp;Standard Password:<br />
+                  &nbsp;&nbsp;1. กำหนดให้ Password ต้องมีจำนวนตัวอักษร และอักขระพิเศษรวมกันไม่น้อยกว่า 8 ตัวอักษร<br />
+                  &nbsp;&nbsp;2. กำหนด Standard ของ Password ต้องประกอบด้วย<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ อย่างน้อย 1 ตัว<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ อย่างน้อย 1 ตัว<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3. อักขระพิเศษ อย่างน้อย 1 ตัว โดยจะต้องเป็นอักขระพิเศษดังนี้</p>
+                </Row> 
+                <Row justify="left" gutter={[12]}> 
+                  <Col span={12}>
+                      <Table 
+                    dataSource={dataSource} 
+                    columns={columns} 
+                    showHeader={false}
+                    pagination={false}
+                    size="small"
+                    rowHover={false}
+                    className={styles.bordered_table}
+                  />
+                  </Col>                  
                 </Row> 
                 <Row justify="end">
                   <Space direction="horizontal" size={12}>
@@ -125,7 +157,7 @@ function ModalChangePassword({
                       type="primary"
                       className={styles.cancelSave}
                     >
-                      {t("common.submit")}
+                      {t("common.confirm")}
                     </Button>
                   </Space>
                 </Row>

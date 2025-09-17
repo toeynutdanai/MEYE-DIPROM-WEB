@@ -75,6 +75,7 @@ const User = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  
 
   return (
     <Row><div style={{ display: "flex",flexDirection: "column",lineHeight: "15px",justifyContent: "center",textAlign: "right",fontSize: "90%" ,padding: "3px 15px"}} >
@@ -114,6 +115,8 @@ const User = () => {
         handleOk={handleOk}
         handleCancel={handleCancel}
         onSubmit={doChangePassword}
+        title={t("change_password.header")}
+        width={600}
       />
 
     </div>
