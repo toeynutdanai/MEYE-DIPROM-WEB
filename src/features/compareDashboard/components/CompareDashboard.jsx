@@ -6,16 +6,14 @@ import { DownloadOutlined,FolderOpenOutlined,ShoppingCartOutlined,FileTextOutlin
 import { Button, CardContainer } from "components/elements";
 // import { Select } from "components/form";
 import styles from "../styles/CompareDashboard.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CompareProductTable from "components/table/CompareProductTable";
-import { useNavigate } from "react-router-dom";
 import { ActualVsPlannedChart } from "../components/ActualVsPlannedChart";
+import { WastProductCompareChart } from "../components/WastProductCompareChart";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import 'dayjs/locale/en';
 dayjs.extend(customParseFormat);
-
-const { Option } = Select;
 
 function getResponsiveTableWidth() {
   return window.innerWidth > 1100
@@ -23,8 +21,12 @@ function getResponsiveTableWidth() {
     : `${document.documentElement.clientWidth - 26}px`;
 }
 
-function CompareDashboard(
-  CompareDashboardList=[],
+const CompareDashboardComponents = ({
+  compareProductList= [],
+  actualVsPlanObj={},
+  wasteProductCompareObj={},
+  productDwl=[],
+  overviewObj={},
   isLoading = false,
   pagination = {},
   filter = {},
@@ -33,29 +35,45 @@ function CompareDashboard(
   onSubmit = () => {},
   // onClear = () => {},
   // onCheckboxChange = () => {},
-){
-//   const navigate = useNavigate();
+
+}) => {
+
   const { t } = useTranslation();
   const [showFilterForm, setShowFilterForm] = useState(false);
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format('YYYY-MM'));
   const [selectedYear, setSelectedYear] = useState(dayjs().format('YYYY'));
-  const [period, setPeriod] = useState('monthly');
-  const [selectProduct,setSelectedProduct] = useState(CompareDashboardList.productDwl[0]);
+  const [scope, setScope] = useState('monthly');
+  const [product, setProduct] = useState(undefined);
+
   dayjs.locale('en');
 
   useEffect(() => {
     setTableWidth(getResponsiveTableWidth());
-  }, [tableWidth]);
+    }, [tableWidth]);
 
   useEffect(() => {
-    //call api
-  }, [period,selectedMonth,selectedYear,selectProduct]);
+    if (!product) return; 
+    if(scope==='monthly'){
+      onChange({scope, duration:selectedMonth,product});
+    }else{
+      onChange({scope, duration:selectedYear,product});
+    }
+  }, [scope,selectedMonth,selectedYear,product]);
 
-  
-  console.log(period)
+  useEffect(() => {
+  if (Array.isArray(productDwl) && productDwl.length > 0) {
+    const defaultProduct = productDwl[0].key;
+    setProduct(defaultProduct);
+    if(scope==='monthly'){
+      onChange({scope, duration:selectedMonth,defaultProduct});
+    }else{
+      onChange({scope, duration:selectedYear,defaultProduct});
+    }
+  }
+}, [productDwl]);
 
-  const tableDataSource = Array.isArray(CompareDashboardList.compareProductList) ? CompareDashboardList.compareProductList : [];
+  const tableDataSource = Array.isArray(compareProductList) ? compareProductList : [];
   
   const generateMonthOptions = () => {
     const options = [];
@@ -77,6 +95,7 @@ function CompareDashboard(
   const handleChangeMonth = (value) => {
     setSelectedMonth(value);
     console.log(`selected: ${value}`);
+    // onChange({scope, duration:value,product});
   };
 
 
@@ -101,33 +120,36 @@ function CompareDashboard(
   const handleChangeYear = (value) => {
     setSelectedYear(value);
     console.log(`selected: ${value}`);
+    // onChange({scope, duration:value.format('YYYY'),product});
   };
 
-  const productOptions = CompareDashboardList.productDwl.map(product => ({
+  const productOptions = productDwl.map(product => ({
         value: product.key,
         label: product.value,
     }));
 
   const handleChangeProduct = (value) => {
-    setSelectedProduct(value);
+    setProduct(value);
     console.log(`selected: ${value}`);
+    // onChange({scope, duration,product:value});
   };
+
   return (
     <MainLayout
-      title={t("system_log.header")}
+      title={t("compare_dashboard.header")}
       breadcrumb={[
         { title: t("home.header"), link: "/" },
-        { title: t("system_log.header") },
+        { title: t("compare_dashboard.header") },
       ]}
     >
       <Space className={styles.container} direction="vertical" size={24}>
         <Row justify="space-between">
           <Col span={5}>
-            <CardContainer height="fit-content" width="auto">
+            <CardContainer key={overviewObj?.plannedProduction} height="fit-content" width="auto">
               <Row justify="space-between">
                 <Col>
-                  <h4>Planned Production</h4>
-                  <h4>5000 units/day</h4>
+                  <h4>{t("compare_dashboard.overview.planned_production")}</h4>
+                  <h4>{overviewObj?.plannedProduction}</h4>
                 </Col>
                 <Col>
                   <Avatar shape="square" icon={<FolderOpenOutlined />} style={{ backgroundColor: 'var(--purple-color)' }} />
@@ -136,11 +158,11 @@ function CompareDashboard(
             </CardContainer>
           </Col>
           <Col span={5}>
-            <CardContainer height="fit-content" width="auto">
+            <CardContainer key={overviewObj?.actualProduction} height="fit-content" width="auto">
               <Row justify="space-between">
                 <Col>
-                  <h4>Actual Production</h4>
-                  <h4>4800 units/day</h4>
+                  <h4>{t("compare_dashboard.overview.actual_production")}</h4>
+                  <h4>{overviewObj?.actualProduction}</h4>
                 </Col>
                 <Col>
                   <Avatar shape="square" icon={<GlobalOutlined />} style={{ backgroundColor: 'var(--purple-color)' }} />
@@ -149,11 +171,11 @@ function CompareDashboard(
             </CardContainer>
           </Col>
           <Col span={5}>
-            <CardContainer height="fit-content" width="auto">
+            <CardContainer key={overviewObj?.completion} height="fit-content" width="auto">
               <Row justify="space-between">
                 <Col>
-                  <h4>Completion (%)</h4>
-                  <h4>80%</h4>
+                  <h4>{t("compare_dashboard.overview.completion")}</h4>
+                  <h4>{overviewObj?.completion}</h4>
                 </Col>
                 <Col>
                   <Avatar shape="square" icon={<FileTextOutlined />} style={{ backgroundColor: 'var(--purple-color)' }} />
@@ -164,11 +186,11 @@ function CompareDashboard(
             </CardContainer>
           </Col>
           <Col span={5}>
-            <CardContainer height="fit-content" width="auto">
+            <CardContainer key={overviewObj?.oee} height="fit-content" width="auto">
               <Row justify="space-between">
                 <Col>
-                  <h4>OEE (%)</h4>
-                  <h4>80%</h4>
+                  <h4>{t("compare_dashboard.overview.oee")}</h4>
+                  <h4>{overviewObj?.oee}</h4>
                 </Col>
                 <Col>
                   <Avatar shape="square" icon={<ShoppingCartOutlined />} style={{ backgroundColor: 'var(--purple-color)' }} />
@@ -185,13 +207,13 @@ function CompareDashboard(
             <Col xs={24} md={12} lg={12} xl={12}>
               <Space direction="vertical" size={24} style={{ width: '100%' }}>
                 <Space direction="horizontal" size={24}>
-                <Radio.Group value={period} onChange={e => setPeriod(e.target.value)}>
+                <Radio.Group value={scope} onChange={e => setScope(e.target.value)}>
                   <Radio.Button value="monthly">Monthly</Radio.Button>
                   <Radio.Button value="yearly">Yearly</Radio.Button>
                 </Radio.Group>
-                {period === 'monthly' ? (
+                {scope === 'monthly' ? (
                 <Select
-                  key={period}
+                  key={scope}
                   defaultValue={selectedMonth}
                   style={{ width: 200 }}
                   onChange={handleChangeMonth}
@@ -199,7 +221,7 @@ function CompareDashboard(
                 />
                 ):(
                 <Select
-                  key={period}
+                  key={scope}
                   defaultValue={selectedYear}
                   style={{ width: 200 }}
                   onChange={handleChangeYear}
@@ -208,8 +230,8 @@ function CompareDashboard(
                  )}
 
                  <Select
-                  // key={product}
-                  defaultValue={CompareDashboardList.productDwl[0]}
+                  key={product}
+                  defaultValue={productDwl[0]}
                   placeholder="Select"
                   style={{ width: 200 }}
                   onChange={handleChangeProduct}
@@ -218,14 +240,16 @@ function CompareDashboard(
                 </Space>
                 <h2>Actual & Planned</h2>
                 <CardContainer width={"100%"} height="auto">
-                  <ActualVsPlannedChart />
+                  <ActualVsPlannedChart 
+                  dataSource={actualVsPlanObj}/>
                 </CardContainer>
 
 
 
                 <h2>Waste Product Compare</h2>
                 <CardContainer width={tableWidth} height="fit-content">
-                  <ActualVsPlannedChart />
+                  <WastProductCompareChart 
+                  dataSource={wasteProductCompareObj}/>
 
                 </CardContainer>
               </Space>
@@ -247,7 +271,6 @@ function CompareDashboard(
                   isLoading={isLoading}
                   pagination={pagination}
                   onChange={onChange}
-                // onCheckboxChange={onCheckboxChange}
                 />
               </CardContainer>
             </Space>
@@ -263,4 +286,4 @@ function CompareDashboard(
   );
 }
 
-export default CompareDashboard;
+export default CompareDashboardComponents;

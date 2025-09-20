@@ -2,7 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/compareDashboardApi";
-import { setIsLoading, setCompareProductList, setActualVsPlanList, setWasteProductCompareList ,setProductDwl} from "../slices/compareDashboardSlice";
+import { 
+  setIsLoading, 
+  setCompareProductList, 
+  setActualVsPlanObj, 
+  setWasteProductCompareObj,
+  setProductDwl,
+  setOverviewObj} from "../slices/compareDashboardSlice";
+// import { compareDashboardActions } from "../slices/compareDashboardSlice";
 import { useNavigate } from "react-router-dom";
 
 // function toParams(params = {}) {
@@ -22,24 +29,25 @@ import { useNavigate } from "react-router-dom";
 // }
 
 function useCompareDashboard(){
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoading = useSelector((state) => state.log.isLoading);
+  const isLoading = useSelector((state) => state.compareDashboard.isLoading);
   const compareProductList = useSelector((state) => state.compareDashboard.compareProductList);
-  const actualVsPlanList = useSelector((state) => state.compareDashboard.actualVsPlanList);
-  const wasteProductCompareList = useSelector((state) => state.compareDashboard.wasteProductCompareList);
+  const actualVsPlanObj = useSelector((state) => state.compareDashboard.actualVsPlanObj);
+  const wasteProductCompareObj = useSelector((state) => state.compareDashboard.wasteProductCompareObj);
   const productDwl = useSelector((state) => state.compareDashboard.productDwl);
-  // const currentId = window.localStorage.getItem("id");
-  const [pagination, setPagination] = useState({ page: 0, size: 10 });
+  const overviewObj = useSelector((state) => state.compareDashboard.overviewObj);
+
+  const [pagination, setPagination] = useState({ page: 0, size: 25 });
   const [filter, setFilter] = useState({});
 
   const getCompareProductList = useCallback(
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
-        const response = await services.getCompareProduct();
-        dispatch(setCompareProductList(response.data.data || []));
+        const response = await services.getCompareProduct(params);
+        dispatch(setCompareProductList(response.data || []));
         setPagination({
           page: response.data.totalPages - 1,
           total: response.data.totalItems,
@@ -51,8 +59,37 @@ function useCompareDashboard(){
         dispatch(setIsLoading(false));
       }
     },
-    // [dispatch, filter, pagination.size]
-    [dispatch, filter, 10]
+    [dispatch, filter,pagination.size]
+  );
+
+  const getActualVsPlanObj = useCallback(
+    async (params = {}) => {
+      try {
+        dispatch(setIsLoading(true));
+        const response = await services.getActualVsPlan(params);
+        dispatch(setActualVsPlanObj(response.data || []));
+      } catch (error) {
+        console.error("Error fetching patient list:", error);
+      } finally {
+        dispatch(setIsLoading(false));
+      }
+    },
+    [dispatch, filter]
+  );
+
+  const getWasteProductCompareObj = useCallback(
+    async (params = {}) => {
+      try {
+        dispatch(setIsLoading(true));
+        const response = await services.getWasteProductCompare(params);
+        dispatch(setWasteProductCompareObj(response.data || []));
+      } catch (error) {
+        console.error("Error fetching patient list:", error);
+      } finally {
+        dispatch(setIsLoading(false));
+      }
+    },
+    [dispatch, filter]
   );
 
     const getProductDwl = useCallback(
@@ -71,89 +108,121 @@ function useCompareDashboard(){
     [setProductDwl]
   );
 
-  // const handleOnChange = useCallback(
-  //   (tablePagination, tableSorter) => {
-  //     setPagination(tablePagination);
-  //     const modifiedSorter = Array.isArray(tableSorter)
-  //       ? [...tableSorter]
-  //       : [tableSorter];
-  //     const modifiedParams = toParams({
-  //       pagination: {
-  //         page: tablePagination.current - 1,
-  //         pageSize: tablePagination.pageSize,
-  //       },
-  //       sortBy: modifiedSorter,
+  const getOverviewObj = useCallback(
+      async (params = {}) => {
+        try {
+          dispatch(setIsLoading(true));
+          const response = await services.getOverviewObj();
+          dispatch(setOverviewObj(response.data || {}));
+          
+        } catch (error) {
+          console.error("Error fetching Overview:", error);
+        } finally {
+          dispatch(setIsLoading(false));
+        }
+      },
+      [setOverviewObj]
+ );
+
+  //  const handleOnChange = useCallback(
+  //   ({ period, selectedMonth, selectedYear, selectProduct }) => {
+  //     console.log("handleOnChange ถูกเรียกแล้ว!");
+  //     const newFilter = {
   //       ...filter,
-  //     });
-  //     setPagination({
-  //       page: tablePagination.current - 1,
-  //       size: tablePagination.pageSize,
-  //     });
-  //     getAdminList(modifiedParams);
+  //       period,
+  //       selectedMonth,
+  //       selectedYear,
+  //       selectProduct,
+  //     };
+  //     dispatch(setFilter(newFilter));
   //   },
-  //   [filter, getAdminList]
+  //   [dispatch, filter]
   // );
 
-  // const handleOnSubmit = useCallback(
-  //   (values) => {
+
+  // const handleOnSubmit = useCallback((values) => {
   //     setFilter(values);
-  //   },
-  //   [setFilter]
+  //   },[setFilter]
   // );
 
-  // const handleOnDelete = useCallback(
-  //   async (values) => {
-  //     try {
-  //       Modal.confirm({
-  //         title: t("dialog.confirmation.header"),
-  //         content: <p>{t("patient.message.delete")}</p>,
-  //         async onOk() {
-  //           const response = ''
-  //           // const response = await services.deleteAdmin({
-  //           //   requestId: generateRandomString(),
-  //           //   userId: values,
-  //           // });
-  //           alert({
-  //             message: response.data.status.details[0].value || "Success",
-  //           });
-  //           if (currentId === values) {
-  //             session.removeAuthToken();
-  //             navigate("/sign_in");
-  //           }
-  //           getAdminList({
-  //             pagination: { page: pagination.page, size: pagination.size },
-  //           });
-  //         },
-  //         okText: t("common.confirm"),
-  //         cancelText: t("common.cancel"),
-  //       });
-  //     } catch (error) {
-  //       alert({ type: "error", resultObject: error });
-  //     } finally {
-  //       dispatch(setIsLoading(false));
+   const handleOnChange = useCallback((values) => {
+      console.log("handleOnChange ถูกเรียกแล้ว! "+values);
+      // setFilter(values);
+      getCompareProductList({ pagination: { page: 0, size: 25 },param:values });
+      getActualVsPlanObj({param:values});
+      getWasteProductCompareObj({param:values});
+    },[]
+  );
+
+  //  const handleOnChange = useCallback(() => {
+  //     console.log("handleOnChange ถูกเรียกแล้ว!");
+  //     // setFilter(values);
+  //   },[setFilter]
+  // );
+
+  // const handleOnChangeFilter = useCallback(
+  //   (values) => {
+  //     console.log("handleOnChange ถูกเรียกแล้ว!");
+  //     const { period, selectedMonth, selectedYear, selectProduct } = values;
+
+  //     if (period && selectProduct) {
+  //       const scopeType = period === 'monthly' ? 'monthly' : 'yearly';
+  //       const apiParams = {
+  //         pagination: { page: 0, size: 25 },
+  //         param: {
+  //           scopeType: scopeType,
+  //           period: period === 'monthly' ? selectedMonth : selectedYear,
+  //           productCode: selectProduct,
+  //         }
+  //       };
+  //       getCompareProductList(apiParams);
   //     }
   //   },
-  //   [dispatch, getAdminList, pagination.page, pagination.size, t, currentId, navigate]
+  //   [getCompareProductList]
   // );
 
-  useEffect(() => {
-    getCompareProductList({ pagination: { page: 0, size: 10 } });
-  }, [getCompareProductList]);
+  // useEffect(() => {
+  //   getCompareProductList({ pagination: { page: 0, size: 25 },param:{scopeType:"monthly",period:"2025-01",productCode:"P001"} });
+  // }, [getCompareProductList]);
 
   useEffect(() => {
     getProductDwl();
-  }, [getProductDwl]);
+    getOverviewObj();
+  }, [getProductDwl,getOverviewObj]);
+
+  // const handleOnSubmit = useCallback(
+  //   (values) => {
+  //     console.log("handleOnSubmit ถูกเรียกแล้ว!");
+  //     const { period, selectedMonth, selectedYear, selectProduct } = values;
+
+  //     // ตรวจสอบว่ามีข้อมูลครบถ้วนก่อนเรียก API
+  //     if (period && selectProduct) {
+  //       const scopeType = period === 'monthly' ? 'monthly' : 'yearly';
+  //       const apiParams = {
+  //         pagination: { page: 0, size: 25 },
+  //         param: {
+  //           scopeType: scopeType,
+  //           period: period === 'monthly' ? selectedMonth : selectedYear,
+  //           productCode: selectProduct,
+  //         }
+  //       };
+  //       getCompareProductList(apiParams);
+  //     }
+  //   },
+  //   [getCompareProductList]
+  // );
 
   return {
     compareProductList,
-    actualVsPlanList,
-    wasteProductCompareList,
+    actualVsPlanObj,
+    wasteProductCompareObj,
     productDwl,
+    overviewObj,
     isLoading,
     pagination,
     filter,
-    // onChange: handleOnChange,
-    // onSubmit: getLogList,
+    onChange: handleOnChange,
+    // onSubmit: handleOnSubmit,
     // onClear: () => setFilter({}),
     // onDelete: handleOnDelete,
   };

@@ -70,6 +70,7 @@
   text-align: center;
   justify-content: center;
   color: '#142950';
+  margin-top: 25px;
 }
 
 .menu_container {
@@ -77,9 +78,10 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  background-image: linear-gradient(white, yellow);
 }
 
-/* .menu_header {
-  color: white;
-} */
+.content{
+  background-image: linear-gradient(rgb(141 140 171),rgb(255, 255, 255));
+}

@@ -20,6 +20,8 @@ import UserManagementEdit from "features/userManagement/pages/UserManagementEdit
 import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
 import SystemLog from "features/systemLog/pages/SystemLog";
 import CompareDashboard from "features/compareDashboard/pages/CompareDashboard";
+import OEEDashboard from "features/oeeDashboard/pages/OEEDashboard";
+import WarehouseTracking from "features/warehouseTracking/pages/WarehouseTracking";
 // import { Menu } from "antd";
 
 const router = createBrowserRouter([
@@ -87,6 +89,14 @@ const router = createBrowserRouter([
   {
     path: "/compare_dashboard",
     element: <PrivateRoute element={<CompareDashboard />} />,
+  },
+  {
+    path: "/oee_dashboard",
+    element: <PrivateRoute element={<OEEDashboard />} />,
+  },
+  {
+    path: "/warehouse_and_order",
+    element: <PrivateRoute element={<WarehouseTracking />} />,
   },
 ]);
 

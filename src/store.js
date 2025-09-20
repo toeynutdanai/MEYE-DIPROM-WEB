@@ -10,6 +10,8 @@ import patientSlice from "features/patient/slices/patientSlice";
 import adminSlice from "features/userManagement/slices/adminSlice";
 import logSlice from "features/systemLog/slices/logSlice";
 import compareDashboardSlice from "features/compareDashboard/slices/compareDashboardSlice";
+import oeeDashboardSlice from "features/oeeDashboard/slices/oeeDashboardSlice";
+import warehouseTrackingSlice from "features/warehouseTracking/slices/warehouseTrackingSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +24,8 @@ export const store = configureStore({
     admin: adminSlice,
     bloodPressure: bloodPressureSlice,
     log: logSlice,
-    compareDashboard:compareDashboardSlice
+    compareDashboard:compareDashboardSlice,
+    oeeDashboard: oeeDashboardSlice,
+    warehouseTracking:warehouseTrackingSlice
   },
 });

@@ -287,10 +287,23 @@
         "failed_description": "Email and number don't match."
       }
     },
-    
+    "menu": {
+      "entity": "Menu",
+      "header": "Menu",
+      "content":"Our Services",
+      "banner_header":"M EYE",
+      "banner_desc":"Smart recognition and analysis system for dynamic data display."
+    },
+    "footer":"© 2025 Department of Industrial Promotion (Powered by Meye Team). All rights reserved",
     "compare_dashboard": {
       "entity": "Compare Dashboard",
       "header": "Compare Dashboard",
+      "overview":{
+        "planned_production":"Planned Production",
+        "actual_production":"Actual Production",
+        "completion":"Completion (%)",
+        "oee":"OEE (%)"
+      },
       "label":{
         "card_compare_product": "Compare Product",
         "production_date": "Product Date",
@@ -302,11 +315,50 @@
     },
     "oee_dashboard": {
       "entity": "OEE Dashboard",
-      "header": "OEE Dashboard"
+      "header": "OEE Dashboard",
+      "overview":{
+        "oee":"OEE (%)",
+        "availability":"Availability (%)",
+        "performance":"Performance (%)",
+        "quality":"Quality (%)"
+      },
+      "label":{
+        "machine_name": "Machine Name",
+        "per_oee": "OEE (%)",
+        "per_availability":"Availability (%)",
+        "per_performance":"Performance (%)",
+        "per_quality": "Quality (%)",
+        "average_break_time": "Average Break Time",
+        "average_down_time":"Average Down Time",
+        "oee_chart":"Overall Equipmant Effectiveness (OEE)",
+        "oee_by_machine":"OEE by Machine",
+        "factor_chart":"",
+        "oee_machine_chart":"OEE",
+        "oee_table":"Overall Equipmant Effectiveness (OEE)",
+        "machine": "Machine"
+      }
     },
     "warehouse_and_order": {
       "entity": "Warehouse Tracking & Order Estimation",
-      "header": "Warehouse Tracking & Order Estimation"
+      "header": "Warehouse Tracking & Order Estimation",
+      "overview":{
+        "oee":"OEE (%)",
+        "availability":"Availability (%)",
+        "performance":"Performance (%)",
+        "quality":"Quality (%)"
+      },
+      "label":{
+        "product_name": "Product Name",
+        "unit": "Unit",
+        "stock_on_hand":"Stock On Hand",
+        "upcoming_stock":"Upcoming Stock",
+        "reserved_stock": "Reserved Stock",
+        "available_stock": "Available Stock",
+        "status_stock":"Status Stock",
+        "queue_ahead":"Queue Ahead",
+        "estimated_time_arrival":"Estimated Time Arrival",
+        "warehouse_tracking_table":"Warehouse Tracking & Order Estimation"
+      }
     },
     "authorize": {
       "entity": "Authorize",

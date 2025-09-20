@@ -81,7 +81,7 @@ const SystemLogTable = ({
         showSizeChanger: true,
         pageSizeOptions: ["5", "10", "25", "50", "100"],
       }}
-      loading={false}
+      loading={isLoading}
     //   onChange={onChange}
       scroll={{ x: true }}
       bordered={true}

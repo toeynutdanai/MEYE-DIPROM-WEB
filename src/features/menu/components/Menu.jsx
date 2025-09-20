@@ -14,23 +14,26 @@ import {
   Avatar
 } from "antd";
 import {
-  ArrowRightOutlined
+  ArrowRightOutlined,
+  BarChartOutlined
 } from "@ant-design/icons";
 import User from "components/layouts/MainLayout/User";
+import { useTranslation } from "react-i18next";
 const { Header, Content, Footer } = Layout;
 
 const urlData = [
   { "permissionCode": "AUTHORIZE", "url": "/authorize/company_detail" },
   { "permissionCode": "COMPARE_DASHBOARD", "url": "/compare_dashboard" },
-  { "permissionCode": "HOME_PAGE", "url": "/" },
+  // { "permissionCode": "HOME_PAGE", "url": "/" },
   { "permissionCode": "LOG", "url": "/system_log" },
   { "permissionCode": "OEE_DASHBOARD", "url": "/oee_dashboard" },
-  { "permissionCode": "ORDER_ESTIMATE", "url": "/order_estimate" },
+  // { "permissionCode": "ORDER_ESTIMATE", "url": "/order_estimate" },
   { "permissionCode": "RESET_PASSWORD", "url": "/reset_password" },
-  { "permissionCode": "WAREHOUSE_TRACKING", "url": "/warehours_tracking" }
+  { "permissionCode": "WAREHOUSE_TRACKING", "url": "/warehouse_and_order" }
 ];
 
-function MenuHome() {
+function MenuComponents() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
       
     const permissions = JSON.parse(window.localStorage.getItem("permiss"));
@@ -74,29 +77,27 @@ return (
       <Content className={styles.content}>
         <Row className={styles.banner_container}>
           <img src={Banner} alt="banner" preview={false}/>
-          <div className={styles.banner_text}><h2>M EYE</h2><small>Smart recognition and analysis system for dynamic data display.</small></div>
+          <div className={styles.banner_text}><h2>{t("menu.banner_header")}</h2><small>{t("menu.banner_desc")}</small></div>
         </Row>
         <Row className={styles.menu_container_text}>
-           <Col span={24} ><h2>Our Services</h2></Col>
+           <Col span={24} ><h1>{t("menu.content")}</h1></Col>
         </Row>
-        <Row>
-
+        <Row justify="space-around">
           {sortedPermissions.map(card => {
                   // ค้นหา URL ที่เกี่ยวข้องกับ card ปัจจุบัน
                   const cardUrl = permissionUrlMap[card.permissionCode];
-          
                   // ตรวจสอบว่ามี URL สำหรับ card นี้หรือไม่ก่อนแสดงผล
                   if (!cardUrl) {
                     return null;
                   }
-          
                   return (
                     <Card
                       hoverable
                       key={card.permissionCode}
-                      style={{ width: 300, margin: '10px' }}
-                      onClick={() => navigate(cardUrl)} // ใช้ URL ที่ค้นหาได้
+                      style={{ width: '15%', margin: '10px' }}
+                      onClick={() => navigate(cardUrl)}
                     >
+                      <Row><BarChartOutlined style={{ fontSize: '32px',color:'#201e5b' }} /></Row>
                       <h3>{card.permissionName}</h3>
                       <small>{card.permissionCode}</small>
                       <Row style={{justifyContent: "right"}}><Avatar icon={<ArrowRightOutlined />} style={{backgroundColor:"var(--light-purple-color)"}}></Avatar></Row>
@@ -104,16 +105,16 @@ return (
                     </Card>
                   );
                 })}
-            </Row>
+            </Row >
             </Content>
             <Footer style={{ textAlign: 'center',width:'100%',padding:0,background: '#201e5b' ,color:'white'}}>
                 <Row className={styles.banner_container}>
                     <img src={BannerFooter} alt="banner" preview={false}/>
                 </Row>
-                <p>© 2025 Department of Industrial Promotion, Ministry of Industry. All rights reserved.</p>
+                <p>{t("footer")}</p>
             </Footer>
     </Layout>
   )
 }
 
-export default MenuHome;
+export default MenuComponents;
