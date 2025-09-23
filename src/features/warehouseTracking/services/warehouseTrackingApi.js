@@ -1,7 +1,7 @@
 import api from "lib/api";
 
 export const getProductDwl = async (params = {}) => {
-  return await api.post("/dropdown/product", params);
+  return await api.post("/dropdown/product?status=active");
 };
 
 export const getOverviewObj = async (params = {}) => {

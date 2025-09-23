@@ -1,13 +1,13 @@
 import { MainLayout } from "components/layouts";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Col, Row, Space,Select, Avatar,Radio,Card} from "antd";
+import { Col, Row, Space, Avatar,Radio,Card,Select,Input } from "antd";
 import { DownloadOutlined,FolderOpenOutlined,ShoppingCartOutlined,FileTextOutlined,GlobalOutlined } from "@ant-design/icons";
 import { Button, CardContainer } from "components/elements";
-// import { Select } from "components/form";
 import styles from "../styles/WarehouseTracking.module.css";
 import { useState, useEffect} from "react";
 import WarehouseTrackingTable from "components/table/WarehouseTrackingTable";
+// import { Select } from "components/form";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import 'dayjs/locale/en';
@@ -31,113 +31,19 @@ const WarehouseTrackingComponents = ({
 }) => {
 
   const { t } = useTranslation();
-  const [showFilterForm, setShowFilterForm] = useState(false);
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
-  const [product, setProduct] = useState({});
 
-  dayjs.locale('en');
+//   dayjs.locale('en');
 
   useEffect(() => {
     setTableWidth(getResponsiveTableWidth());
     }, [tableWidth]);
 
-//   useEffect(() => {
-//     if (!machine?.key) return; 
-//     if(scope==='monthly'){
-//       onChange({scope, duration:selectedMonth,machine:machine.key,drillDown:false});
-//     }else{
-//       onChange({scope, duration:selectedYear,machine:machine.key,drillDown:false});
-//     }
-//   }, [scope,selectedMonth,selectedYear]);
-
-//   useEffect(() => {
-//     if (!machine?.key) return; 
-//     if(scope==='monthly'){
-//       onChange({scope, duration:selectedMonth,machine:machine.key,drillDown:true});
-//     }else{
-//       onChange({scope, duration:selectedYear,machine:machine.key,drillDown:true});
-//     }
-//   }, [machine]);
-
-//   useEffect(() => {
-//   if (Array.isArray(machineDwl) && machineDwl.length > 0) {
-//     const defaultMachine = machineDwl[0];
-//     setMachine(defaultMachine);
-//     if(scope==='monthly'){
-//       onChange({scope, duration:selectedMonth,machine:defaultMachine.key});
-//     }else{
-//       onChange({scope, duration:selectedYear,machine:defaultMachine.key});
-//     }
-//   }
-// }, [machineDwl]);
-
-// useEffect(() => {
-//     if(factor === 'Availability'){
-//         setFactorData(factorObj.availability);
-//     }else if(factor === 'Performance'){
-//         setFactorData(factorObj.performance);
-//     }else if(factor === 'Quality'){
-//         setFactorData(factorObj.quality);
-//     }
-    
-//   }, [factor,factorObj]);
-  
-//   const generateMonthOptions = () => {
-//     const options = [];
-//     const today = dayjs();
-//     const lastYear = dayjs().subtract(1, 'year');
-//     let currentMonth = today;
-//     while (currentMonth.isAfter(lastYear) || currentMonth.isSame(lastYear, 'month')) {
-//       options.push({
-//         value: currentMonth.format('YYYY-MM'),
-//         label: currentMonth.format('MMMM-YYYY'),
-//       });
-//       currentMonth = currentMonth.subtract(1, 'month');
-//     }
-//     return options;
-//   };
-
-//   const monthOptions = generateMonthOptions();
-  
-//   const handleChangeMonth = (value) => {
-//     setSelectedMonth(value);
-//     console.log(`selected: ${value}`);
-//   };
-
-
-//   const generateYearOptions = () => {
-//     const options = [];
-//     const today = dayjs();
-//     const lastYear = dayjs().subtract(4, 'year');
-
-//     let currentYear = today;
-//     while (currentYear.isAfter(lastYear) || currentYear.isSame(lastYear, 'year')) {
-//       options.push({
-//         value: currentYear.format('YYYY'),
-//         label: currentYear.format('YYYY'),
-//       });
-//       currentYear = currentYear.subtract(1, 'year');
-//     }
-//     return options;
-//   };
-
-//   const yearOptions = generateYearOptions();
-  
-//   const handleChangeYear = (value) => {
-//     setSelectedYear(value);
-//     console.log(`selected: ${value}`);
-//   };
 
     const productOptions = productDwl.map(product => ({
         value: product.key,
         label: product.value,
     }));
-
-  const handleChangeProduct = (value) => {
-    setProduct(value);
-    console.log(`selected: ${value}`);
-    // onChange({scope, duration,product:value});
-  };
 
     return (
         <MainLayout
@@ -203,42 +109,39 @@ const WarehouseTrackingComponents = ({
                     </Col>
                 </Row>
 
-                <Row span={24}>
+                <Row span={24} justify="space-between">
+                    <Select
+                        // key={selectedProduct}
+                        mode="multiple"
+                        allowClear
+                        placeholder="Select"
+                        style={{ width: '50%' }}
+                        onChange={onChange}
+                        options={productOptions}
+                        required={true}
+                    />
+                    <Space>
 
-                    <Col xs={24} md={24} lg={24} xl={24}>
-                            <Space direction="horizontal" size={24}>
-                                <Select
-                                                  key={product}
-                                                  defaultValue={productDwl[0]}
-                                                  placeholder="Select"
-                                                  style={{ width: 200 }}
-                                                  onChange={handleChangeProduct}
-                                                  options={productOptions}
-                                                />
-                            </Space>
-                           
+                        <label>Final Est Receiving Date</label>
+                        <Input placeholder="dd-mm-yyyy" readOnly={true} />
+                    </Space>
 
-                    </Col>
                 </Row>
-
-
-                
                 <Row span={24}>
-                <Col xs={24} md={24} lg={24} xl={24}>
-                <CardContainer width={tableWidth} height="fit-content">
-                                <Row>
-                                    <h3>{t("warehouse_and_order.label.warehouse_tracking_table")}</h3>
-                                </Row>
-                                <WarehouseTrackingTable
-                                    dataSource={warehouseAndOrderList}
-                                    isLoading={isLoading}
-                                    pagination={pagination}
-                                    onChange={onChange}
-                                />
+                    <Col xs={24} md={24} lg={24} xl={24}>
+                        <CardContainer width={"100%"} height="fit-content">
+                            <Row>
+                                <h3>{t("warehouse_and_order.label.warehouse_tracking_table")}</h3>
+                            </Row>
+                            <WarehouseTrackingTable
+                                dataSource={warehouseAndOrderList}
+                                isLoading={isLoading}
+                                pagination={pagination}
+                                onChange={onChange}
+                            />
+                        </CardContainer>
+                    </Col>
 
-                            </CardContainer>
-                </Col>
-                    
                 </Row>
 
             </Space>

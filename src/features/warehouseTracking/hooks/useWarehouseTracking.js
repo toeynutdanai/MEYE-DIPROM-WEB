@@ -31,7 +31,7 @@ function useWarehouseTracking(){
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.warehouseTracking.isLoading);
   const warehouseAndOrderList = useSelector((state) => state.warehouseTracking.warehouseAndOrderList);
-  const productDwl = useSelector((state) => state.oeeDashboard.productDwl);
+  const productDwl = useSelector((state) => state.warehouseTracking.productDwl);
   const overviewObj = useSelector((state) => state.warehouseTracking.overviewObj);
 
   const [pagination, setPagination] = useState({ page: 0, size: 25 });
@@ -41,7 +41,7 @@ function useWarehouseTracking(){
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
-        const response = await services.getProductDwl();
+        const response = await services.getProductDwl(params);
         dispatch(setProductDwl(response.data.data || []));
         
       } catch (error) {

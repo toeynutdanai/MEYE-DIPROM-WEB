@@ -77,6 +77,8 @@
   font-variant: normal;
   font-weight: bold;
   color: var(--purple-color);
+  white-space: normal !important;
+  word-break: break-word;
 }
 
 .menu ul[class~="ant-menu-sub"] {

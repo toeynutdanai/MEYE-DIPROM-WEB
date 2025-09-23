@@ -15,17 +15,13 @@ function getResponsiveTableWidth() {
     : `${document.documentElement.clientWidth - 26}px`;
 }
 
-function SystemLog(
+const SystemLogComponents = ({
   LogList = [],
   isLoading = false,
   pagination = {},
   filter = {},
-  // onDelete = () => {},
   onChange = () => {},
-  onSubmit = () => {},
-  // onClear = () => {},
-  // onCheckboxChange = () => {},
-){
+})=>{
     const navigate = useNavigate();
   const { t } = useTranslation();
   const [showFilterForm, setShowFilterForm] = useState(false);
@@ -47,26 +43,11 @@ function SystemLog(
       ]}
     >
       <Space className={styles.container} direction="vertical" size={24}>
-        {/* <Row justify="end">
-          <Space direction="horizontal" size={24}>
-            <Button
-              type="secondary"
-              onClick={() => navigate("/create_user_management")}
-            >
-              {t("admin.create").toUpperCase()}
-            </Button>
-            
-          </Space>
-        </Row> */}
-        
         <CardContainer width={tableWidth} height="fit-content">
           <SystemLogTable
             dataSource={tableDataSource}
-            // onDelete={onDelete}
             isLoading={isLoading}
             pagination={pagination}
-            // onSubmit={onSubmit}
-            // onCheckboxChange={onCheckboxChange}
           />
         </CardContainer>
       </Space>
@@ -74,4 +55,4 @@ function SystemLog(
   );
 }
 
-export default SystemLog;
+export default SystemLogComponents;

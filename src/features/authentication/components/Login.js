@@ -1,4 +1,4 @@
-import { Divider, Row, Switch, Layout, Typography, Flex } from "antd";
+import { Divider, Row, Switch, Layout, Typography, Flex,Modal } from "antd";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,6 +23,14 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
   const { t } = useTranslation();
   const validationSchema = useLoginSchema();
   const isPortrait = useMediaQuery({ orientation: 'portrait' })
+
+  const odForgot = (e) => {
+    Modal.info({
+      title: "Information",
+      content: <p>รบกวนติดต่อผู้ดูแลระบบของบริษัทท่าน (IT) เพื่อทำการ Reset Password</p>,
+      onOk() {},
+    });
+  };
 
   return (
     <AuthBackground AuthBackground >
@@ -89,35 +97,12 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
                                     />
                               </Flex>
                               
-                          <Row align="middle" justify="space-between"style={{
+                          <Row align="middle" justify="end"style={{
                             marginTop: 20,
                             width: "100%",
 
                           }} direction="vertical" size={20}>
-                            <Field name="rememberMe">
-                              {({ field }) => (
-                                <Row align="middle">
-                                  <Switch
-                                    style={{
-                                      width: "10%",
-                                      // height: "100%"
-                                    }}
-                                    id={field.name}
-                                    name={field.name}
-                                    onBlur={field.onBlur}
-                                    onChange={(e) => {
-                                      setFieldValue(field.name, e ? "Y" : "N");
-                                    }}
-                                    value="Y"
-                                    checked={field.value === "Y"}
-                                  />
-                                  <label className={styles.rememberMe} htmlFor={field.name}>
-                                    {t("sign_in.label.remember_me")}
-                                  </label>
-                                </Row>
-                              )}
-                            </Field>
-                            <Link to="/forgot_password">{t("sign_in.label.forgot_password")}</Link>
+                            <label className={styles.forgot} onClick={odForgot}>{t("sign_in.label.forgot_password")}</label>
                           </Row>
                           <Button
                             className={styles.button}

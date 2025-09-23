@@ -1,7 +1,7 @@
 import { MainLayout } from "components/layouts";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Col, Row, Space,Select, Avatar,Radio,DatePicker} from "antd";
+import { Col, Row, Space,Select, Avatar,Radio,DatePicker,Segmented} from "antd";
 import { DownloadOutlined,FolderOpenOutlined,ShoppingCartOutlined,FileTextOutlined,GlobalOutlined } from "@ant-design/icons";
 import { Button, CardContainer } from "components/elements";
 // import { Select } from "components/form";
@@ -43,7 +43,7 @@ const CompareDashboardComponents = ({
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format('YYYY-MM'));
   const [selectedYear, setSelectedYear] = useState(dayjs().format('YYYY'));
-  const [scope, setScope] = useState('monthly');
+  const [scope, setScope] = useState('Monthly');
   const [product, setProduct] = useState(undefined);
 
   dayjs.locale('en');
@@ -54,7 +54,7 @@ const CompareDashboardComponents = ({
 
   useEffect(() => {
     if (!product) return; 
-    if(scope==='monthly'){
+    if(scope==='Monthly'){
       onChange({scope, duration:selectedMonth,product});
     }else{
       onChange({scope, duration:selectedYear,product});
@@ -65,7 +65,7 @@ const CompareDashboardComponents = ({
   if (Array.isArray(productDwl) && productDwl.length > 0) {
     const defaultProduct = productDwl[0].key;
     setProduct(defaultProduct);
-    if(scope==='monthly'){
+    if(scope==='Monthly'){
       onChange({scope, duration:selectedMonth,defaultProduct});
     }else{
       onChange({scope, duration:selectedYear,defaultProduct});
@@ -207,11 +207,15 @@ const CompareDashboardComponents = ({
             <Col xs={24} md={12} lg={12} xl={12}>
               <Space direction="vertical" size={24} style={{ width: '100%' }}>
                 <Space direction="horizontal" size={24}>
-                <Radio.Group value={scope} onChange={e => setScope(e.target.value)}>
+                {/* <Radio.Group value={scope} onChange={e => setScope(e.target.value)}>
                   <Radio.Button value="monthly">Monthly</Radio.Button>
                   <Radio.Button value="yearly">Yearly</Radio.Button>
-                </Radio.Group>
-                {scope === 'monthly' ? (
+                </Radio.Group> */}
+                <Segmented
+                options={['Monthly','Yearly']}
+                onChange={e => setScope(e)}
+                />
+                {scope === 'Monthly' ? (
                 <Select
                   key={scope}
                   defaultValue={selectedMonth}

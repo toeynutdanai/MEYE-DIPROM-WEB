@@ -98,3 +98,9 @@
     padding-left: 8px;
     font-size: 1.5vh;
 }
+
+.forgot{
+    color: #1469d9;
+    text-decoration: underline;
+    cursor: pointer;
+}

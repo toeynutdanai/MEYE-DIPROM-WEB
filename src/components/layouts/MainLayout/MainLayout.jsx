@@ -185,12 +185,6 @@ const MainLayout = ({
       <ToolOutlined />
       // <Avatar shape="square" size={25} icon={<ToolOutlined />} style={{ backgroundColor: 'var(--purple-color)',color: 'var(--light-purple-color)' }} />
     ),
-    getItem(
-      "user_management",
-      "User management",
-      "user_management",
-      <IdcardOutlined />
-    ),
   ];
 
   return (

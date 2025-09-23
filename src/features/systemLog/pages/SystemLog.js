@@ -3,6 +3,7 @@ import useSystemLog from "../hooks/useSystemLog";
 
 function SystemLog() {
   const systemLogProps = useSystemLog();
+  console.log(systemLogProps)
   return <SystemLogComponents {...systemLogProps} />;
 }
 

@@ -1,9 +1,10 @@
 import WarehouseTrackingComponents from "../components/WarehouseTracking";
 import useWarehouseTracking from "../hooks/useWarehouseTracking";
 
-function OEEDashboard() {
+function WarehouseTracking() {
   const warehouseTrackingProps = useWarehouseTracking();
+  console.log(warehouseTrackingProps)
   return <WarehouseTrackingComponents {...warehouseTrackingProps} />;
 }
 
-export default OEEDashboard;
+export default WarehouseTracking;

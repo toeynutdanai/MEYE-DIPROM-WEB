@@ -4,7 +4,6 @@ const logSlice = createSlice({
   name: "log",
   initialState: {
     isLoading: false,
-    isLogin: false,
     logList: [],
   },
   reducers: {

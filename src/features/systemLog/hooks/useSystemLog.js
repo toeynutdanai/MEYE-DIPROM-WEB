@@ -37,11 +37,11 @@ function useSystemLog(){
         dispatch(setIsLoading(true));
         const response = await services.getSystemLog();
         dispatch(setLogList(response.data.data || []));
-        setPagination({
-          page: response.data.totalPages - 1,
-          total: response.data.totalItems,
-          size: pagination.size,
-        });
+        // setPagination({
+        //   page: response.data.totalPages - 1,
+        //   total: response.data.totalItems,
+        //   size: pagination.size,
+        // });
       } catch (error) {
         console.error("Error fetching patient list:", error);
       } finally {
@@ -54,67 +54,9 @@ function useSystemLog(){
 
   // const handleOnChange = useCallback(
   //   (tablePagination, tableSorter) => {
-  //     setPagination(tablePagination);
-  //     const modifiedSorter = Array.isArray(tableSorter)
-  //       ? [...tableSorter]
-  //       : [tableSorter];
-  //     const modifiedParams = toParams({
-  //       pagination: {
-  //         page: tablePagination.current - 1,
-  //         pageSize: tablePagination.pageSize,
-  //       },
-  //       sortBy: modifiedSorter,
-  //       ...filter,
-  //     });
-  //     setPagination({
-  //       page: tablePagination.current - 1,
-  //       size: tablePagination.pageSize,
-  //     });
-  //     getAdminList(modifiedParams);
+      
   //   },
-  //   [filter, getAdminList]
-  // );
-
-  // const handleOnSubmit = useCallback(
-  //   (values) => {
-  //     setFilter(values);
-  //   },
-  //   [setFilter]
-  // );
-
-  // const handleOnDelete = useCallback(
-  //   async (values) => {
-  //     try {
-  //       Modal.confirm({
-  //         title: t("dialog.confirmation.header"),
-  //         content: <p>{t("patient.message.delete")}</p>,
-  //         async onOk() {
-  //           const response = ''
-  //           // const response = await services.deleteAdmin({
-  //           //   requestId: generateRandomString(),
-  //           //   userId: values,
-  //           // });
-  //           alert({
-  //             message: response.data.status.details[0].value || "Success",
-  //           });
-  //           if (currentId === values) {
-  //             session.removeAuthToken();
-  //             navigate("/sign_in");
-  //           }
-  //           getAdminList({
-  //             pagination: { page: pagination.page, size: pagination.size },
-  //           });
-  //         },
-  //         okText: t("common.confirm"),
-  //         cancelText: t("common.cancel"),
-  //       });
-  //     } catch (error) {
-  //       alert({ type: "error", resultObject: error });
-  //     } finally {
-  //       dispatch(setIsLoading(false));
-  //     }
-  //   },
-  //   [dispatch, getAdminList, pagination.page, pagination.size, t, currentId, navigate]
+  //   [filter]
   // );
 
   useEffect(() => {
@@ -127,9 +69,6 @@ function useSystemLog(){
     pagination,
     filter,
     // onChange: handleOnChange,
-    onSubmit: getLogList,
-    // onClear: () => setFilter({}),
-    // onDelete: handleOnDelete,
   };
 }
 
