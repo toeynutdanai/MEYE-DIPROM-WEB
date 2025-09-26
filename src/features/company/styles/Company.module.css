@@ -1,0 +1,11 @@
+.container {
+    width: 100%;
+}
+
+.buttonSave{
+    background-color: green;
+}
+
+.buttonCancel{
+    background-color: brown;
+}

@@ -230,16 +230,14 @@ useEffect(() => {
                                 />
                                 {scope === 'Monthly' ? (
                                     <Select
-                                        key={scope}
-                                        defaultValue={selectedMonth}
+                                        value={selectedMonth}
                                         style={{ width: 200 }}
                                         onChange={handleChangeMonth}
                                         options={monthOptions}
                                     />
                                 ) : (
                                     <Select
-                                        key={scope}
-                                        defaultValue={selectedYear}
+                                        value={selectedYear}
                                         style={{ width: 200 }}
                                         onChange={handleChangeYear}
                                         options={yearOptions}
@@ -305,8 +303,7 @@ useEffect(() => {
                             <Space direction="horizontal" size={24}>
                                 <label>{t("oee_dashboard.label.machine")}</label>
                                 <Select
-                                    key={machine.key}
-                                    defaultValue={machineDwl[0]}
+                                    value={machine.key}
                                     placeholder="Select"
                                     style={{ width: 200 }}
                                     onChange={handleChangeMachine}

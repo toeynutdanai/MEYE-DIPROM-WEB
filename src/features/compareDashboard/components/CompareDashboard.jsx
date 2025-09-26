@@ -217,16 +217,18 @@ const CompareDashboardComponents = ({
                 />
                 {scope === 'Monthly' ? (
                 <Select
-                  key={scope}
-                  defaultValue={selectedMonth}
+                  // key={scope}
+                  value={selectedMonth}
+                  // defaultValue={selectedMonth}
                   style={{ width: 200 }}
                   onChange={handleChangeMonth}
                   options={monthOptions}
                 />
                 ):(
                 <Select
-                  key={scope}
-                  defaultValue={selectedYear}
+                  // key={scope}
+                  value={selectedYear}
+                  // defaultValue={selectedYear}
                   style={{ width: 200 }}
                   onChange={handleChangeYear}
                   options={yearOptions}
@@ -234,7 +236,7 @@ const CompareDashboardComponents = ({
                  )}
 
                  <Select
-                  key={product}
+                  value={product}
                   defaultValue={productDwl[0]}
                   placeholder="Select"
                   style={{ width: 200 }}

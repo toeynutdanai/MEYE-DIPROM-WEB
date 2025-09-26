@@ -386,6 +386,18 @@
         "ip_address": "Ip address",
         "status_login": "Status login" 
       }
+    },
+    "company": {
+      "entity": "Company Detail",
+      "header": "Company Detail",
+      "label":{
+        "companyCode": "Company Code",
+        "companyName":"Company Name",
+        "companyDescription":"Company Description"
+      },
+      "message":{
+        "edit":"Are you sure confirm to edit?"
+      }
     }
   }
 }

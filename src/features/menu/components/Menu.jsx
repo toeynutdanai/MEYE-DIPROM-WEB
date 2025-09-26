@@ -24,12 +24,10 @@ const { Header, Content, Footer } = Layout;
 const urlData = [
   { "permissionCode": "AUTHORIZE", "url": "/authorize/company_detail" },
   { "permissionCode": "COMPARE_DASHBOARD", "url": "/compare_dashboard" },
-  // { "permissionCode": "HOME_PAGE", "url": "/" },
   { "permissionCode": "LOG", "url": "/system_log" },
   { "permissionCode": "OEE_DASHBOARD", "url": "/oee_dashboard" },
-  // { "permissionCode": "ORDER_ESTIMATE", "url": "/order_estimate" },
   { "permissionCode": "RESET_PASSWORD", "url": "/reset_password" },
-  { "permissionCode": "WAREHOUSE_TRACKING", "url": "/warehouse_and_order" }
+  { "permissionCode": "WAREHOUSE_N_ORDER", "url": "/warehouse_and_order" }
 ];
 
 function MenuComponents() {
@@ -84,9 +82,7 @@ return (
         </Row>
         <Row justify="space-around">
           {sortedPermissions.map(card => {
-                  // ค้นหา URL ที่เกี่ยวข้องกับ card ปัจจุบัน
                   const cardUrl = permissionUrlMap[card.permissionCode];
-                  // ตรวจสอบว่ามี URL สำหรับ card นี้หรือไม่ก่อนแสดงผล
                   if (!cardUrl) {
                     return null;
                   }

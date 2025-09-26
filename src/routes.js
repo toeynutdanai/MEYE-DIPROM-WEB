@@ -22,6 +22,7 @@ import SystemLog from "features/systemLog/pages/SystemLog";
 import CompareDashboard from "features/compareDashboard/pages/CompareDashboard";
 import OEEDashboard from "features/oeeDashboard/pages/OEEDashboard";
 import WarehouseTracking from "features/warehouseTracking/pages/WarehouseTracking";
+import Company from "features/company/pages/Company";
 // import { Menu } from "antd";
 
 const router = createBrowserRouter([
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
   {
     path: "/warehouse_and_order",
     element: <PrivateRoute element={<WarehouseTracking />} />,
+  },
+  {
+    path: "/authorize/company_detail",
+    element: <PrivateRoute element={<Company />} />,
   },
 ]);
 
