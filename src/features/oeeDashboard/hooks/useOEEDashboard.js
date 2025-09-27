@@ -2,15 +2,15 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/oeeDashboardApi";
-import { 
-    setIsLoading, 
-    setOEEList, 
-    setOEEObj, 
-    setOEEMachineObj,
-    setFactorObj,
-    setMachineDwl,
-    setOverviewObj,
-    setOEEByMachineList
+import {
+  setIsLoading,
+  setOEEList,
+  setOEEObj,
+  setOEEMachineObj,
+  setFactorObj,
+  setMachineDwl,
+  setOverviewObj,
+  setOEEByMachineList
 } from "../slices/oeeDashboardSlice";
 
 // function toParams(params = {}) {
@@ -29,7 +29,7 @@ import {
 //   };
 // }
 
-function useOEEDashboard(){
+function useOEEDashboard() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.oeeDashboard.isLoading);
@@ -50,7 +50,7 @@ function useOEEDashboard(){
         dispatch(setIsLoading(true));
         const response = await services.getMachineDwl();
         dispatch(setMachineDwl(response.data.data || []));
-        
+
       } catch (error) {
         console.error("Error fetching MachineDwl:", error);
       } finally {
@@ -66,7 +66,7 @@ function useOEEDashboard(){
         dispatch(setIsLoading(true));
         const response = await services.getOverviewObj();
         dispatch(setOverviewObj(response.data || {}));
-        
+
       } catch (error) {
         console.error("Error fetching Overview:", error);
       } finally {
@@ -93,7 +93,7 @@ function useOEEDashboard(){
         dispatch(setIsLoading(false));
       }
     },
-    [dispatch, filter,pagination.size]
+    [dispatch, filter, pagination.size]
   );
 
   const getOEEObj = useCallback(
@@ -126,7 +126,7 @@ function useOEEDashboard(){
     [dispatch, filter]
   );
 
-   const getFactorObj = useCallback(
+  const getFactorObj = useCallback(
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
@@ -160,26 +160,26 @@ function useOEEDashboard(){
     },
     []
   );
-    
 
-   const handleOnChange = useCallback((values) => {
-      if(values.drillDown){
-        getOEEMachineObj({param:values});
-      }else{
-        getOEEList({ pagination: { page: 0, size: 25 },param:values });
-        getOEEObj({param:values});
-        getFactorObj({param:values});
-        getOEEByMachineList({param:values});
-        getOEEMachineObj({param:values});
-      }
-      
-    },[]
+
+  const handleOnChange = useCallback((values) => {
+    if (values.drillDown) {
+      getOEEMachineObj({ param: values });
+    } else {
+      getOEEList({ pagination: { page: 0, size: 25 }, param: values });
+      getOEEObj({ param: values });
+      getFactorObj({ param: values });
+      getOEEByMachineList({ param: values });
+      getOEEMachineObj({ param: values });
+    }
+
+  }, []
   );
 
   useEffect(() => {
     getMachineDwl();
     getOverviewObj();
-  }, [getMachineDwl,getOverviewObj]);
+  }, [getMachineDwl, getOverviewObj]);
 
   return {
     oeeList,

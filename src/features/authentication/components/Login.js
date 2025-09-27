@@ -1,4 +1,4 @@
-import { Divider, Row, Switch, Layout, Typography, Flex,Modal } from "antd";
+import { Divider, Row, Switch, Layout, Typography, Flex, Modal } from "antd";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,7 +18,7 @@ import { Space } from "antd/lib";
 import { useMediaQuery } from "react-responsive";
 
 
-function Login({ isLoading = false, handleLogin = () => {} }) {
+function Login({ isLoading = false, handleLogin = () => { } }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const validationSchema = useLoginSchema();
@@ -28,7 +28,7 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
     Modal.info({
       title: "Information",
       content: <p>รบกวนติดต่อผู้ดูแลระบบของบริษัทท่าน (IT) เพื่อทำการ Reset Password</p>,
-      onOk() {},
+      onOk() { },
     });
   };
 
@@ -38,90 +38,78 @@ function Login({ isLoading = false, handleLogin = () => {} }) {
         <Content style={{
           background: 'transparent',
           justifyContent: "center",
-          textAlign: "center"
+          textAlign: "center",
+          display: "flex",
+          height: "100vh",
         }}>
-          <Row style={!isPortrait && {
-            marginLeft: "35vw",
-            marginRight: "35vw"
-          }}>
-            <Col span={24} style={{ justifyContent: "center" }}>
-              <Image preview={false} width={"40%"} src={Logo} style={{
-                justifyContent: "center",
-                textAlign: "center",
-                marginTop: 50,
-                marginBottom:50
-              }} />
-            </Col>
-      
-          <Col span={24} style={{ justifyContent: "center" }}>
-              
-                 <Card className={styles.formContainer} styles={{ body: { padding: "0px" } }}>
-                    
-                    <Formik
-                      initialValues={{
-                        username: window.localStorage.getItem("rememberUser") || "",
-                        password: "",
-                        rememberMe: window.localStorage.getItem("rememberUser") ? "Y" : "N",
-                      }}
-                      validationSchema={validationSchema}
-                      onSubmit={handleLogin}
-                    >
-                      {({ setFieldValue, isValid, dirty }) => (
-                        <Form style={{
-                        // height: "50vh",
-                        // maxHeight: "50vh",
-                        maxWidth: "100%",
-                      }} >
-                          <p className={styles.formHeader}>{t("sign_in.label.sign_in")}</p>
-                          
-                              <Typography.Title level={5} style={{ textAlign: "left" }}>
-                                {t("sign_in.placeholders.username")}
-                              </Typography.Title>
-                              <Flex gap={16} vertical style={{ marginTop: 20 }}>
-                                  <Input
-                                    required
-                                    name="username"
-                                    size="large"
-                                    type="text"
-                                    placeholder={`Username`}
-                                    className={styles.input}
-                              />
-                              <Typography.Title level={5} style={{ textAlign: "left" }}>
-                                {t("sign_in.placeholders.password")} 
-                              </Typography.Title>
-                                    <Password
-                                      name="password"
-                                      size="large"
-                                      placeholder={`Ex. Password123!`}
-                                      className={styles.input}
-                                    />
-                              </Flex>
-                              
-                          <Row align="middle" justify="end"style={{
-                            marginTop: 20,
-                            width: "100%",
+          <Row>
+            <Col span={24} style={{ display: "column", alignContent: "center", justifyContent: "center", width: "45vw" }}>
+              <Image preview={false} width={"55%"} src={Logo} />
 
-                          }} direction="vertical" size={20}>
-                            <label className={styles.forgot} onClick={odForgot}>{t("sign_in.label.forgot_password")}</label>
-                          </Row>
-                          <Button
-                            className={styles.button}
-                            disabled={isLoading || !isValid || !dirty}
-                            htmlType="submit"
-                            size="large"
-                          >
-                            {t("sign_in.entity").toUpperCase()}
-                          </Button>
-                          {}
-                        </Form>
-                      )}
-                    </Formik>
-                  </Card>
+              <Card className={styles.formContainer} styles={{ body: { padding: "0px" } }}>
+                <Formik
+                  initialValues={{
+                    username: window.localStorage.getItem("rememberUser") || "",
+                    password: "",
+                    rememberMe: window.localStorage.getItem("rememberUser") ? "Y" : "N",
+                  }}
+                  validationSchema={validationSchema}
+                  onSubmit={handleLogin}
+                >
+                  {({ setFieldValue, isValid, dirty }) => (
+                    <Form style={{
+                      maxWidth: "100%",
+                    }} >
+                      <p className={styles.formHeader}>{t("sign_in.label.sign_in")}</p>
+
+                      <Typography.Title level={5} style={{ textAlign: "left" }}>
+                        {t("sign_in.placeholders.username")}
+                      </Typography.Title>
+                      <Flex gap={16} vertical style={{ marginTop: 20 }}>
+                        <Input
+                          required
+                          name="username"
+                          size="large"
+                          type="text"
+                          placeholder={`Username`}
+                          className={styles.input}
+                        />
+                        <Typography.Title level={5} style={{ textAlign: "left" }}>
+                          {t("sign_in.placeholders.password")}
+                        </Typography.Title>
+                        <Password
+                          name="password"
+                          size="large"
+                          placeholder={`Ex. Password123!`}
+                          className={styles.input}
+                        />
+                      </Flex>
+
+                      <Row align="middle" justify="end" style={{
+                        marginTop: 20,
+                        width: "100%",
+
+                      }} direction="vertical" size={20}>
+                        <label className={styles.forgot} onClick={odForgot}>{t("sign_in.label.forgot_password")}</label>
+                      </Row>
+                      <Button
+                        className={styles.button}
+                        disabled={isLoading || !isValid || !dirty}
+                        htmlType="submit"
+                        size="large"
+                      >
+                        {t("sign_in.entity").toUpperCase()}
+                      </Button>
+                      { }
+                    </Form>
+                  )}
+                </Formik>
+              </Card>
             </Col>
-           </Row> 
-          </Content>
+          </Row>
+        </Content>
       </Layout>
-      
+
     </AuthBackground>
   );
 }

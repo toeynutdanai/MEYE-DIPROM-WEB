@@ -298,6 +298,31 @@
         "tel": "เบอร์โทรศัพท์",
         "createBy": "สร้างโดย"
       }
+    },
+    "oee_dashboard": {
+      "entity": "OEE Dashboard",
+      "header": "OEE Dashboard",
+      "overview":{
+        "oee":"OEE (%)",
+        "availability":"Availability (%)",
+        "performance":"Performance (%)",
+        "quality":"Quality (%)"
+      },
+      "label":{
+        "machine_name": "Machine Name",
+        "per_oee": "OEE (%)",
+        "per_availability":"Availability (%)",
+        "per_performance":"Performance (%)",
+        "per_quality": "Quality (%)",
+        "average_break_time": "Average Break Time",
+        "average_down_time":"Average Down Time",
+        "oee_chart":"Overall Equipmant Effectiveness (OEE)",
+        "oee_by_machine":"OEE by Machine",
+        "factor_chart":"",
+        "oee_machine_chart":"OEE",
+        "oee_table":"Overall Equipmant Effectiveness (OEE)",
+        "machine": "Machine"
+      }
     }
   }
 }
