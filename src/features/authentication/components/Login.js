@@ -1,106 +1,114 @@
-import { Divider, Row, Switch, Layout, Typography, Flex, Modal } from "antd";
-import { Field, Form, Formik } from "formik";
+import { Flex, Layout, Modal, Row, Typography } from "antd";
+import { Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
 
+import Logo from "assets/images/logo.png";
 import { Button } from "components/elements";
 import { Input, Password } from "components/form";
 import { AuthBackground } from "components/layouts";
-import Logo from "assets/images/logo.png";
 
+import { Card, Col, Image } from "antd/lib";
+import { Content } from "antd/lib/layout/layout";
+import { useMediaQuery } from "react-responsive";
 import useLoginSchema from "../schemas/loginSchema";
 import styles from "../styles/Login.module.css";
-import { Content } from "antd/lib/layout/layout";
-import { Col } from "antd/lib";
-import { Image } from "antd/lib";
-import { Card } from "antd/lib";
-import { Space } from "antd/lib";
-import { useMediaQuery } from "react-responsive";
 
-
-function Login({ isLoading = false, handleLogin = () => { } }) {
-  const navigate = useNavigate();
+function Login({
+  isLoading = false,
+  handleLogin = () => {},
+  handleForgotPassword = () => {},
+  initialValues = null,
+}) {
   const { t } = useTranslation();
   const validationSchema = useLoginSchema();
-  const isPortrait = useMediaQuery({ orientation: 'portrait' })
-
-  const odForgot = (e) => {
-    Modal.info({
-      title: "Information",
-      content: <p>รบกวนติดต่อผู้ดูแลระบบของบริษัทท่าน (IT) เพื่อทำการ Reset Password</p>,
-      onOk() { },
-    });
-  };
+  const isPortrait = useMediaQuery({ orientation: "portrait" });
 
   return (
-    <AuthBackground AuthBackground >
+    <AuthBackground AuthBackground>
       <Layout>
-        <Content style={{
-          background: 'transparent',
-          justifyContent: "center",
-          textAlign: "center",
-          display: "flex",
-          height: "100vh",
-        }}>
-          <Row>
-            <Col span={24} style={{ display: "column", alignContent: "center", justifyContent: "center", width: "45vw" }}>
-              <Image preview={false} width={"55%"} src={Logo} />
+        <Content className={styles.container}>
+          <Row style={isPortrait ? { width: "60%" } : {}}>
+            <Col span={24} className={styles.colContainer}>
+              <Image preview={false} width={"45%"} src={Logo} />
 
-              <Card className={styles.formContainer} styles={{ body: { padding: "0px" } }}>
+              <Card className={styles.formContainer}>
                 <Formik
-                  initialValues={{
-                    username: window.localStorage.getItem("rememberUser") || "",
-                    password: "",
-                    rememberMe: window.localStorage.getItem("rememberUser") ? "Y" : "N",
-                  }}
+                  initialValues={initialValues}
                   validationSchema={validationSchema}
                   onSubmit={handleLogin}
                 >
-                  {({ setFieldValue, isValid, dirty }) => (
-                    <Form style={{
-                      maxWidth: "100%",
-                    }} >
-                      <p className={styles.formHeader}>{t("sign_in.label.sign_in")}</p>
+                  {({ isValid, dirty }) => (
+                    <Form
+                      style={{
+                        maxWidth: "100%",
+                        ...(!isPortrait ? { height: "50vh" } : {})
+                      }}
+                    >
+                      <Flex vertical gap={50}>
+                        <p className={styles.formHeader}>
+                          {t("sign_in.label.sign_in")}
+                        </p>
 
-                      <Typography.Title level={5} style={{ textAlign: "left" }}>
-                        {t("sign_in.placeholders.username")}
-                      </Typography.Title>
-                      <Flex gap={16} vertical style={{ marginTop: 20 }}>
-                        <Input
-                          required
-                          name="username"
+                        <div>
+                          <Typography.Title
+                            level={5}
+                            style={{ textAlign: "left" }}
+                          >
+                            {t("sign_in.placeholders.username")}
+                          </Typography.Title>
+
+                          <Input
+                            required
+                            name="username"
+                            size="large"
+                            type="text"
+                            placeholder={`Enter Your Email`}
+                            className={styles.input}
+                          />
+                        </div>
+
+                        <div>
+                          <Typography.Title
+                            level={5}
+                            style={{ textAlign: "left" }}
+                          >
+                            {t("sign_in.placeholders.password")}
+                          </Typography.Title>
+
+                          <Password
+                            name="password"
+                            size="large"
+                            placeholder={`Ex. Password123!`}
+                            className={styles.input}
+                          />
+                        </div>
+
+                        <Row
+                          align="middle"
+                          justify="end"
+                          style={{
+                            width: "100%",
+                          }}
+                          direction="vertical"
+                          size={20}
+                        >
+                          <label
+                            className={styles.forgot}
+                            onClick={handleForgotPassword}
+                          >
+                            {t("sign_in.label.forgot_password")}
+                          </label>
+                        </Row>
+
+                        <Button
+                          className={styles.button}
+                          disabled={isLoading || !isValid || !dirty}
+                          htmlType="submit"
                           size="large"
-                          type="text"
-                          placeholder={`Username`}
-                          className={styles.input}
-                        />
-                        <Typography.Title level={5} style={{ textAlign: "left" }}>
-                          {t("sign_in.placeholders.password")}
-                        </Typography.Title>
-                        <Password
-                          name="password"
-                          size="large"
-                          placeholder={`Ex. Password123!`}
-                          className={styles.input}
-                        />
+                        >
+                          {t("sign_in.entity")}
+                        </Button>
                       </Flex>
-
-                      <Row align="middle" justify="end" style={{
-                        marginTop: 20,
-                        width: "100%",
-
-                      }} direction="vertical" size={20}>
-                        <label className={styles.forgot} onClick={odForgot}>{t("sign_in.label.forgot_password")}</label>
-                      </Row>
-                      <Button
-                        className={styles.button}
-                        disabled={isLoading || !isValid || !dirty}
-                        htmlType="submit"
-                        size="large"
-                      >
-                        {t("sign_in.entity").toUpperCase()}
-                      </Button>
-                      { }
                     </Form>
                   )}
                 </Formik>
@@ -109,7 +117,6 @@ function Login({ isLoading = false, handleLogin = () => { } }) {
           </Row>
         </Content>
       </Layout>
-
     </AuthBackground>
   );
 }

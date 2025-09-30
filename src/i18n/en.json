@@ -183,12 +183,12 @@
       }
     },
     "sign_in": {
-      "entity": "Sign in",
+      "entity": "Sign In",
       "header": "Blood Pressure Monitoring.",
       "label": {
-        "sign_in": "Sign in",
+        "sign_in": "Log In",
         "remember_me": "Remember Me",
-        "forgot_password": "Forgot password?"
+        "forgot_password": "Forgot Password?"
       },
       "placeholders": {
         "username": "Username",

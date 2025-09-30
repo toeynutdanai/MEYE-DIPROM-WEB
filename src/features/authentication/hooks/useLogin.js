@@ -4,17 +4,23 @@ import { useNavigate } from "react-router-dom";
 import session from "utils/session";
 
 import alert from "components/elements/Alert";
-import { login,permission } from "../services/loginApi";
-import { setIsLoading, setIsLogin, setProfile } from "../slices/loginSlice";
 import { useTranslation } from "react-i18next";
+import { login } from "../services/loginApi";
+import { setIsLoading, setIsLogin, setProfile } from "../slices/loginSlice";
+import { Modal } from "antd";
 
 function useLogin() {
   const { t } = useTranslation();
   const isLoading = useSelector((state) => state.login.isLoading);
-  const isLogin = useSelector((state) => state.login.isLogin);
-  const profile = useSelector((state) => state.login.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const getRememberedUser = () => window.localStorage.getItem("rememberUser") || "";
+
+  const initialValues = {
+    username: getRememberedUser(),
+    password: "",
+    rememberMe: getRememberedUser() ? "Y" : "N",
+  };
 
   const handleLogin = useCallback(
     async (values) => {
@@ -23,7 +29,6 @@ function useLogin() {
         dispatch(setIsLogin(false));
 
         const modifiedValues = {
-          // type: "text",
           username: values.username,
           password: values.password,
         };
@@ -33,26 +38,11 @@ function useLogin() {
 
         if (token) {
           session.setAuthToken(token);
-          window.localStorage.setItem("permiss",JSON.stringify(response.data.permissions));
+          window.localStorage.setItem("permiss", JSON.stringify(response.data.permissions));
           window.localStorage.setItem("username", response.data.username);
           window.localStorage.setItem("name", response.data.name);
           window.localStorage.setItem("companyCode", response.data.companyCode);
           window.localStorage.setItem("companyName", response.data.companyName);
-          // const permiss = await permission();
-          // if (permiss){
-          //   window.localStorage.setItem("permiss", permiss.data);
-          // } else{
-          //   //clear session
-          // }
-
-          // if (values.rememberMe === "Y") {
-          //   window.localStorage.setItem("rememberUser", values.username);
-          // } else {
-          //   window.localStorage.removeItem("rememberUser");
-          // }
-
-          // window.localStorage.setItem("name", response.data.name);
-          // window.localStorage.setItem("id", response.data.id);
 
           dispatch(setProfile(response.data));
           dispatch(setIsLogin(true));
@@ -67,7 +57,6 @@ function useLogin() {
           type: "error",
           message: t("sign_in.status.failed"),
           description: t("sign_in.status.failed_description"),
-          // resultObject: error,
         });
       } finally {
         dispatch(setIsLoading(false));
@@ -76,7 +65,19 @@ function useLogin() {
     [dispatch, navigate, t]
   );
 
-  return { isLoading, isLogin, profile, handleLogin };
+  const handleForgotPassword = (e) => {
+    Modal.info({
+      title: "Information",
+      content: (
+        <p>
+          รบกวนติดต่อผู้ดูแลระบบของบริษัทท่าน (IT) เพื่อทำการ Reset Password
+        </p>
+      ),
+      onOk() { },
+    });
+  };
+
+  return { isLoading, handleLogin, handleForgotPassword, initialValues };
 }
 
 export default useLogin;
