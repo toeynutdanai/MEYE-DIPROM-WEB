@@ -196,7 +196,6 @@ const OEEDashboardComponents = ({
       <Space className={styles.container} direction="vertical" size={24}>
         <Row justify="space-between">
           <CardStateContainer
-            span={5}
             label={t("oee_dashboard.overview.oee")}
             state={overviewObj.oee}
             icon={<FolderOpenOutlined />}
@@ -205,7 +204,6 @@ const OEEDashboardComponents = ({
             width="auto"
           />
           <CardStateContainer
-            span={5}
             label={t("oee_dashboard.overview.availability")}
             state={overviewObj.availability}
             icon={<GlobalOutlined />}
@@ -214,7 +212,6 @@ const OEEDashboardComponents = ({
             width="auto"
           />
           <CardStateContainer
-            span={5}
             label={t("oee_dashboard.overview.performance")}
             state={overviewObj.performance}
             icon={<FileTextOutlined />}
@@ -223,7 +220,6 @@ const OEEDashboardComponents = ({
             width="auto"
           />
           <CardStateContainer
-            span={5}
             label={t("oee_dashboard.overview.quality")}
             state={overviewObj.quality}
             icon={<ShoppingCartOutlined />}

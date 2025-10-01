@@ -1,4 +1,3 @@
-import moment from "moment";
 import { Line } from "react-chartjs-2";
 
 const ActualVsPlannedChart = ({ dataSource = {} }) => {
@@ -45,7 +44,7 @@ const ActualVsPlannedChart = ({ dataSource = {} }) => {
 
   const options = {
     responsive: true,
-    // maintainAspectRatio: false,
+    maintainAspectRatio: false,
     scales: {
     //   x: {
     //     title: {
@@ -63,10 +62,11 @@ const ActualVsPlannedChart = ({ dataSource = {} }) => {
   };
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', height: '25vh' }}>
       <Line data={data} options={options}/>
     </div>
   );
 };
 
 export { ActualVsPlannedChart };
+

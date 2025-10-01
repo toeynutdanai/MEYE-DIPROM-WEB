@@ -1,15 +1,13 @@
-import React from "react";
 import {
   BarChartOutlined,
+  FundViewOutlined,
   HomeOutlined,
+  InboxOutlined,
   LeftOutlined,
   MenuOutlined,
   RightOutlined,
-  UserOutlined,
-  IdcardOutlined,
   ToolOutlined,
-  FundViewOutlined,
-  InboxOutlined
+  UserOutlined
 } from "@ant-design/icons";
 import {
   Alert,
@@ -22,19 +20,16 @@ import {
   Menu,
   Row,
   Space,
-  theme,
-  Avatar
+  theme
 } from "antd";
 // import Logo2 from "assets/images/Logo1.png";
 import Logo from "assets/images/logo.png";
 import cx from "classnames";
 import { setState } from "features/home/slices/homeSlice";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { generateRandomString } from "utils/helper";
-import * as services from "../../../features/home/services/homeApi";
 import Breadcrumb from "./Breadcrumb";
 import styles from "./MainLayout.module.css";
 import User from "./User";
