@@ -125,60 +125,70 @@ const MainLayout = ({
     navigate(link);
   };
 
-  const getItem = (i18n_key, label, key, icon, children, type) => ({
+  const getItem = (code,i18n_key, label, key, icon, children, type) => ({
     i18n_key,
     key,
     icon,
     children,
     label,
     type,
+    code
   });
 
+  const permissions = new Set( JSON.parse(window.localStorage.getItem("permiss")).map(item => item.permissionCode));
+
   const MENU_LIST = [
-    getItem("home", "Home", "home", <HomeOutlined />),
+    getItem("HOME", "home", "Home", "home", <HomeOutlined />),
     getItem(
+      "COMPARE_DASHBOARD",
       "compare_dashboard",
       "Compare Dashboard",
       "compare_dashboard",
       <FundViewOutlined />
     ),
     getItem(
+      "OEE_DASHBOARD",
       "oee_dashboard",
       "OEE Dashboard",
       "oee_dashboard",
       <BarChartOutlined />
     ),
     getItem(
+      "WAREHOUSE_N_ORDER",
       "warehouse_and_order",
       "Warehouse Tracking & Order Estimation",
       "warehouse_and_order",
       <InboxOutlined />
     ),
     getItem(
+      "AUTHORIZE",
       "authorize",
       "Authorize",
       "authorize",
       <UserOutlined />,
       [
-      getItem(
-        "company_detail",
-        "Company Detail",
-        "authorize/company_detail"
-      ),
-      getItem(
-        "role_detail",
-        "Role Detail",
-        "authorize/role_detail"
-      ),
-      getItem(
-        "user_management",
-        "User Management",
-        "authorize/user_management"
-      ),
-    ]
-     
+        getItem(
+          "AUTHORIZE_COMPANY",
+          "company_detail",
+          "Company Detail",
+          "authorize/company_detail"
+        ),
+        getItem(
+          "AUTHORIZE_ROLE",
+          "role_detail",
+          "Role Detail",
+          "authorize/role_detail"
+        ),
+        getItem(
+          "AUTHORIZE_USER",
+          "user_management",
+          "User Management",
+          "authorize/user_management"
+        ),
+      ]
     ),
     getItem(
+      "LOG",
       "system_log",
       "System Log",
       "system_log",
@@ -186,6 +196,24 @@ const MainLayout = ({
       // <Avatar shape="square" size={25} icon={<ToolOutlined />} style={{ backgroundColor: 'var(--purple-color)',color: 'var(--light-purple-color)' }} />
     ),
   ];
+
+  const allowedMenu = MENU_LIST.filter(item => {
+  // validate parent
+  if (permissions.has(item.code)) {
+    return true;
+  }
+  // validate child
+  if (item.children) {
+    const allowedChildren = item.children.filter(child =>
+      permissions.has(child.code)
+    );
+    if (allowedChildren.length > 0) {
+      item.children = allowedChildren;
+      return true;
+    }
+  }
+  return false;
+});
 
   return (
     <>
@@ -236,7 +264,7 @@ const MainLayout = ({
                   mode="inline"
                   selectedKeys={selectedKeys}
                   openKeys={openKeys}
-                  items={MENU_LIST.map((entity) => ({
+                  items={allowedMenu.map((entity) => ({
                     ...entity,
                     label: t(`${entity.i18n_key}.header`),
                     children:

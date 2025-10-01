@@ -13,6 +13,7 @@ import compareDashboardSlice from "features/compareDashboard/slices/compareDashb
 import oeeDashboardSlice from "features/oeeDashboard/slices/oeeDashboardSlice";
 import warehouseTrackingSlice from "features/warehouseTracking/slices/warehouseTrackingSlice";
 import companySlice from "features/company/slices/companySlice";
+import roleSlice from "features/role/slices/roleSlice";
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     compareDashboard:compareDashboardSlice,
     oeeDashboard: oeeDashboardSlice,
     warehouseTracking:warehouseTrackingSlice,
-    company: companySlice
+    company: companySlice,
+    role: roleSlice
   },
 });
