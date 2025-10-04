@@ -1,6 +1,5 @@
 // hooks/useCompareDashboard.js
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/compareDashboardApi";
 import {
@@ -25,7 +24,6 @@ function getResponsiveTableWidth() {
 }
 
 function useCompareDashboard() {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   // Redux states

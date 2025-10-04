@@ -1,7 +1,5 @@
-import { Dropdown, Space, Table } from "antd";
-import alert from "components/elements/Alert";
+import { Table } from "antd";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 const SystemLogTable = ({
   isLoading = false,

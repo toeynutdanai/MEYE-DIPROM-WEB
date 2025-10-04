@@ -6,6 +6,7 @@ export { default as ButtonEditMini } from "./ButtonEditMini";
 export { default as ButtonFilter } from "./ButtonFilter";
 export { default as CardContainer } from "./CardContainer";
 export { default as CardStateContainer } from "./CardStateContainer";
+export { default as CardScoreContainer } from "./CardScoreContainer";
 export { default as Info } from "./Info";
 export { default as InfoSwitch } from "./InfoSwitch";
 export { default as LanguageSwitcher } from "./LanguageSwitcher";

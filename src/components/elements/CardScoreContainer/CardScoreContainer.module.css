@@ -1,0 +1,43 @@
+/* CardScoreContainer.module.css */
+
+.customStyle {
+  display: flex;                 /* จัดให้อยู่กึ่งกลางและสูงเท่ากัน */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border-radius: 10px;
+  background: var(--white-color);
+  border: 1px solid #999999;
+  padding: 1rem;
+  width: 100%;
+  min-height: 96px;              /* สูงขั้นต่ำกันเด้ง */
+  transition: all 0.3s ease-in-out;
+  color: #61697c;
+}
+
+/* ไม่ให้ label แตกบรรทัด; ถ้าแคบมากให้ ... */
+.label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ค่าตัวเลข/เปอร์เซ็นต์ ให้คุมบรรทัดเหมือนกัน */
+.value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin: 0;                     /* กันกระเด้งจาก margin default ของ h* */
+}
+
+/* ปรับขนาดอักษรอัตโนมัติเมื่อจอเล็ก */
+@media (max-width: 576px) {
+  .label { font-size: clamp(12px, 3.2vw, 14px); }
+  .value { font-size: clamp(16px, 4.2vw, 20px); }
+}

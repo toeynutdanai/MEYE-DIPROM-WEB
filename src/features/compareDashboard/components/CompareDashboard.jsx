@@ -135,11 +135,22 @@ const CompareDashboardComponents = ({
 
         {/* Table */}
         <Col xs={24} xl={12}>
-          <Space direction="vertical" size={24} style={{ width: "100%" }}>
-            <CardContainer width={tableWidth} height="fit-content">
+          <CardContainer width={tableWidth} height="fit-content">
+            <Space direction="vertical" size={24} style={{ width: "100%" }}>
               <Row justify="space-between" align="middle">
                 <h3>Compare Product : </h3>
-                <Button>
+                <Button
+                  aria-label="Download"
+                  style={{
+                    width: 32,
+                    height: 48,
+                    padding: 0,
+                    borderRadius: 0,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <DownloadOutlined />
                 </Button>
               </Row>
@@ -149,8 +160,8 @@ const CompareDashboardComponents = ({
                 pagination={pagination}
                 // onChange ไม่จำเป็นแล้ว เพราะ hook ยิง API ให้ทุกครั้งเมื่อ state เปลี่ยน
               />
-            </CardContainer>
-          </Space>
+            </Space>
+          </CardContainer>
         </Col>
       </Row>
     </MainLayout>

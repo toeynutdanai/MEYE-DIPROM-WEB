@@ -55,9 +55,9 @@ export const getActualVsPlan = async (params = {}) => {
         "label":"Percent",
         "value":["80","60","48","99","0"]
       },
-     
     }
   }
+
   return obj;
   // return await api.post("/log/system", params);
 };

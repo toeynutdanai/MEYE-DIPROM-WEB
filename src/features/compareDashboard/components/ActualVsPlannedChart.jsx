@@ -69,4 +69,3 @@ const ActualVsPlannedChart = ({ dataSource = {} }) => {
 };
 
 export { ActualVsPlannedChart };
-
