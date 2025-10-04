@@ -398,6 +398,13 @@
       "message":{
         "edit":"Are you sure confirm to edit?"
       }
+    },
+    "role": {
+      "entity": "Role Detail",
+      "header": "Role Detail",
+      "message":{
+        "save":"Are you sure confirm to save?"
+      }
     }
   }
 }
