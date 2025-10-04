@@ -1,4 +1,4 @@
-import { Avatar, Col, Row } from "antd";
+import { Avatar, Col, Row, Spin } from "antd";
 import styles from "./CardStateContainer.module.css";
 
 function CardStateContainer({
@@ -13,6 +13,7 @@ function CardStateContainer({
   icon = null,
   iconColor = "",
   height = "100%",
+  isLoading = false,
 }) {
   const hightAndwidth = {
     width: width,
@@ -23,20 +24,24 @@ function CardStateContainer({
   return (
     <Col xs={xs} md={md} lg={lg}>
       <div className={styles.customStyle} style={hightAndwidth}>
-        <Row justify="space-between" align="middle">
-          <Col>
-            <h4 className={styles.label}>{label}</h4>
-            <h3>{state} {unit}</h3>
-          </Col>
-          <Col>
-            <Avatar
-              shape="square"
-              size={42}
-              icon={icon}
-              style={{ backgroundColor: iconColor, borderRadius: 12 }}
-            />
-          </Col>
-        </Row>
+        <Spin spinning={isLoading} size="small">
+          <Row justify="space-between" align="middle">
+            <Col>
+              <h4 className={styles.label}>{label}</h4>
+              <h3>
+                {state} {unit}
+              </h3>
+            </Col>
+            <Col>
+              <Avatar
+                shape="square"
+                size={42}
+                icon={icon}
+                style={{ backgroundColor: iconColor, borderRadius: 12 }}
+              />
+            </Col>
+          </Row>
+        </Spin>
       </div>
     </Col>
   );

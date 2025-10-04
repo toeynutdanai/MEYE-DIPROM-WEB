@@ -16,30 +16,36 @@ import { WastProductCompareChart } from "../components/WastProductCompareChart";
 // import styles from "../styles/CompareDashboard.module.css";
 
 const CompareDashboardComponents = ({
+  // redux data
   compareProductList = [],
-  actualVsPlanObj,
-  wasteProductCompareObj,
-  productDwl,
-  overviewObj,
-  isLoading,
-  pagination,
-  scope,
-  setScope,
-  selectedMonth,
-  selectedYear,
-  product,
-  monthOptions,
-  yearOptions,
-  productOptions,
-  handleChangeMonth,
-  handleChangeYear,
-  handleChangeProduct,
-  tableWidth,
+  actualVsPlanObj = {},
+  wasteProductCompareObj = {},
+  overviewObj = {},
+  isLoading = false,
+
+  // local ui states
+  pagination = { page: 0, size: 25, total: 0 },
+  filter = {},
+
+  // selections & options
+  scope = "Monthly",// "Monthly" | "Yearly"
+  selectedMonth = "",
+  selectedYear = "",
+  selectedProducts = [],
+  monthOptions = [],
+  yearOptions = [],
+  productOptions = [],
+
+  // handlers
+  setScope = () => { },
+  handleChangeMonth = () => { },
+  handleChangeYear = () => { },
+  handleChangeProduct = () => { },
+
+  // layout
+  tableWidth = "100%",
 }) => {
   const { t } = useTranslation();
-  const tableDataSource = Array.isArray(compareProductList)
-    ? compareProductList
-    : [];
 
   return (
     <MainLayout
@@ -57,6 +63,7 @@ const CompareDashboardComponents = ({
           iconColor="var(--purple-color)"
           height="fit-content"
           width="auto"
+          isLoading={isLoading}
         />
         <CardStateContainer
           label={t("compare_dashboard.overview.actual_production")}
@@ -65,6 +72,7 @@ const CompareDashboardComponents = ({
           iconColor="var(--purple-color)"
           height="fit-content"
           width="auto"
+          isLoading={isLoading}
         />
         <CardStateContainer
           label={t("compare_dashboard.overview.completion")}
@@ -73,6 +81,7 @@ const CompareDashboardComponents = ({
           iconColor="var(--purple-color)"
           height="fit-content"
           width="auto"
+          isLoading={isLoading}
         />
         <CardStateContainer
           label={t("compare_dashboard.overview.oee")}
@@ -81,6 +90,7 @@ const CompareDashboardComponents = ({
           iconColor="var(--purple-color)"
           height="fit-content"
           width="auto"
+          isLoading={isLoading}
         />
 
         <Col xs={24} xl={12}>
@@ -113,7 +123,7 @@ const CompareDashboardComponents = ({
                 />
               )}
               <Select
-                value={product}
+                value={selectedProducts}
                 placeholder="Select"
                 style={{ width: 190 }}
                 onChange={handleChangeProduct}
@@ -123,12 +133,12 @@ const CompareDashboardComponents = ({
 
             <h2>Actual & Planned</h2>
             <CardContainer width={"100%"} height="auto">
-              <ActualVsPlannedChart dataSource={actualVsPlanObj} />
+              <ActualVsPlannedChart dataSource={actualVsPlanObj} isLoading={isLoading} />
             </CardContainer>
 
             <h2>Waste Product Compare</h2>
             <CardContainer width={tableWidth} height="fit-content">
-              <WastProductCompareChart dataSource={wasteProductCompareObj} />
+              <WastProductCompareChart dataSource={wasteProductCompareObj} isLoading={isLoading} />
             </CardContainer>
           </Space>
         </Col>
@@ -155,10 +165,10 @@ const CompareDashboardComponents = ({
                 </Button>
               </Row>
               <CompareProductTable
-                dataSource={tableDataSource}
+                dataSource={compareProductList}
                 isLoading={isLoading}
                 pagination={pagination}
-                // onChange ไม่จำเป็นแล้ว เพราะ hook ยิง API ให้ทุกครั้งเมื่อ state เปลี่ยน
+                scope={scope}
               />
             </Space>
           </CardContainer>

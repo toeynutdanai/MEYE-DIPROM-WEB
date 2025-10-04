@@ -5,14 +5,13 @@ import * as services from "../services/compareDashboardApi";
 import {
   setIsLoading,
   setCompareProductList,
+  setProductList,
   setActualVsPlanObj,
   setWasteProductCompareObj,
-  setProductDwl,
   setOverviewObj,
 } from "../slices/compareDashboardSlice";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-
 dayjs.extend(customParseFormat);
 dayjs.locale("en");
 
@@ -27,22 +26,14 @@ function useCompareDashboard() {
   const dispatch = useDispatch();
 
   // Redux states
-  const isLoading = useSelector((state) => state.compareDashboard.isLoading);
-  const compareProductList = useSelector(
-    (state) => state.compareDashboard.compareProductList
-  );
-  const actualVsPlanObj = useSelector(
-    (state) => state.compareDashboard.actualVsPlanObj
-  );
-  const wasteProductCompareObj = useSelector(
-    (state) => state.compareDashboard.wasteProductCompareObj
-  );
-  const productDwl = useSelector((state) => state.compareDashboard.productDwl);
-  const overviewObj = useSelector(
-    (state) => state.compareDashboard.overviewObj
-  );
+  const isLoading = useSelector((s) => s.compareDashboard.isLoading);
+  const productList = useSelector((s) => s.compareDashboard.productList);
+  const compareProductList = useSelector((s) => s.compareDashboard.compareProductList);
+  const actualVsPlanObj = useSelector((s) => s.compareDashboard.actualVsPlanObj);
+  const wasteProductCompareObj = useSelector((s) => s.compareDashboard.wasteProductCompareObj);
+  const overviewObj = useSelector((s) => s.compareDashboard.overviewObj);
 
-  // Local states moved from PAGE
+  // Local UI states
   const [pagination, setPagination] = useState({ page: 0, size: 25 });
   const [filter, setFilter] = useState({});
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
@@ -50,19 +41,15 @@ function useCompareDashboard() {
   const [scope, setScope] = useState("Monthly"); // 'Monthly' | 'Yearly'
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format("YYYY-MM"));
   const [selectedYear, setSelectedYear] = useState(dayjs().format("YYYY"));
-  const [product, setProduct] = useState(undefined);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
-  // --- Derived options
+  // ----- Options (pure)
   const monthOptions = useMemo(() => {
     const options = [];
     const today = dayjs();
     const lastYear = dayjs().subtract(1, "year");
     let currentMonth = today;
-
-    while (
-      currentMonth.isAfter(lastYear) ||
-      currentMonth.isSame(lastYear, "month")
-    ) {
+    while (currentMonth.isAfter(lastYear) || currentMonth.isSame(lastYear, "month")) {
       options.push({
         value: currentMonth.format("YYYY-MM"),
         label: currentMonth.format("MMMM-YYYY"),
@@ -77,11 +64,7 @@ function useCompareDashboard() {
     const today = dayjs();
     const lastYear = dayjs().subtract(4, "year");
     let currentYear = today;
-
-    while (
-      currentYear.isAfter(lastYear) ||
-      currentYear.isSame(lastYear, "year")
-    ) {
+    while (currentYear.isAfter(lastYear) || currentYear.isSame(lastYear, "year")) {
       options.push({
         value: currentYear.format("YYYY"),
         label: currentYear.format("YYYY"),
@@ -92,149 +75,151 @@ function useCompareDashboard() {
   }, []);
 
   const productOptions = useMemo(() => {
-    if (!Array.isArray(productDwl)) return [];
-    return productDwl.map((p) => ({
+    return (productList ?? []).map((p) => ({
       value: p.key,
       label: p.value,
     }));
-  }, [productDwl]);
+  }, [productList]);
 
-  // --- API callers
-  const getCompareProductList = useCallback(
-    async (params = {}) => {
-      try {
-        dispatch(setIsLoading(true));
-        const response = await services.getCompareProduct(params);
-        const data = response?.data || {};
-        dispatch(setCompareProductList(data || []));
-        setPagination((prev) => ({
-          page: (data?.totalPages ?? 1) - 1,
-          total: data?.totalItems ?? 0,
-          size: prev.size,
-        }));
-      } catch (error) {
-        console.error("Error fetching compare product list:", error);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
-    },
-    [dispatch]
-  );
-
-  const getActualVsPlanObj = useCallback(
-    async (params = {}) => {
-      try {
-        dispatch(setIsLoading(true));
-        const response = await services.getActualVsPlan(params);
-        dispatch(setActualVsPlanObj(response?.data || []));
-      } catch (error) {
-        console.error("Error fetching actual vs planned:", error);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
-    },
-    [dispatch]
-  );
-
-  const getWasteProductCompareObj = useCallback(
-    async (params = {}) => {
-      try {
-        dispatch(setIsLoading(true));
-        const response = await services.getWasteProductCompare(params);
-        dispatch(setWasteProductCompareObj(response?.data || []));
-      } catch (error) {
-        console.error("Error fetching waste product compare:", error);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
-    },
-    [dispatch]
-  );
-
-  const getProductDwl = useCallback(async () => {
+  // ----- Fetchers
+  const getProducts = useCallback(async () => {
     try {
       dispatch(setIsLoading(true));
-      const response = await services.getProductDwl();
-      dispatch(setProductDwl(response?.data?.data || []));
-    } catch (error) {
-      console.error("Error fetching product list:", error);
+      const res = await services.getProduct();
+      const data = res?.data?.data ?? [];
+      dispatch(setProductList(Array.isArray(data) ? data : []));
+      if (Array.isArray(data) && data.length > 0) {
+        const first = data[0];
+        const code = first.key;
+        setSelectedProducts([code]);
+      }
+    } catch (e) {
+      console.error("Error fetching products:", e);
     } finally {
       dispatch(setIsLoading(false));
     }
   }, [dispatch]);
 
-  const getOverviewObj = useCallback(async () => {
+  const getCompare = useCallback(
+    async ({ scope, duration, productCodes }) => {
+      try {
+        dispatch(setIsLoading(true));
+        console.log(scope,
+          duration,
+          productCodes,);
+        const res = await services.getCompareProduct({
+          scope: scope,
+          duration: duration,
+          productCode: productCodes
+        });
+        const data = res?.data ?? {};
+        dispatch(setCompareProductList(data?.data ?? data ?? []));
+        // setPagination((prev) => ({
+        //   page: (data?.totalPages ?? 1) - 1,
+        //   total: data?.totalItems ?? (Array.isArray(data?.items) ? data.items.length : 0),
+        //   size: prev.size,
+        // }));
+      } catch (e) {
+        console.error("Error fetching compare product list:", e);
+      } finally {
+        dispatch(setIsLoading(false));
+      }
+    },
+    [dispatch]
+  );
+
+  const getActualVsPlan = useCallback(
+    async ({ scope, duration, productCodes }) => {
+      try {
+        dispatch(setIsLoading(true));
+        const res = await services.getActualVsPlan({
+          scope: scope,
+          duration: duration,
+          productCode: productCodes
+        });
+        dispatch(setActualVsPlanObj(res?.data?.data ?? {}));
+      } catch (e) {
+        console.error("Error fetching actual vs planned:", e);
+      } finally {
+        dispatch(setIsLoading(false));
+      }
+    },
+    [dispatch]
+  );
+
+  const getWasteCompare = useCallback(
+    async ({ scope, duration, productCodes }) => {
+      try {
+        dispatch(setIsLoading(true));
+        const res = await services.getWasteProductCompare({
+          scope: scope,
+          duration: duration,
+          productCode: productCodes
+        });
+        dispatch(setWasteProductCompareObj(res?.data?.data ?? {}));
+      } catch (e) {
+        console.error("Error fetching waste product compare:", e);
+      } finally {
+        dispatch(setIsLoading(false));
+      }
+    },
+    [dispatch]
+  );
+
+  const getOverview = useCallback(async () => {
     try {
       dispatch(setIsLoading(true));
-      const response = await services.getOverviewObj();
-      dispatch(setOverviewObj(response?.data || {}));
-    } catch (error) {
-      console.error("Error fetching overview:", error);
+      const res = await services.getOverviewObj();
+      dispatch(setOverviewObj(res?.data ?? {}));
+    } catch (e) {
+      console.error("Error fetching overview:", e);
     } finally {
       dispatch(setIsLoading(false));
     }
   }, [dispatch]);
 
-  // --- Handlers (moved from PAGE)
-  const handleChangeMonth = useCallback((value) => {
-    setSelectedMonth(value);
+  // ----- Handlers
+  const handleChangeMonth = useCallback((value) => setSelectedMonth(value), []);
+  const handleChangeYear = useCallback((value) => setSelectedYear(value), []);
+  const handleChangeProduct = useCallback((values) => {
+    // values: array ของ code จาก Select (mode="multiple") หรือ string ถ้า single
+    setSelectedProducts(Array.isArray(values) ? values : [values]);
   }, []);
 
-  const handleChangeYear = useCallback((value) => {
-    setSelectedYear(value);
-  }, []);
-
-  const handleChangeProduct = useCallback((value) => {
-    setProduct(value);
-  }, []);
-
-  // --- Effects
-  // 1) initial fetches
+  // ----- Effects
+  // โหลด product list + overview ครั้งแรก
   useEffect(() => {
-    getProductDwl();
-    getOverviewObj();
-  }, [getProductDwl, getOverviewObj]);
+    getProducts();
+    getOverview();
+  }, [getProducts, getOverview]);
 
-  // 2) default product once productDwl arrived
+  // ยิง API เมื่อ selection เปลี่ยน
   useEffect(() => {
-    if (!product && Array.isArray(productDwl) && productDwl.length > 0) {
-      setProduct(productDwl[0].key);
-    }
-  }, [productDwl, product]);
+    if (!selectedProducts || selectedProducts.length === 0) return;
+    const duration = scope === "Monthly" ? selectedMonth : selectedYear;
+    const args = { scope, duration, productCodes: selectedProducts[0] };
 
-  // 3) trigger APIs when any selection changes (scope/month/year/product)
-  useEffect(() => {
-    if (!product) return;
-    const payload =
-      scope === "Monthly"
-        ? { scope, duration: selectedMonth, product }
-        : { scope, duration: selectedYear, product };
-
-    const apiParams = {
-      pagination: { page: 0, size: 25 },
-      param: payload,
-    };
-
-    getCompareProductList(apiParams);
-    getActualVsPlanObj({ param: payload });
-    getWasteProductCompareObj({ param: payload });
+    getCompare(args);
+    getActualVsPlan(args);
+    getWasteCompare(args);
   }, [
     scope,
     selectedMonth,
     selectedYear,
-    product,
-    getCompareProductList,
-    getActualVsPlanObj,
-    getWasteProductCompareObj,
+    selectedProducts,
+    getCompare,
+    getActualVsPlan,
+    getWasteCompare,
   ]);
 
-  // 4) responsive table width with resize listener
+  // responsive width
   useEffect(() => {
     const onResize = () => setTableWidth(getResponsiveTableWidth());
-    window.addEventListener("resize", onResize);
-    // set initial in case SSR
-    onResize();
-    return () => window.removeEventListener("resize", onResize);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", onResize);
+      onResize();
+      return () => window.removeEventListener("resize", onResize);
+    }
   }, []);
 
   return {
@@ -242,25 +227,28 @@ function useCompareDashboard() {
     compareProductList,
     actualVsPlanObj,
     wasteProductCompareObj,
-    productDwl,
     overviewObj,
     isLoading,
+
     // local ui states
     pagination,
     filter,
+
     // selections & options
     scope,
-    setScope,
     selectedMonth,
     selectedYear,
-    product,
+    selectedProducts,
     monthOptions,
     yearOptions,
     productOptions,
-    // handlers for UI components
+
+    // handlers
+    setScope,
     handleChangeMonth,
     handleChangeYear,
     handleChangeProduct,
+
     // layout
     tableWidth,
   };

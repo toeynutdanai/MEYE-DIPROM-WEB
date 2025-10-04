@@ -1,42 +1,73 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  isLoading: false,
+  compareProductList: [],
+  productList: [],
+  actualVsPlanObj: {},
+  wasteProductCompareObj: {},
+  overviewObj: {},
+  pagination: { page: 1, pageSize: 25, total: 0 },
+  filter: {},
+};
+
 const compareDashboardSlice = createSlice({
   name: "compareDashboard",
-  initialState: {
-    isLoading: false,
-    compareProductList: [],
-    actualVsPlanObj:{},
-    wasteProductCompareObj:{},
-    productDwl:[],
-    overviewObj:{},
-    pagination: { page: 1, pageSize: 25, total: 0 },
-    filter: {},
-    error: null,
-  },
+  initialState,
   reducers: {
     setIsLoading(state, action) {
-      state.isLoading = action.payload;
+      state.isLoading = Boolean(action.payload);
     },
+
     setFilter(state, action) {
-      state.filter = { ...state.filter, ...action.payload };
+      state.filter = { ...state.filter, ...(action.payload ?? {}) };
     },
+
     setCompareProductList(state, action) {
-      state.compareProductList = Array.isArray(action.payload) ? action.payload : [];
+      const list = Array.isArray(action.payload) ? action.payload : [];
+      state.compareProductList = list;
     },
-    setActualVsPlanObj(state,action){
-        state.actualVsPlanObj = action.payload;
+
+    setProductList(state, action) {
+      const list = Array.isArray(action.payload) ? action.payload : [];
+      state.productList = list;
     },
-    setWasteProductCompareObj(state,action){
-        state.wasteProductCompareObj = action.payload;
+
+    setActualVsPlanObj(state, action) {
+      state.actualVsPlanObj = action.payload ?? {};
     },
-    setProductDwl(state,action){
-        state.productDwl = Array.isArray(action.payload) ? action.payload : [];
+
+    setWasteProductCompareObj(state, action) {
+      state.wasteProductCompareObj = action.payload ?? {};
     },
-    setOverviewObj(state,action){
-        state.overviewObj = action.payload;
+
+    setOverviewObj(state, action) {
+      state.overviewObj = action.payload ?? {};
+    },
+
+    setPagination(state, action) {
+      const { page, pageSize, total } = action.payload ?? {};
+      if (page !== undefined) state.pagination.page = page;
+      if (pageSize !== undefined) state.pagination.pageSize = pageSize;
+      if (total !== undefined) state.pagination.total = total;
+    },
+
+    resetCompareDashboard() {
+      return initialState;
     },
   },
 });
 
-export const { setIsLoading, setCompareProductList, setActualVsPlanObj,setWasteProductCompareObj,setProductDwl,setOverviewObj, setFilter } = compareDashboardSlice.actions;
+export const {
+  setIsLoading,
+  setFilter,
+  setCompareProductList,
+  setProductList,
+  setActualVsPlanObj,
+  setWasteProductCompareObj,
+  setOverviewObj,
+  setPagination,
+  resetCompareDashboard,
+} = compareDashboardSlice.actions;
+
 export default compareDashboardSlice.reducer;

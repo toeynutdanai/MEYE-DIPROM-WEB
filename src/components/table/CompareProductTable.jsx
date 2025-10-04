@@ -5,57 +5,160 @@ const SystemLogTable = ({
   isLoading = false,
   pagination = {},
   dataSource = [],
+  scope = null,
   onChange = () => {},
 }) => {
-
   const { t } = useTranslation();
 
-  const columns = [
+  const columnsMonthly = [
     {
-      title: <div className="text-table">{t("compare_dashboard.label.production_date")}</div>,
-      dataIndex: "productionDate",
-      key: "productionDate",
-      width: "20%",
-      sorter: (a, b) => a.productionDate.localeCompare(b.productionDate),
+      title: <div className="text-table">Reference</div>,
+      dataIndex: "reference",
+      key: "reference",
+      width: "5%",
+      sorter: (a, b) => a.reference.localeCompare(b.reference),
       render: (_, record) => {
-        return record.productionDate;
+        return record.reference;
       }
     },
     {
-      title: <div className="text-table">{t("compare_dashboard.label.per_production")}</div>,
-      dataIndex: "perProduction",
-      key: "perProduction",
-      width: "20%",
-      sorter: (a, b) => a.perProduction.localeCompare(b.perProduction),
+      title: <div className="text-table">Plan Date</div>,
+      dataIndex: "planDate",
+      key: "planDate",
+      width: "5%",
+      sorter: (a, b) => a.planDate.localeCompare(b.planDate),
       render: (_, record) => {
-        return record.perProduction;
+        return record.planDate;
+      }
+    },
+    {
+      title: <div className="text-table">Plan Period</div>,
+      dataIndex: "planPeriod",
+      key: "planPeriod",
+      width: "5%",
+      sorter: (a, b) => a.planPeriod.localeCompare(b.planPeriod),
+      render: (_, record) => {
+        return record.planPeriod;
       },
     },
     {
-      title: <div className="text-table">{t("compare_dashboard.label.per_time_utilization")}</div>,
-      dataIndex: "perTimeUtilization",
-      key: "perTimeUtilization",
-      width: "20%",
-      sorter: (a, b) => a.perTimeUtilization.localeCompare(b.perTimeUtilization),
+      title: <div className="text-table">Plan Qty</div>,
+      dataIndex: "planQty",
+      key: "planQty",
+      width: "5%",
+      sorter: (a, b) => a.planQty.localeCompare(b.planQty),
       render: (_, record) => {
-        return record.perTimeUtilization;
+        return record.planQty;
       },
     },
     {
-      title: <div className="text-table">{t("compare_dashboard.label.actual_production")}</div>,
-      dataIndex: "actualProduction",
-      key: "actualProduction",
-      width: "20%",
-      sorter: (a, b) => a.actualProduction.localeCompare(b.actualProduction),
+      title: <div className="text-table">Actual Period</div>,
+      dataIndex: "actualPeriod",
+      key: "actualPeriod",
+      width: "5%",
+      sorter: (a, b) => a.actualPeriod.localeCompare(b.actualPeriod),
       render: (_, record) => {
-        return record.actualProduction;
+        return record.actualPeriod;
       },
     },
     {
-      title: <div className="text-table">{t("compare_dashboard.label.actual_machine_running_time")}</div>,
+      title: <div className="text-table">Actual Good Qty</div>,
+      dataIndex: "actualGoodQty",
+      key: "actualGoodQty",
+      width: "5%",
+      sorter: (a, b) => a.actualGoodQty.localeCompare(b.actualGoodQty),
+      render: (_, record) => {
+        return record.actualGoodQty;
+      },
+    },
+    {
+      title: <div className="text-table">Actual Waste Qty</div>,
+      dataIndex: "actualWasteQty",
+      key: "actualWasteQty",
+      width: "5%",
+      sorter: (a, b) => a.actualWasteQty.localeCompare(b.actualWasteQty),
+      render: (_, record) => {
+        return record.actualWasteQty;
+      },
+    },
+    {
+      title: <div className="text-table">Unit</div>,
+      dataIndex: "unit",
+      key: "unit",
+      width: "5%",
+      sorter: (a, b) => a.unit.localeCompare(b.unit),
+      render: (_, record) => {
+        return record.unit;
+      },
+    },
+    {
+      title: <div className="text-table">Actual Machine Running Time (hr/day)</div>,
       dataIndex: "actualMachineRunningTime",
       key: "actualMachineRunningTime",
-      width: "20%",
+      width: "5%",
+      sorter: (a, b) => a.actualMachineRunningTime.localeCompare(b.actualMachineRunningTime),
+      render: (_, record) => {
+        return record.actualMachineRunningTime;
+      },
+    },
+  ];
+
+  const columnsYearly = [
+    {
+      title: <div className="text-table">Plan Month</div>,
+      dataIndex: "planMonth",
+      key: "planMonth",
+      width: "5%",
+      sorter: (a, b) => a.planMonth.localeCompare(b.planMonth),
+      render: (_, record) => {
+        return record.planMonth;
+      }
+    },
+    {
+      title: <div className="text-table">Plan Qty</div>,
+      dataIndex: "planQty",
+      key: "planQty",
+      width: "5%",
+      sorter: (a, b) => a.planQty.localeCompare(b.planQty),
+      render: (_, record) => {
+        return record.planQty;
+      },
+    },
+    {
+      title: <div className="text-table">Total Actual Good Qty</div>,
+      dataIndex: "totalActualGoodQty",
+      key: "totalActualGoodQty",
+      width: "5%",
+      sorter: (a, b) => a.totalActualGoodQty.localeCompare(b.totalActualGoodQty),
+      render: (_, record) => {
+        return record.totalActualGoodQty;
+      },
+    },
+    {
+      title: <div className="text-table">Total Actual Waste Qty</div>,
+      dataIndex: "totalActualWasteQty",
+      key: "totalActualWasteQty",
+      width: "5%",
+      sorter: (a, b) => a.totalActualWasteQty.localeCompare(b.totalActualWasteQty),
+      render: (_, record) => {
+        return record.totalActualWasteQty;
+      },
+    },
+    {
+      title: <div className="text-table">Unit</div>,
+      dataIndex: "unit",
+      key: "unit",
+      width: "5%",
+      sorter: (a, b) => a.unit.localeCompare(b.unit),
+      render: (_, record) => {
+        return record.unit;
+      },
+    },
+    {
+      title: <div className="text-table">Actual Machine Running Time (hr/day)</div>,
+      dataIndex: "actualMachineRunningTime",
+      key: "actualMachineRunningTime",
+      width: "5%",
       sorter: (a, b) => a.actualMachineRunningTime.localeCompare(b.actualMachineRunningTime),
       render: (_, record) => {
         return record.actualMachineRunningTime;
@@ -65,7 +168,7 @@ const SystemLogTable = ({
 
   return (
     <Table
-      columns={columns}
+      columns={scope === "Monthly" ? columnsMonthly : columnsYearly}
       dataSource={dataSource}
       pagination={{
         ...pagination,
