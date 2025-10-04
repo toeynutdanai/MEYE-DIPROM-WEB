@@ -3,27 +3,21 @@ import { createBrowserRouter } from "react-router-dom";
 import MenuHome from "features/menu/pages/Menu";
 
 import ChangePassword from "features/authentication/pages/ChangePassword";
-import ForgotPassword from "features/authentication/pages/ForgotPassword";
 import Login from "features/authentication/pages/Login";
 import ResetPassword from "features/authentication/pages/ResetPassword";
 //import SignUp from "features/authentication/pages/SignUp";
-import BloodPressureEdit from "features/bloodPressure/pages/BloodPressureEdit";
-import BloodPressureList from "features/bloodPressure/pages/BloodPressureList";
-import PatientList from "features/patient/pages/PatientList";
-import Patient from "features/patient/pages/Patient";
-import PatientEdit from "features/patient/pages/PatientEdit";
 import PrivateRoute from "PrivateRoute";
 
-import NotFound from "features/notfound/pages/NotFound";
-import UserManagement from "features/userManagement/pages/UserManagement";
-import UserManagementEdit from "features/userManagement/pages/UserManagementEdit";
-import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
-import SystemLog from "features/systemLog/pages/SystemLog";
-import CompareDashboard from "features/compareDashboard/pages/CompareDashboard";
-import OEEDashboard from "features/oeeDashboard/pages/OEEDashboard";
-import WarehouseTracking from "features/warehouseTracking/pages/WarehouseTracking";
 import Company from "features/company/pages/Company";
+import CompareDashboard from "features/compareDashboard/pages/CompareDashboard";
+import NotFound from "features/notfound/pages/NotFound";
+import OEEDashboard from "features/oeeDashboard/pages/OEEDashboard";
 import Role from "features/role/pages/Role";
+import SystemLog from "features/systemLog/pages/SystemLog";
+import UserManagement from "features/userManagement/pages/UserManagement";
+import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
+import UserManagementEdit from "features/userManagement/pages/UserManagementEdit";
+import WarehouseTracking from "features/warehouseTracking/pages/WarehouseTracking";
 // import { Menu } from "antd";
 
 const router = createBrowserRouter([
@@ -73,18 +67,6 @@ const router = createBrowserRouter([
   //   element: <PrivateRoute element={<BloodPressureEdit />} />,
   // },
   {
-    path: "/user_management",
-    element: <PrivateRoute element={<UserManagement />} />,
-  },
-  {
-    path: "/create_user_management",
-    element: <PrivateRoute element={<UserManagementCreate />} />,
-  },
-  {
-    path: "/user_management/:id/edit",
-    element: <PrivateRoute element={<UserManagementEdit />} />,
-  },
-  {
     path: "/system_log",
     element: <PrivateRoute element={<SystemLog />} />,
   },
@@ -107,6 +89,18 @@ const router = createBrowserRouter([
   {
     path: "/authorize/role_detail",
     element: <PrivateRoute element={<Role />} />,
+  },
+  {
+    path: "/authorize/user_management",
+    element: <PrivateRoute element={<UserManagement />} />,
+  },
+  {
+    path: "/authorize/create_user_management",
+    element: <PrivateRoute element={<UserManagementCreate />} />,
+  },
+  {
+    path: "/authorize/user_management/:id/edit",
+    element: <PrivateRoute element={<UserManagementEdit />} />,
   },
 ]);
 

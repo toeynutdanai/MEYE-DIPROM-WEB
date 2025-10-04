@@ -1,15 +1,15 @@
+import { Modal } from "antd";
+import { Alert } from "components/elements";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/companyApi";
-import { 
-    setIsLoading, 
-    setCompanyObj, 
+import {
+  setCompanyObj,
+  setIsLoading,
 } from "../slices/companySlice";
-import { Modal } from "antd";
-import { Alert } from "components/elements";
 
-function useCompany(){
+function useCompany() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.company.isLoading);
@@ -24,7 +24,7 @@ function useCompany(){
         dispatch(setIsLoading(true));
         const response = await services.getCompanyObj();
         dispatch(setCompanyObj(response.data.data || []));
-        
+
       } catch (error) {
         console.error("Error fetching companyObj:", error);
       } finally {
@@ -41,7 +41,7 @@ function useCompany(){
           title: t("dialog.confirmation.header"),
           content: <p>{t("company.message.edit")}</p>,
           async onOk() {
-             const response = (values?.companyName!=null)? await services.updateCompanyName(values): await services.updateCompanyDescription(values);
+            const response = (values?.companyName != null) ? await services.updateCompanyName(values) : await services.updateCompanyDescription(values);
             Alert({
               message: response.data.message || "Success",
             });
