@@ -17,37 +17,38 @@ import { MainLayout } from "components/layouts";
 import OEETable from "components/table/OEETable";
 import { OEEChart } from "./OEEChart";
 import { OEEFactorsChart } from "./OEEFactorsChart";
+import { OEEMachineChart } from "./OEEMachineChart";
 
 const OEEDashboardComponents = ({
   // i18n
   t,
 
   // store data
-  oeeList,
-  oeeObj,
-  oeeMachineObj,
-  oeeByMachineList,
-  overviewObj,
-  isLoading,
+  oeeList = [],
+  oeeObj = [],
+  oeeMachineObj = {},
+  oeeByMachineList = [],
+  overviewObj = {},
+  isLoading = false,
 
-  tableWidth,
-  scope,
-  setScope,
-  selectedMonth,
-  selectedYear,
-  handleChangeMonth,
-  handleChangeYear,
+  tableWidth = "100%",
+  scope = "",
+  setScope = () => { },
+  selectedMonth = "",
+  selectedYear = "",
+  handleChangeMonth = () => { },
+  handleChangeYear = () => { },
 
-  factor,
-  setFactor,
-  factordata,
+  factor = "",
+  setFactor = () => { },
+  factorObj = [],
 
   machine,
-  machineOptions,
-  handleChangeMachine,
+  machineOptions = [],
+  handleChangeMachine = () => { },
 
-  monthOptions,
-  yearOptions,
+  monthOptions = [],
+  yearOptions = [],
 
   // table
   pagination,
@@ -105,7 +106,6 @@ const OEEDashboardComponents = ({
               />
               {scope === "Monthly" ? (
                 <Select
-                  key="month"
                   value={selectedMonth}
                   style={{ width: 200 }}
                   onChange={handleChangeMonth}
@@ -113,7 +113,6 @@ const OEEDashboardComponents = ({
                 />
               ) : (
                 <Select
-                  key="year"
                   value={selectedYear}
                   style={{ width: 200 }}
                   onChange={handleChangeYear}
@@ -126,7 +125,7 @@ const OEEDashboardComponents = ({
               <Row justify="space-between">
                 <h3>{t("oee_dashboard.label.oee_chart")}</h3>
               </Row>
-              <OEEChart dataSource={oeeObj} />
+              <OEEChart dataSource={oeeObj} isLoading={isLoading} />
             </CardContainer>
           </Space>
         </Col>
@@ -145,7 +144,7 @@ const OEEDashboardComponents = ({
               <Row justify="space-between">
                 <h3>{factor}</h3>
               </Row>
-              <OEEFactorsChart key={factor} dataSource={factordata} />
+              <OEEFactorsChart dataSource={factorObj} isLoading={isLoading} />
             </CardContainer>
           </Space>
         </Col>
@@ -158,7 +157,11 @@ const OEEDashboardComponents = ({
                 {(oeeByMachineList || []).map((card) => (
                   <CardScoreContainer
                     label={card.machineName}
-                    state={card.machineValue}
+                    state={card.percent}
+                    xs = {24}
+                    md = {12}
+                    lg = {8}
+                    unit={"%"}
                   />
                 ))}
               </Row>
@@ -188,25 +191,29 @@ const OEEDashboardComponents = ({
                   <CardScoreContainer
                     type={false}
                     label={t("oee_dashboard.overview.oee")}
-                    state={oeeMachineObj?.overview?.oee}
+                    state={oeeMachineObj?.oeePercent}
+                    unit={"%"}
                   />
                   <CardScoreContainer
                     type={false}
                     label={t("oee_dashboard.overview.availability")}
-                    state={oeeMachineObj?.overview?.availability}
+                    state={oeeMachineObj?.availabilityPercent}
+                    unit={"%"}
                   />
                   <CardScoreContainer
                     type={false}
                     label={t("oee_dashboard.overview.performance")}
-                    state={oeeMachineObj?.overview?.performance}
+                    state={oeeMachineObj?.performancePercent}
+                    unit={"%"}
                   />
                   <CardScoreContainer
                     type={false}
                     label={t("oee_dashboard.overview.quality")}
-                    state={oeeMachineObj?.overview?.quality}
+                    state={oeeMachineObj?.qualityPercent}
+                    unit={"%"}
                   />
                 </Row>
-                <OEEChart dataSource={oeeMachineObj} />
+                <OEEMachineChart dataSource={oeeMachineObj} isLoading={isLoading} />
               </Space>
             </CardContainer>
           </Space>

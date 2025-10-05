@@ -48,30 +48,13 @@ const WastProductCompareChart = ({ dataSource = [], isLoading = false }) => {
   };
 
   // plugin โชว์ "No data" เมื่อค่าเป็นศูนย์หมด
-  const noDataPlugin = {
-    id: "no-data",
-    afterDraw(chart) {
-      if (hasAnyValue) return;
-      const { ctx, chartArea } = chart;
-      if (!chartArea) return;
-      ctx.save();
-      ctx.font = "14px sans-serif";
-      ctx.fillStyle = "#9ca3af";
-      ctx.textAlign = "center";
-      ctx.fillText(
-        "No data",
-        (chartArea.left + chartArea.right) / 2,
-        (chartArea.top + chartArea.bottom) / 2
-      );
-      ctx.restore();
-    },
-  };
+  
 
   return (
     <div style={{ width: "100%", height: "25vh", position: "relative" }}>
       <Spin spinning={isLoading} size="large">
         <div style={{ width: "100%", height: "25vh" }}>
-          <Bar data={data} options={options} plugins={[noDataPlugin]} />
+          <Bar data={data} options={options}  />
         </div>
       </Spin>
     </div>

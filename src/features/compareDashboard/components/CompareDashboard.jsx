@@ -28,7 +28,7 @@ const CompareDashboardComponents = ({
   filter = {},
 
   // selections & options
-  scope = "Monthly",// "Monthly" | "Yearly"
+  scope = "Monthly", // "Monthly" | "Yearly"
   selectedMonth = "",
   selectedYear = "",
   selectedProducts = [],
@@ -37,10 +37,10 @@ const CompareDashboardComponents = ({
   productOptions = [],
 
   // handlers
-  setScope = () => { },
-  handleChangeMonth = () => { },
-  handleChangeYear = () => { },
-  handleChangeProduct = () => { },
+  setScope = () => {},
+  handleChangeMonth = () => {},
+  handleChangeYear = () => {},
+  handleChangeProduct = () => {},
 
   // layout
   tableWidth = "100%",
@@ -93,7 +93,7 @@ const CompareDashboardComponents = ({
           isLoading={isLoading}
         />
 
-        <Col xs={24} xl={12}>
+        <Col span={24}>
           <Space direction="vertical" size={24} style={{ width: "100%" }}>
             <Space
               direction="horizontal"
@@ -130,21 +130,31 @@ const CompareDashboardComponents = ({
                 options={productOptions}
               />
             </Space>
-
-            <h2>Actual & Planned</h2>
-            <CardContainer width={"100%"} height="auto">
-              <ActualVsPlannedChart dataSource={actualVsPlanObj} isLoading={isLoading} />
-            </CardContainer>
-
-            <h2>Waste Product Compare</h2>
-            <CardContainer width={tableWidth} height="fit-content">
-              <WastProductCompareChart dataSource={wasteProductCompareObj} isLoading={isLoading} />
-            </CardContainer>
           </Space>
         </Col>
 
-        {/* Table */}
         <Col xs={24} xl={12}>
+          <h2>Actual & Planned</h2>
+          <CardContainer width={"100%"} height="auto">
+            <ActualVsPlannedChart
+              dataSource={actualVsPlanObj}
+              isLoading={isLoading}
+            />
+          </CardContainer>
+        </Col>
+
+        <Col xs={24} xl={12}>
+          <h2>Waste Product Compare</h2>
+          <CardContainer width={tableWidth} height="fit-content">
+            <WastProductCompareChart
+              dataSource={wasteProductCompareObj}
+              isLoading={isLoading}
+            />
+          </CardContainer>
+        </Col>
+
+        {/* Table */}
+        <Col span={24}>
           <CardContainer width={tableWidth} height="fit-content">
             <Space direction="vertical" size={24} style={{ width: "100%" }}>
               <Row justify="space-between" align="middle">

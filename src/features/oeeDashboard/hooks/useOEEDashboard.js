@@ -45,7 +45,6 @@ function useOEEDashboard() {
   const [scope, setScope] = useState("Monthly");
   const [machine, setMachine] = useState({});
   const [factor, setFactor] = useState("Availability");
-  const [factordata, setFactorData] = useState({});
 
   const [pagination, setPagination] = useState({ page: 0, size: 25 });
   const [filter] = useState({});
@@ -80,7 +79,7 @@ function useOEEDashboard() {
       try {
         dispatch(setIsLoading(true));
         const response = await services.getOEEList(params);
-        dispatch(setOEEList(response.data || []));
+        dispatch(setOEEList(response?.data?.data || []));
         setPagination((prev) => ({
           page: (response.data?.totalPages ?? 1) - 1,
           total: response.data?.totalItems ?? 0,
@@ -99,8 +98,9 @@ function useOEEDashboard() {
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
+        console.log(params);
         const response = await services.getOEEObj(params);
-        dispatch(setOEEObj(response.data || {}));
+        dispatch(setOEEObj(response?.data?.data || {}));
       } catch (error) {
         console.error("Error fetching OEEObj:", error);
       } finally {
@@ -115,7 +115,7 @@ function useOEEDashboard() {
       try {
         dispatch(setIsLoading(true));
         const response = await services.getOEEMachineObj(params);
-        dispatch(setOEEMachineObj(response.data || {}));
+        dispatch(setOEEMachineObj(response?.data?.data || {}));
       } catch (error) {
         console.error("Error fetching OEEMachineObj:", error);
       } finally {
@@ -130,7 +130,7 @@ function useOEEDashboard() {
       try {
         dispatch(setIsLoading(true));
         const response = await services.getFactorObj(params);
-        dispatch(setFactorObj(response.data || {}));
+        dispatch(setFactorObj(response?.data?.data || {}));
       } catch (error) {
         console.error("Error fetching FactorObj:", error);
       } finally {
@@ -144,7 +144,7 @@ function useOEEDashboard() {
     try {
       dispatch(setIsLoading(true));
       const response = await services.getOEEByMachineList(params);
-      dispatch(setOEEByMachineList(response.data || []));
+      dispatch(setOEEByMachineList(response?.data?.data || []));
       setPagination((prev) => ({
         page: (response.data?.totalPages ?? 1) - 1,
         total: response.data?.totalItems ?? 0,
@@ -159,23 +159,31 @@ function useOEEDashboard() {
 
   // ------- orchestrator (เดิมเป็น props.onChange ใน component) -------
   const handleOnChange = useCallback((values) => {
-    if (values.drillDown) {
-      getOEEMachineObj({ param: values });
-    } else {
-      getOEEList({ pagination: { page: 0, size: 25 }, param: values });
-      getOEEObj({ param: values });
-      getFactorObj({ param: values });
-      getOEEByMachineList({ param: values });
-      getOEEMachineObj({ param: values });
-    }
+    getOEEList({ pagination: { page: 0, size: 25 }, param: values });
+    getOEEObj({
+      scope: values.scope,
+      duration: values.duration,
+    });
+    getFactorObj({
+      scope: values.scope,
+      duration: values.duration,
+      factor: values.factor,
+    });
+    getOEEByMachineList({
+      scope: values.scope,
+      duration: values.duration,
+    });
+    getOEEMachineObj({
+      scope: values.scope,
+      duration: values.duration,
+      machineCode: values.machine,
+    });
   }, [getOEEMachineObj, getOEEList, getOEEObj, getFactorObj, getOEEByMachineList]);
 
   // ------- effects ที่ย้ายมาจาก component -------
-  // responsive table width
   useEffect(() => {
     const onResize = () => setTableWidth(getResponsiveTableWidth());
     window.addEventListener("resize", onResize);
-    // sync one time (เทียบเท่า effect เดิม)
     onResize();
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -191,9 +199,10 @@ function useOEEDashboard() {
         duration,
         machine: defaultMachine.key,
         drillDown: false,
+        factor,
       });
     }
-  }, [machineDwl, scope, selectedMonth, selectedYear, handleOnChange]);
+  }, [machineDwl, scope, selectedMonth, selectedYear, factor, handleOnChange]);
 
   // เมื่อ scope/month/year เปลี่ยน -> fetch ชุดรวม (ไม่ drill-down)
   useEffect(() => {
@@ -204,8 +213,9 @@ function useOEEDashboard() {
       duration,
       machine: machine.key,
       drillDown: false,
+      factor,
     });
-  }, [scope, selectedMonth, selectedYear, machine?.key, handleOnChange]);
+  }, [scope, selectedMonth, selectedYear, machine?.key, factor, handleOnChange]);
 
   // เมื่อ machine เปลี่ยน -> fetch drill-down
   useEffect(() => {
@@ -216,21 +226,9 @@ function useOEEDashboard() {
       duration,
       machine: machine.key,
       drillDown: true,
+      factor,
     });
-  }, [machine?.key, scope, selectedMonth, selectedYear, handleOnChange]);
-
-  // factor -> อัปเดตชุดข้อมูลกราฟ factors
-  useEffect(() => {
-    if (factor === "Availability") {
-      setFactorData(factorObj?.availability);
-    } else if (factor === "Performance") {
-      setFactorData(factorObj?.performance);
-    } else if (factor === "Quality") {
-      setFactorData(factorObj?.quality);
-    } else {
-      setFactorData({});
-    }
-  }, [factor, factorObj]);
+  }, [machine?.key, scope, selectedMonth, selectedYear, factor, handleOnChange]);
 
   // preload ค่ารวม
   useEffect(() => {
@@ -298,7 +296,6 @@ function useOEEDashboard() {
     oeeList,
     oeeObj,
     oeeMachineObj,
-    factorObj,
     oeeByMachineList,
     machineDwl,
     overviewObj,
@@ -318,7 +315,7 @@ function useOEEDashboard() {
 
     factor,
     setFactor,
-    factordata,
+    factorObj,
 
     machine,
     handleChangeMachine,
