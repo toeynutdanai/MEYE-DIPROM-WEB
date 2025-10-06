@@ -6,9 +6,9 @@ build/
 dist/
 
 # Environment files (ถ้าต้องการเก็บตัวอย่างก็ไม่ต้องใส่ .env จริง)
-.env
-.env.local
-.env.*.local
+# .env
+# .env.local
+# .env.*.local
 
 # Log files
 npm-debug.log*
