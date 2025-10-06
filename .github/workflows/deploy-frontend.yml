@@ -37,7 +37,7 @@ jobs:
       # 3. Build Docker image
       - name: Build Docker image
         run: |
-          IMAGE_TAG=my-frontend:${{ inputs.app_env }}-${{ inputs.git_tag }}
+          IMAGE_TAG=my-frontend:${{ inputs.git_tag }}
           docker build -t $IMAGE_TAG .
 
       # 4. Install latest Railway CLI
