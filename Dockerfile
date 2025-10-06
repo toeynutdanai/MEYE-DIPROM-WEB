@@ -17,7 +17,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Build React app
-RUN yarn build
+RUN yarn build:dev
 
 # Stage 2: Serve
 FROM node:22-alpine
