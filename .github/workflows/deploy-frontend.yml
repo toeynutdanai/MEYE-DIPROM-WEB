@@ -17,7 +17,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.app_env }}
+    environment: ${{ inputs.app_env }}  # GitHub Environment
 
     steps:
       # 1. Checkout code
@@ -46,12 +46,10 @@ jobs:
 
       # 5. Deploy to Railway
       - name: Deploy to Railway
+        # ใช้ secret จาก Environment
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_WEB_SERVICE_TOKEN }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           IMAGE_TAG=my-frontend:${{ inputs.app_env }}-${{ inputs.git_tag }}
           echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway..."
-          
-          # ถ้าใช้ Docker image ให้ Railway อัปโหลด image
-          # railway up จะอ่าน token จาก RAILWAY_TOKEN โดยอัตโนมัติ
           railway up --service frontend-${{ inputs.app_env }} --detach
