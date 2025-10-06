@@ -1,4 +1,4 @@
-name: Manual Deploy Frontend to Railway
+name: Deploy Frontend to Railway
 
 on:
   workflow_dispatch:
@@ -44,6 +44,5 @@ jobs:
             -v $(pwd):/app \
             -w /app \
             -e RAILWAY_TOKEN="${RAILWAY_WEB_SERVICE_TOKEN}" \
-            ghcr.io/railwayapp/cli:3.14.0 up \
-              --service frontend-${{ inputs.app_env }} \
-              --detach
+            ghcr.io/railwayapp/cli:v4.10.0 \
+            sh -c "railway up --service frontend-${{ inputs.app_env }} --detach"
