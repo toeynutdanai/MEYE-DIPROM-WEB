@@ -22,12 +22,11 @@ import { useTranslation } from "react-i18next";
 const { Header, Content, Footer } = Layout;
 
 const urlData = [
-  { "permissionCode": "AUTHORIZE", "url": "/authorize/company_detail" },
-  { "permissionCode": "COMPARE_DASHBOARD", "url": "/compare_dashboard" },
-  { "permissionCode": "LOG", "url": "/system_log" },
-  { "permissionCode": "OEE_DASHBOARD", "url": "/oee_dashboard" },
-  { "permissionCode": "RESET_PASSWORD", "url": "/reset_password" },
-  { "permissionCode": "WAREHOUSE_N_ORDER", "url": "/warehouse_and_order" }
+  { "permissionCode": "AUTHORIZE", "url": "/authorize/company_detail","desc":"User Authorization and Access Control." },
+  { "permissionCode": "COMPARE_DASHBOARD", "url": "/compare_dashboard","desc":"Plan & Actual Comparison Dashboard for Products." },
+  { "permissionCode": "LOG", "url": "/system_log","desc":"Monitor Access and Track User Activity." },
+  { "permissionCode": "OEE_DASHBOARD", "url": "/oee_dashboard","desc":"Dashboard for Availability, Performance & Quality." },
+  { "permissionCode": "WAREHOUSE_N_ORDER", "url": "/warehouse_and_order","desc":"Smart Monitoring Warehouse and Plan with Accurate Order Estimation." }
 ];
 
 function MenuComponents() {
@@ -37,7 +36,10 @@ function MenuComponents() {
     const permissions = JSON.parse(window.localStorage.getItem("permiss"));
   
     const permissionUrlMap = urlData.reduce((acc, current) => {
-      acc[current.permissionCode] = current.url;
+      acc[current.permissionCode] = {
+        url: current.url,
+        desc: current.desc 
+      }
       return acc;
     }, {});
     
@@ -82,8 +84,8 @@ return (
         </Row>
         <Row justify="space-around">
           {sortedPermissions.map(card => {
-                  const cardUrl = permissionUrlMap[card.permissionCode];
-                  if (!cardUrl) {
+                  const urlDataEntry = permissionUrlMap[card.permissionCode];
+                  if (!urlDataEntry) {
                     return null;
                   }
                   return (
@@ -91,11 +93,11 @@ return (
                       hoverable
                       key={card.permissionCode}
                       style={{ width: '15%', margin: '10px' }}
-                      onClick={() => navigate(cardUrl)}
+                      onClick={() => navigate(urlDataEntry.url)}
                     >
                       <Row><BarChartOutlined style={{ fontSize: '32px',color:'#201e5b' }} /></Row>
                       <h3>{card.permissionName}</h3>
-                      <small>{card.permissionCode}</small>
+                      <small>{urlDataEntry.desc}</small>
                       <Row style={{justifyContent: "right"}}><Avatar icon={<ArrowRightOutlined />} style={{backgroundColor:"var(--light-purple-color)"}}></Avatar></Row>
                       
                     </Card>
