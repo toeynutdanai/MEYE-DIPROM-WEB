@@ -1,4 +1,4 @@
-name: Deploy Frontend to Railway
+name: Deploy to Railway via CLI
 
 on:
   workflow_dispatch:
@@ -17,42 +17,70 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.app_env }}  # เลือก Environment ของ GitHub (SIT/UAT/PROD)
+    # GitHub จะดึง Environment secrets ตาม environment ที่เลือก
+    environment: ${{ github.event.inputs.app_env }}
 
     steps:
-      # 1. Checkout code
-      - name: Checkout code
+      # -------------------------------
+      # 1️ Checkout code ตาม Git tag
+      # -------------------------------
+      - name: Checkout code from tag
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.git_tag }}
 
-      # 2. Copy environment file
-      - name: Copy .env file
+      # -------------------------------
+      # 2️ Set lowercase app_env output
+      # -------------------------------
+      - name: Set lowercase app_env
+        id: vars
         run: |
-          case "${{ inputs.app_env }}" in
-            SIT) cp .env.sit .env ;;
-            UAT) cp .env.uat .env ;;
-            PROD) cp .env.prod .env ;;
-            *) echo "Unknown environment" && exit 1 ;;
-          esac
+          ENV=$(echo "${{ github.event.inputs.app_env }}" | tr '[:upper:]' '[:lower:]')
+          echo "APP_ENV=$ENV" >> $GITHUB_OUTPUT
 
-      # 3. Build Docker image
-      - name: Build Docker image
-        run: |
-          IMAGE_TAG=my-frontend:${{ inputs.app_env }}-${{ inputs.git_tag }}
-          docker build -t $IMAGE_TAG .
-
-      # 4. Install latest Railway CLI
-      - name: Install Railway CLI
-        run: curl -sSL https://railway.app/install.sh | sh
-
-      # 5. Set Railway environment variables from Environment secrets
+      # -------------------------------
+      # 3️ Set Railway Token & Service ID from Environment secrets
+      # -------------------------------
       - name: Set Railway environment variables
         run: |
-          echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}" >> $GITHUB_ENV
+          echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_API_TOKEN }}" >> $GITHUB_ENV
           echo "RAILWAY_SERVICE_ID=${{ secrets.RAILWAY_SERVICE_ID }}" >> $GITHUB_ENV
 
-      # 6. Deploy to Railway
+      # -------------------------------
+      # 4️ Install Node dependencies
+      # -------------------------------
+      - name: Install dependencies
+        run: yarn install
+
+      # -------------------------------
+      # 5️ Build React app ตาม environment
+      # -------------------------------
+      - name: Build React app
+        run: |
+          if [ "${{ github.event.inputs.app_env }}" = "SIT" ]; then
+            yarn build:sit
+          elif [ "${{ github.event.inputs.app_env }}" = "UAT" ]; then
+            yarn build:uat
+          elif [ "${{ github.event.inputs.app_env }}" = "PROD" ]; then
+            yarn build:prod
+          fi
+
+      # -------------------------------
+      # 6️ Install Railway CLI
+      # -------------------------------
+      - name: Install Railway CLI
+        run: |
+          curl -sSL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | sh
+          railway --version
+
+      # -------------------------------
+      # 7️ Deploy ผ่าน Railway CLI
+      # -------------------------------
       - name: Deploy to Railway
         run: |
-          IMAGE_TAG=my-frontend:${{ inputs.git_tag }}
-          echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway Service ID $RAILWAY_SERVICE_ID..."
-          railway up --service $RAILWAY_SERVICE_ID --detach
+          echo "Deploying project to Railway Service ID $RAILWAY_SERVICE_ID..."
+          railway deployment up \
+            --service $RAILWAY_SERVICE_ID \
+            --environment ${{ steps.vars.outputs.APP_ENV }} \
+            --verbose \
+            --detach
