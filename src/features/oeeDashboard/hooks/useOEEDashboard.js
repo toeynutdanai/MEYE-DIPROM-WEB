@@ -159,7 +159,11 @@ function useOEEDashboard() {
 
   // ------- orchestrator (เดิมเป็น props.onChange ใน component) -------
   const handleOnChange = useCallback((values) => {
-    getOEEList({ pagination: { page: 0, size: 25 }, param: values });
+    getOEEList({
+      pagination: { page: 0, size: 25 },
+      scope: values.scope,
+      duration: values.duration,
+    });
     getOEEObj({
       scope: values.scope,
       duration: values.duration,

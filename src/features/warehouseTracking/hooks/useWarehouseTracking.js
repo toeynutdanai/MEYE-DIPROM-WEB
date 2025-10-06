@@ -2,12 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/warehouseTrackingApi";
-import { 
-    setIsLoading, 
-    setWarehouseAndOrderList, 
-    setProductDwl,
-    setOverviewObj,
-    setOEEByMachineList
+import {
+  setIsLoading,
+  setOverviewObj,
+  setProductDwl,
+  setWarehouseAndOrderList
 } from "../slices/warehouseTrackingSlice";
 
 // function toParams(params = {}) {
@@ -26,7 +25,7 @@ import {
 //   };
 // }
 
-function useWarehouseTracking(){
+function useWarehouseTracking() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.warehouseTracking.isLoading);
@@ -43,7 +42,7 @@ function useWarehouseTracking(){
         dispatch(setIsLoading(true));
         const response = await services.getProductDwl(params);
         dispatch(setProductDwl(response.data.data || []));
-        
+
       } catch (error) {
         console.error("Error fetching MachineDwl:", error);
       } finally {
@@ -59,7 +58,7 @@ function useWarehouseTracking(){
         dispatch(setIsLoading(true));
         const response = await services.getOverviewObj();
         dispatch(setOverviewObj(response.data || {}));
-        
+
       } catch (error) {
         console.error("Error fetching Overview:", error);
       } finally {
@@ -74,7 +73,7 @@ function useWarehouseTracking(){
       try {
         dispatch(setIsLoading(true));
         const response = await services.getWarehouseAndOrderList(params);
-        dispatch(setWarehouseAndOrderList(response.data || []));
+        dispatch(setWarehouseAndOrderList(response?.data?.data|| []));
         setPagination({
           page: response.data.totalPages - 1,
           total: response.data.totalItems,
@@ -86,18 +85,19 @@ function useWarehouseTracking(){
         dispatch(setIsLoading(false));
       }
     },
-    [dispatch, filter,pagination.size]
+    [dispatch, filter, pagination.size]
   );
 
-   const handleOnChange = useCallback((values) => {
-      getWarehouseAndOrderList({ pagination: { page: 0, size: 25 },param:values });
-    },[]
+  const handleOnChange = useCallback((values) => {
+    getWarehouseAndOrderList({ pagination: { page: 0, size: 25 }, productCodes: values });
+  }, []
   );
 
   useEffect(() => {
     getProductDwl();
     getOverviewObj();
-  }, [getProductDwl,getOverviewObj]);
+    getWarehouseAndOrderList();
+  }, [getProductDwl, getOverviewObj]);
 
   return {
     warehouseAndOrderList,

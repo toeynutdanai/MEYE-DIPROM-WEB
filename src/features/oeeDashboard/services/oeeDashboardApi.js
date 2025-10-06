@@ -21,17 +21,7 @@ export const getOverviewObj = async (params = {}) => {
 };
 
 export const getOEEList = async (params = {}) => {
-  let  obj = {
-    "status": 200,
-    "message": "success",
-    "data": [
-        {"machineName":params.param.scope,"perOEE":"%","perAvailability":params.param.duration,"perPerformance":"14","perQuality":"15","averageBreakTime":"","averageDownTime":""},
-        {"machineName":params.param.scope,"perOEE":"%","perAvailability":params.param.duration,"perPerformance":"14","perQuality":"15","averageBreakTime":"","averageDownTime":""},
-      ]
-    }
-  
-  return obj;
-  // return await api.post("/log/system", params);
+  return await api.post("/dataTable/oeeMachine", params);
 };
 
 // oeePercent

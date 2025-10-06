@@ -21,25 +21,6 @@ export const getOverviewObj = async (params = {}) => {
 };
 
 export const getWarehouseAndOrderList = async (params = {}) => {
-  let  obj = {
-    "status": 200,
-    "message": "success",
-    "data": [
-        {
-            "productName":"P001",
-            "unit":"%",
-            "stockOnHand":"14",
-            "upcomingStock":"",
-            "reservedStock":"",
-            "availableStock":"1000",
-            "statusStock":"%",
-            "queueAhead":"14",
-            "estimatedTimeArrival":"",
-        },
-      ]
-    }
-  
-  return obj;
-  // return await api.post("/log/system", params);
+  return await api.post("/dataTable/warehouseTracking", params);
 };
 

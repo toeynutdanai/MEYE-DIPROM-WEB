@@ -1,7 +1,5 @@
-import { Dropdown, Space, Table } from "antd";
-import alert from "components/elements/Alert";
+import { Table } from "antd";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 const OEETable = ({
   isLoading = false,
@@ -9,62 +7,93 @@ const OEETable = ({
   dataSource = [],
   onChange = () => {},
 }) => {
-
   const { t } = useTranslation();
 
   const columns = [
     {
-      title: <div className="text-table">{t("oee_dashboard.label.machine_name")}</div>,
+      title: (
+        <div className="text-table">
+          {t("oee_dashboard.label.machine_name")}
+        </div>
+      ),
       dataIndex: "machineName",
       key: "machineName",
       // width: "20%",
       sorter: (a, b) => a.machineName.localeCompare(b.machineName),
       render: (_, record) => {
         return record.machineName;
-      }
-    },
-    {
-      title: <div className="text-table">{t("oee_dashboard.label.per_oee")}</div>,
-      dataIndex: "perOEE",
-      key: "perOEE",
-      // width: "20%",
-      sorter: (a, b) => a.perOEE.localeCompare(b.perOEE),
-      render: (_, record) => {
-        return record.perOEE;
       },
     },
     {
-      title: <div className="text-table">{t("oee_dashboard.label.per_availability")}</div>,
-      dataIndex: "perAvailability",
-      key: "perAvailability",
+      title: <div className="text-table">Period</div>,
+      dataIndex: "period",
+      key: "period",
+      // width: "20%",
+      sorter: (a, b) => a.period.localeCompare(b.period),
+      render: (_, record) => {
+        return record.period;
+      },
+    },
+    {
+      title: (
+        <div className="text-table">{t("oee_dashboard.label.per_oee")}</div>
+      ),
+      dataIndex: "oeePercent",
+      key: "oeePercent",
+      // width: "20%",
+      sorter: (a, b) => a.oeePercent.localeCompare(b.oeePercent),
+      render: (_, record) => {
+        return record.oeePercent;
+      },
+    },
+    {
+      title: (
+        <div className="text-table">
+          {t("oee_dashboard.label.per_availability")}
+        </div>
+      ),
+      dataIndex: "availabilityPercent",
+      key: "availabilityPercent",
       width: "20%",
-      sorter: (a, b) => a.perAvailability.localeCompare(b.perAvailability),
+      sorter: (a, b) =>
+        a.availabilityPercent.localeCompare(b.availabilityPercent),
       render: (_, record) => {
-        return record.perAvailability;
+        return record.availabilityPercent;
       },
     },
     {
-      title: <div className="text-table">{t("oee_dashboard.label.per_performance")}</div>,
-      dataIndex: "perPerformance",
-      key: "perPerformance",
+      title: (
+        <div className="text-table">
+          {t("oee_dashboard.label.per_performance")}
+        </div>
+      ),
+      dataIndex: "performancePercent",
+      key: "performancePercent",
       // width: "20%",
-      sorter: (a, b) => a.perPerformance.localeCompare(b.perPerformance),
+      sorter: (a, b) =>
+        a.performancePercent.localeCompare(b.performancePercent),
       render: (_, record) => {
-        return record.perPerformance;
+        return record.performancePercent;
       },
     },
     {
-      title: <div className="text-table">{t("oee_dashboard.label.per_quality")}</div>,
-      dataIndex: "perQuality",
-      key: "perQuality",
+      title: (
+        <div className="text-table">{t("oee_dashboard.label.per_quality")}</div>
+      ),
+      dataIndex: "qualityPercent",
+      key: "qualityPercent",
       // width: "20%",
-      sorter: (a, b) => a.perQuality.localeCompare(b.perQuality),
+      sorter: (a, b) => a.qualityPercent.localeCompare(b.qualityPercent),
       render: (_, record) => {
-        return record.perQuality;
+        return record.qualityPercent;
       },
     },
     {
-      title: <div className="text-table">{t("oee_dashboard.label.average_break_time")}</div>,
+      title: (
+        <div className="text-table">
+          {t("oee_dashboard.label.average_break_time")}
+        </div>
+      ),
       dataIndex: "averageBreakTime",
       key: "averageBreakTime",
       // width: "20%",
@@ -74,7 +103,11 @@ const OEETable = ({
       },
     },
     {
-      title: <div className="text-table">{t("oee_dashboard.label.average_down_time")}</div>,
+      title: (
+        <div className="text-table">
+          {t("oee_dashboard.label.average_down_time")}
+        </div>
+      ),
       dataIndex: "averageDownTime",
       key: "averageDownTime",
       // width: "20%",
