@@ -50,6 +50,6 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          IMAGE_TAG=my-frontend:${{ inputs.app_env }}-${{ inputs.git_tag }}
+          IMAGE_TAG=my-frontend:${{ inputs.git_tag }}
           echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway..."
           railway up --service frontend-${{ inputs.app_env }} --detach
