@@ -30,12 +30,13 @@ FROM node:22-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Install yarn
-RUN npm install -g yarn
+# ติดตั้ง dependencies สำหรับ build และ yarn
+RUN apk add --no-cache python3 make g++ \
+    && npm install -g yarn
 
-# Copy package.json (และ yarn.lock ถ้ามี)
-COPY package.json ./ 
-
+# Copy package.json และ yarn.lock (ถ้ามี)
+COPY package.json ./
+COPY yarn.lock ./  # ถ้าไม่มี ลบบรรทัดนี้
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
@@ -51,12 +52,13 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Install serve
-RUN yarn global add serve
+# ติดตั้ง serve
+RUN apk add --no-cache python3 make g++ \
+    && yarn global add serve
 
-# Copy build output
+# Copy build output จาก builder
 COPY --from=builder /app/build .
 
-# Use $PORT for Railway dynamic port
+# ใช้ Railway dynamic port
 EXPOSE 3000
 CMD ["sh", "-c", "serve -s . -l ${PORT:-3000}"]
