@@ -1,0 +1,62 @@
+name: Deploy Frontend to Railway
+
+on:
+  workflow_dispatch:
+    inputs:
+      git_tag:
+        description: 'Git Tag ที่ต้องการ deploy (เช่น v1.0.0)'
+        required: true
+        type: string
+
+      app_env:
+        description: 'Target Environment (SIT, UAT, PROD)'
+        required: true
+        type: choice
+        options: [SIT, UAT, PROD]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # เลือก Environment ตาม input
+    environment: ${{ inputs.app_env }}
+
+    steps:
+      # 1️ Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️ Copy environment file ตาม ENV
+      - name: Copy .env file
+        run: |
+          case "${{ inputs.app_env }}" in
+            SIT) cp .env.sit .env ;;
+            UAT) cp .env.uat .env ;;
+            PROD) cp .env.prod .env ;;
+            *) echo "Unknown environment" && exit 1 ;;
+          esac
+
+      # 3️ Build Docker image
+      - name: Build Docker image
+        run: |
+          echo "Building Docker image for ${{ inputs.app_env }}"
+          docker build -t my-frontend:${{ inputs.app_env }} .
+
+      # 4️ Deploy to Railway using Environment Secret
+      - name: Deploy to Railway
+        run: |
+          echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway..."
+
+          # ดึง Railway Web Service Token จาก Environment Secret
+          export RAILWAY_WEB_SERVICE_TOKEN="${{ secrets.RAILWAY_WEB_SERVICE_TOKEN }}"
+
+          echo "Using Railway Web Service Token for ${{ inputs.app_env }}"
+
+          # Deploy ผ่าน Railway CLI
+          docker run --rm \
+            -v $(pwd):/app \
+            -w /app \
+            -e RAILWAY_TOKEN="${RAILWAY_WEB_SERVICE_TOKEN}" \
+            ghcr.io/railwayapp/cli:3.14.0 up \
+              --service frontend-${{ inputs.app_env }} \
+              --detach
