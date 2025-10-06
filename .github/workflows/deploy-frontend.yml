@@ -17,12 +17,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # GitHub จะดึง Environment secrets ตาม environment ที่เลือก
     environment: ${{ github.event.inputs.app_env }}
 
     steps:
       # -------------------------------
-      # 1️ Checkout code ตาม Git tag
+      # 1️ Checkout โค้ดจาก tag ที่เลือก
       # -------------------------------
       - name: Checkout code from tag
         uses: actions/checkout@v4
@@ -30,7 +29,7 @@ jobs:
           ref: ${{ github.event.inputs.git_tag }}
 
       # -------------------------------
-      # 2️ Set lowercase app_env output
+      # 2️ Set lowercase app_env
       # -------------------------------
       - name: Set lowercase app_env
         id: vars
@@ -39,7 +38,7 @@ jobs:
           echo "APP_ENV=$ENV" >> $GITHUB_OUTPUT
 
       # -------------------------------
-      # 3️ Set Railway Token & Service ID from Environment secrets
+      # 3️ ตั้งค่า Railway Token และ Service ID จาก Secrets
       # -------------------------------
       - name: Set Railway environment variables
         run: |
@@ -47,26 +46,7 @@ jobs:
           echo "RAILWAY_SERVICE_ID=${{ secrets.RAILWAY_SERVICE_ID }}" >> $GITHUB_ENV
 
       # -------------------------------
-      # 4️ Install Node dependencies
-      # -------------------------------
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      # -------------------------------
-      # 5️ Build React app ตาม environment
-      # -------------------------------
-      - name: Build React app
-        run: |
-          if [ "${{ github.event.inputs.app_env }}" = "SIT" ]; then
-            yarn build:sit
-          elif [ "${{ github.event.inputs.app_env }}" = "UAT" ]; then
-            yarn build:uat
-          elif [ "${{ github.event.inputs.app_env }}" = "PROD" ]; then
-            yarn build:prod
-          fi
-
-      # -------------------------------
-      # 6️ Install Railway CLI
+      # 4️ ติดตั้ง Railway CLI
       # -------------------------------
       - name: Install Railway CLI
         run: |
@@ -74,13 +54,12 @@ jobs:
           railway --version
 
       # -------------------------------
-      # 7️ Deploy ผ่าน Railway CLI
+      # 5️ Deploy ผ่าน CLI (build จาก repo)
       # -------------------------------
       - name: Deploy to Railway
         run: |
-          echo "Deploying project to Railway Service ID $RAILWAY_SERVICE_ID..."
+          echo "Deploying project to Railway (CLI build from repo)..."
           railway deployment up \
             --service $RAILWAY_SERVICE_ID \
             --environment ${{ steps.vars.outputs.APP_ENV }} \
-            --verbose \
-            --detach
+            --verbose
