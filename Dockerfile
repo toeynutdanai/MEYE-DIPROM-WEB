@@ -25,7 +25,7 @@
 # CMD ["serve", "-s", "."]
 
 # Base image
-FROM node:16-alpine as builder
+FROM node:22-alpine as builder
 
 # Set working directory
 WORKDIR /app
@@ -46,9 +46,9 @@ COPY . .
 RUN yarn build
 
 # Serve the application using a static server
-FROM node:16-alpine
+FROM node:22-alpine
 RUN yarn global add serve
 COPY --from=builder /app/build /app/build
 WORKDIR /app/build
-EXPOSE 5000
-CMD ["serve", "-s", "."]
+EXPOSE 3000
+CMD ["serve", "-s", ".", "-l", "3000"]
