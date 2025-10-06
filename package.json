@@ -45,7 +45,7 @@
     "eject": "react-scripts eject",
 
     "start:sit": "env-cmd -f ./.env.sit react-scripts start",
-    "build:sit": "env-cmd -f ./.env.sit react-scripts build",
+    "build:sit": "env-cmd -f ./.env.sit CI=false react-scripts build",
     "serve:sit": "env-cmd -f ./.env.sit npx serve -s build",
     "build:serve:sit": "npm install && npx env-cmd -f ./.env.sit react-scripts build && npx serve -s build"
   },
