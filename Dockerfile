@@ -9,7 +9,6 @@ RUN apk add --no-cache python3 make g++ libc6-compat
 
 # Copy package.json และ yarn.lock (ถ้ามี)
 COPY package.json ./
-COPY yarn.lock ./   # ถ้าไม่มี ลบบรรทัดนี้
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
