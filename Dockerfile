@@ -16,17 +16,8 @@ RUN yarn install --frozen-lockfile
 # Copy source code
 COPY . .
 
-ARG APP_ENV
-# เลือก build ตาม environment
-RUN if [ "$APP_ENV" = "SIT" ]; then \
-      yarn build:sit; \
-    elif [ "$APP_ENV" = "UAT" ]; then \
-      yarn build:uat; \
-    elif [ "$APP_ENV" = "PROD" ]; then \
-      yarn build:prod; \
-    else \
-      echo "Unknown APP_ENV: $APP_ENV" && exit 1; \
-    fi
+# Build React app
+RUN yarn build:dev
 
 # Stage 2: Serve
 FROM node:22-alpine
