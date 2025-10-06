@@ -35,14 +35,11 @@ jobs:
       - name: Build Docker image
         run: docker build -t my-frontend:${{ inputs.app_env }} .
 
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
       - name: Deploy to Railway
         run: |
           echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway..."
-          export RAILWAY_WEB_SERVICE_TOKEN="${{ secrets.RAILWAY_WEB_SERVICE_TOKEN }}"
-          
-          docker run --rm \
-            -v $(pwd):/app \
-            -w /app \
-            -e RAILWAY_TOKEN="${RAILWAY_WEB_SERVICE_TOKEN}" \
-            ghcr.io/railwayapp/cli:v4.10.0 \
-            sh -c "railway up --service frontend-${{ inputs.app_env }} --detach"
+          railway login --ci --apiToken ${{ secrets.RAILWAY_WEB_SERVICE_TOKEN }}
+          railway up --service frontend-${{ inputs.app_env }} --detach
