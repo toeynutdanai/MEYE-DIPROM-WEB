@@ -20,9 +20,11 @@ jobs:
     environment: ${{ inputs.app_env }}
 
     steps:
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Copy environment file
       - name: Copy .env file
         run: |
           case "${{ inputs.app_env }}" in
@@ -32,14 +34,24 @@ jobs:
             *) echo "Unknown environment" && exit 1 ;;
           esac
 
+      # 3. Build Docker image
       - name: Build Docker image
-        run: docker build -t my-frontend:${{ inputs.app_env }} .
-
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Deploy to Railway
         run: |
+          IMAGE_TAG=my-frontend:${{ inputs.app_env }}-${{ inputs.git_tag }}
+          docker build -t $IMAGE_TAG .
+
+      # 4. Install latest Railway CLI
+      - name: Install Railway CLI
+        run: curl -sSL https://railway.app/install.sh | sh
+
+      # 5. Deploy to Railway
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_WEB_SERVICE_TOKEN }}
+        run: |
+          IMAGE_TAG=my-frontend:${{ inputs.app_env }}-${{ inputs.git_tag }}
           echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway..."
-          railway login --ci --apiToken ${{ secrets.RAILWAY_WEB_SERVICE_TOKEN }}
+          
+          # ถ้าใช้ Docker image ให้ Railway อัปโหลด image
+          # railway up จะอ่าน token จาก RAILWAY_TOKEN โดยอัตโนมัติ
           railway up --service frontend-${{ inputs.app_env }} --detach
