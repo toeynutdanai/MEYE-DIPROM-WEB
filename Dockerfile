@@ -24,8 +24,8 @@
 # EXPOSE 5000
 # CMD ["serve", "-s", "."]
 
-# Base image
-FROM node:22-alpine as builder
+# Stage 1: Build
+FROM node:22-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -33,8 +33,9 @@ WORKDIR /app
 # Install yarn
 RUN npm install -g yarn
 
-# Copy package.json and yarn.lock
-COPY package.json yarn.lock ./
+# Copy package.json (และ yarn.lock ถ้ามี)
+COPY package.json ./ 
+
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
@@ -42,13 +43,20 @@ RUN yarn install --frozen-lockfile
 # Copy source code
 COPY . .
 
-# Build the application
+# Build app
 RUN yarn build
 
-# Serve the application using a static server
+# Stage 2: Serve
 FROM node:22-alpine
+
+WORKDIR /app
+
+# Install serve
 RUN yarn global add serve
-COPY --from=builder /app/build /app/build
-WORKDIR /app/build
+
+# Copy build output
+COPY --from=builder /app/build .
+
+# Use $PORT for Railway dynamic port
 EXPOSE 3000
-CMD ["serve", "-s", ".", "-l", "3000"]
+CMD ["sh", "-c", "serve -s . -l ${PORT:-3000}"]
