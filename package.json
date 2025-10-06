@@ -42,7 +42,12 @@
     "serve:dev": "env-cmd -f ./.env.local npx serve -s build",
     "build:serve:dev": "npm install && npx env-cmd -f ./.env.local react-scripts build && npx serve -s build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+
+    "start:sit": "env-cmd -f ./.env.sit react-scripts start",
+    "build:sit": "env-cmd -f ./.env.sit react-scripts build",
+    "serve:sit": "env-cmd -f ./.env.sit npx serve -s build",
+    "build:serve:sit": "npm install && npx env-cmd -f ./.env.sit react-scripts build && npx serve -s build"
   },
   "eslintConfig": {
     "extends": [
