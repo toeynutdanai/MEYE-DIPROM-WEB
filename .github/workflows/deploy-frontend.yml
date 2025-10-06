@@ -50,7 +50,7 @@ jobs:
       # 4️ Install Node dependencies
       # -------------------------------
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       # -------------------------------
       # 5️ Build React app ตาม environment
