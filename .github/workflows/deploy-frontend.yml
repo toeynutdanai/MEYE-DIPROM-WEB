@@ -52,4 +52,4 @@ jobs:
         run: |
           IMAGE_TAG=my-frontend:${{ inputs.git_tag }}
           echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway..."
-          railway up --service frontend-${{ inputs.app_env }} --detach
+          railway up --service Frontend-${{ inputs.app_env }} --detach
