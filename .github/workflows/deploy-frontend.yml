@@ -17,7 +17,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.app_env }}  # เลือก Environment ของ GitHub (SIT/UAT/PROD)
+    environment: ${{ inputs.app_env }}  # GitHub Environment
 
     steps:
       # 1. Checkout code
@@ -33,23 +33,23 @@ jobs:
             PROD) cp .env.prod .env ;;
             *) echo "Unknown environment" && exit 1 ;;
           esac
+
       # 3. Build Docker image
       - name: Build Docker image
         run: |
-          IMAGE_TAG=my-frontend:${{ inputs.app_env }}-${{ inputs.git_tag }}
+          IMAGE_TAG=my-frontend:${{ inputs.git_tag }}
           docker build -t $IMAGE_TAG .
+
       # 4. Install latest Railway CLI
       - name: Install Railway CLI
         run: curl -sSL https://railway.app/install.sh | sh
 
-      # 5. Set Railway environment variables from Environment secrets
-      - name: Set Railway environment variables
-        run: |
-          echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}" >> $GITHUB_ENV
-          echo "RAILWAY_SERVICE_ID=${{ secrets.RAILWAY_SERVICE_ID }}" >> $GITHUB_ENV
-      # 6. Deploy to Railway
+      # 5. Deploy to Railway
       - name: Deploy to Railway
+        # ใช้ secret จาก Environment
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           IMAGE_TAG=my-frontend:${{ inputs.git_tag }}
-          echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway Service ID $RAILWAY_SERVICE_ID..."
-          railway up --service $RAILWAY_SERVICE_ID --detach
+          echo "Deploying Frontend version ${{ inputs.git_tag }} to Railway..."
+          railway up --service frontend-${{ inputs.app_env }} --detach
