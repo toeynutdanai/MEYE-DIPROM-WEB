@@ -31,3 +31,8 @@ return obj;
   // return await api.post("/log/system", params);
 };
 
+export const downloadCompareProduct = async (params = {}) => {
+  return await api.post("/export/csv/compareProduct", params, {
+    responseType: "blob",
+  });
+};

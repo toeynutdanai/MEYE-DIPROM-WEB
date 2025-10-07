@@ -24,3 +24,8 @@ export const getWarehouseAndOrderList = async (params = {}) => {
   return await api.post("/dataTable/warehouseTracking", params);
 };
 
+export const downloadWarehouseTracking = async (params = {}) => {
+  return await api.post("/export/csv/warehouseTracking", params, {
+    responseType: "blob",
+  });
+};

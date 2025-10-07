@@ -15,6 +15,7 @@ import {
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/en";
+import moment from "moment";
 dayjs.extend(customParseFormat);
 dayjs.locale("en");
 
@@ -294,6 +295,32 @@ function useOEEDashboard() {
     [machineDwl]
   );
 
+  const handleDownloadExcel = async () => {
+      try {
+        dispatch(setIsLoading(true));
+        const duration = scope === "Monthly" ? selectedMonth : selectedYear;
+        const response = await services.downloadOEEMachine({
+          scope,
+          duration
+        });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+  
+        link.setAttribute(
+          "download",
+          "OEE_Machine_" + moment().add(543, "years").format("DD_MM_YYYY") + ".csv"
+        );
+        document.body.appendChild(link);
+        link.click();
+  
+        link.parentNode.removeChild(link);
+      } catch (error) {
+      } finally {
+        dispatch(setIsLoading(false));
+      }
+    };
+
   // expose ให้คอมโพเนนต์ใช้
   return {
     // data from store
@@ -323,6 +350,7 @@ function useOEEDashboard() {
 
     machine,
     handleChangeMachine,
+    handleDownloadExcel,
 
     // options
     monthOptions,

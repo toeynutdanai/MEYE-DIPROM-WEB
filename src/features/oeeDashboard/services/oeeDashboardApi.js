@@ -43,3 +43,9 @@ export const getOEEByMachineList = async (params = {}) => {
 export const getOEEMachineObj = async (params = {}) => {
   return await api.post("/chart/drillDownMachine", params);
 };
+
+export const downloadOEEMachine = async (params = {}) => {
+  return await api.post("/export/csv/oeeMachine", params, {
+    responseType: "blob",
+  });
+};
