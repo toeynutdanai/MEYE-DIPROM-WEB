@@ -38,6 +38,7 @@ const OEEDashboardComponents = ({
   selectedYear = "",
   handleChangeMonth = () => { },
   handleChangeYear = () => { },
+  handleDownloadExcel = () => { },
 
   factor = "",
   setFactor = () => { },
@@ -225,7 +226,10 @@ const OEEDashboardComponents = ({
               <Row justify="space-between" align="middle">
                 <h3>{t("oee_dashboard.label.oee_table")}</h3>
                 <Button
+                  type="default"
                   aria-label="Download"
+                  onClick={handleDownloadExcel}
+                  loading={isLoading}
                   style={{
                     width: 32,
                     height: 48,

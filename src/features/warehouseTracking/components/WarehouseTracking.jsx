@@ -32,7 +32,10 @@ const WarehouseTrackingComponents = ({
   isLoading = false,
   pagination = {},
   filter = {},
+  productCodes = [],
+  setProductCodes = () => {},
   onChange = () => {},
+  handleDownloadExcel = () => {},
 }) => {
   const { t } = useTranslation();
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
@@ -117,7 +120,10 @@ const WarehouseTrackingComponents = ({
                     {t("warehouse_and_order.label.warehouse_tracking_table")}
                   </h3>
                   <Button
+                    type="default"
                     aria-label="Download"
+                    onClick={handleDownloadExcel}
+                    loading={isLoading}
                     style={{
                       width: 32,
                       height: 48,

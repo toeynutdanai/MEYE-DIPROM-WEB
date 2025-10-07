@@ -8,22 +8,7 @@ import {
   setProductDwl,
   setWarehouseAndOrderList
 } from "../slices/warehouseTrackingSlice";
-
-// function toParams(params = {}) {
-//   const { pagination = {}, sortBy = [] } = params;
-//   return {
-//     pagination: {
-//       page: pagination.page,
-//       size: pagination.pageSize,
-//     },
-//     sortBy: sortBy
-//       .filter((s) => s.order !== undefined)
-//       .map((s) => ({
-//         direction: s.order === "descend" ? "desc" : "asc",
-//         property: s.field,
-//       })),
-//   };
-// }
+import moment from "moment";
 
 function useWarehouseTracking() {
   const { t } = useTranslation();
@@ -32,6 +17,8 @@ function useWarehouseTracking() {
   const warehouseAndOrderList = useSelector((state) => state.warehouseTracking.warehouseAndOrderList);
   const productDwl = useSelector((state) => state.warehouseTracking.productDwl);
   const overviewObj = useSelector((state) => state.warehouseTracking.overviewObj);
+  
+  const [productCodes, setProductCodes] = useState([]);
 
   const [pagination, setPagination] = useState({ page: 0, size: 25 });
   const [filter, setFilter] = useState({});
@@ -72,8 +59,9 @@ function useWarehouseTracking() {
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
+        setProductCodes(params.productCodes);
         const response = await services.getWarehouseAndOrderList(params);
-        dispatch(setWarehouseAndOrderList(response?.data?.data|| []));
+        dispatch(setWarehouseAndOrderList(response?.data?.data || []));
         setPagination({
           page: response.data.totalPages - 1,
           total: response.data.totalItems,
@@ -99,6 +87,30 @@ function useWarehouseTracking() {
     getWarehouseAndOrderList();
   }, [getProductDwl, getOverviewObj]);
 
+  const handleDownloadExcel = async () => {
+    try {
+      dispatch(setIsLoading(true));
+      const response = await services.downloadWarehouseTracking({
+        productCodes : productCodes,
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+
+      link.setAttribute(
+        "download",
+        "warehouseTracking" + moment().add(543, "years").format("DD_MM_YYYY") + ".csv"
+      );
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode.removeChild(link);
+    } catch (error) {
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+
   return {
     warehouseAndOrderList,
     productDwl,
@@ -106,7 +118,10 @@ function useWarehouseTracking() {
     isLoading,
     pagination,
     filter,
+    productCodes,
+    setProductCodes,
     onChange: handleOnChange,
+    handleDownloadExcel
   };
 }
 

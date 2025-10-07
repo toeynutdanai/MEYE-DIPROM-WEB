@@ -12,6 +12,7 @@ import {
 } from "../slices/compareDashboardSlice";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import moment from "moment";
 dayjs.extend(customParseFormat);
 dayjs.locale("en");
 
@@ -178,6 +179,36 @@ function useCompareDashboard() {
     }
   }, [dispatch]);
 
+  const handleDownloadExcel = async () => {
+    try {
+      dispatch(setIsLoading(true));
+      const duration = scope === "Monthly" ? selectedMonth : selectedYear;
+      const response = await services.downloadCompareProduct({
+        scope,
+        duration,
+        productCode: selectedProducts[0]
+      });
+
+      console.log(response.data);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+
+      link.setAttribute(
+        "download",
+        "CompareProduct_" + moment().add(543, "years").format("DD_MM_YYYY") + ".csv"
+      );
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode.removeChild(link);
+    } catch (error) {
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+
+
   // ----- Handlers
   const handleChangeMonth = useCallback((value) => setSelectedMonth(value), []);
   const handleChangeYear = useCallback((value) => setSelectedYear(value), []);
@@ -248,6 +279,7 @@ function useCompareDashboard() {
     handleChangeMonth,
     handleChangeYear,
     handleChangeProduct,
+    handleDownloadExcel,
 
     // layout
     tableWidth,

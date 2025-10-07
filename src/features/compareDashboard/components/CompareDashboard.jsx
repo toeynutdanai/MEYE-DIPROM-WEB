@@ -41,6 +41,7 @@ const CompareDashboardComponents = ({
   handleChangeMonth = () => {},
   handleChangeYear = () => {},
   handleChangeProduct = () => {},
+  handleDownloadExcel = () => {},
 
   // layout
   tableWidth = "100%",
@@ -160,7 +161,10 @@ const CompareDashboardComponents = ({
               <Row justify="space-between" align="middle">
                 <h3>Compare Product : </h3>
                 <Button
+                  type="default"
                   aria-label="Download"
+                  onClick={handleDownloadExcel}
+                  loading={isLoading}
                   style={{
                     width: 32,
                     height: 48,
