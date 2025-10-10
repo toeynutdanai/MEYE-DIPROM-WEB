@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import alert from "components/elements/Alert";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { generateRandomString } from "utils/helper";
@@ -30,10 +30,15 @@ function useUserManagement() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector((state) => state.admin.isLoading);
-  const adminList = useSelector((state) => state.admin.adminList);
   const currentId = window.localStorage.getItem("id");
   const [pagination, setPagination] = useState({ page: 0, size: 10 });
   const [filter, setFilter] = useState({});
+  const [search, setSearch] = useState("");
+  const [role, setRole] = useState("ALL");
+  const [status, setStatus] = useState("ALL");
+  const [page, setPage] = useState(1);
+  const [openModal, setOpenModal] = useState(false);
+  const [pageSize, setPageSize] = useState(15);
 
   const getAdminList = useCallback(
     async (params = {}) => {
@@ -90,6 +95,20 @@ function useUserManagement() {
     [setFilter]
   );
 
+  const handleOnAction = useCallback(
+    () => {
+      setOpenModal(true);
+    },
+    [setOpenModal]
+  );
+
+  const handleCloseAction = useCallback(
+    () => {
+      setOpenModal(false);
+    },
+    [setOpenModal]
+  );
+
   const handleOnDelete = useCallback(
     async (values) => {
       try {
@@ -128,8 +147,84 @@ function useUserManagement() {
     getAdminList({ pagination: { page: 0, size: 10 } });
   }, [getAdminList]);
 
+  const data = useMemo(() => {
+    const base = [
+      {
+        key: "1",
+        username: "User0000",
+        firstname: "Pakinut",
+        lastname: "Thanantayakorn",
+        role: "Super_Admin",
+        company: "ABC Technology Co., Ltd.",
+        status: "Active",
+      },
+      {
+        key: "2",
+        username: "User0001",
+        firstname: "Pakinut",
+        lastname: "Thanantayakorn",
+        role: "Admin",
+        company: "ABC Technology Co., Ltd.",
+        status: "Active",
+      },
+      {
+        key: "3",
+        username: "User0002",
+        firstname: "Pakinut",
+        lastname: "Thanantayakorn",
+        role: "User_A",
+        company: "ABC Technology Co., Ltd.",
+        status: "Active",
+      },
+      {
+        key: "4",
+        username: "User0003",
+        firstname: "Pakinut",
+        lastname: "Thanantayakorn",
+        role: "User_B",
+        company: "ABC Technology Co., Ltd.",
+        status: "Active",
+      },
+      {
+        key: "5",
+        username: "User0004",
+        firstname: "Pakinut",
+        lastname: "Thanantayakorn",
+        role: "Super_Admin",
+        company: "ABC Technology Co., Ltd.",
+        status: "Inactive",
+      },
+      {
+        key: "6",
+        username: "User0005",
+        firstname: "Pakinut",
+        lastname: "Thanantayakorn",
+        role: "Super_Admin",
+        company: "ABC Technology Co., Ltd.",
+        status: "Inactive",
+      },
+    ];
+    return Array.from({ length: 24 }, (_, i) => ({
+      ...base[i % base.length],
+      key: String(i + 1),
+    }));
+  }, []);
+
+  const filtered = useMemo(() => {
+    return data.filter((r) => {
+      const hitSearch =
+        !search ||
+        [r.username, r.firstname, r.lastname, r.company, r.role].some((v) =>
+          String(v).toLowerCase().includes(search.toLowerCase())
+        );
+      const hitRole = role === "ALL" || r.role === role;
+      const hitStatus = status === "ALL" || r.status === status;
+      return hitSearch && hitRole && hitStatus;
+    });
+  }, [data, search, role, status]);
+
   return {
-    adminList,
+    userManagementList: filtered,
     isLoading,
     pagination,
     filter,
@@ -137,6 +232,15 @@ function useUserManagement() {
     onSubmit: handleOnSubmit,
     onClear: () => setFilter({}),
     onDelete: handleOnDelete,
+    search,
+    setSearch,
+    role,
+    setRole,
+    status,
+    setStatus,
+    openModal,
+    onAction : handleOnAction,
+    closeAction : handleCloseAction,
   };
 }
 
