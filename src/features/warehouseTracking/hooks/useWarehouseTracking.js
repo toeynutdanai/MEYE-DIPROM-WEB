@@ -10,6 +10,13 @@ import {
 } from "../slices/warehouseTrackingSlice";
 import moment from "moment";
 
+const k = (s) => (s ? s.split("-").reverse().join("") : "");
+
+const maxEtaStr = (list) =>
+          (list ?? []).reduce((best, cur) =>
+            !best || k(cur.estimatedTimeArrival) > k(best.estimatedTimeArrival) ? cur : best
+            , null)?.estimatedTimeArrival ?? "";
+
 function useWarehouseTracking() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -17,11 +24,12 @@ function useWarehouseTracking() {
   const warehouseAndOrderList = useSelector((state) => state.warehouseTracking.warehouseAndOrderList);
   const productDwl = useSelector((state) => state.warehouseTracking.productDwl);
   const overviewObj = useSelector((state) => state.warehouseTracking.overviewObj);
-  
+
   const [productCodes, setProductCodes] = useState([]);
 
   const [pagination, setPagination] = useState({ page: 0, size: 25 });
   const [filter, setFilter] = useState({});
+  const [estimatedTime, setEstimatedTime] = useState("");
 
   const getProductDwl = useCallback(
     async (params = {}) => {
@@ -67,13 +75,15 @@ function useWarehouseTracking() {
           total: response.data.totalItems,
           size: pagination.size,
         });
+
+        setEstimatedTime(maxEtaStr(response?.data?.data));
       } catch (error) {
         console.error("Error fetching OEEList:", error);
       } finally {
         dispatch(setIsLoading(false));
       }
     },
-    [dispatch, filter, pagination.size]
+    [dispatch, productCodes]
   );
 
   const handleOnChange = useCallback((values) => {
@@ -91,7 +101,7 @@ function useWarehouseTracking() {
     try {
       dispatch(setIsLoading(true));
       const response = await services.downloadWarehouseTracking({
-        productCodes : productCodes,
+        productCodes: productCodes,
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
@@ -114,6 +124,7 @@ function useWarehouseTracking() {
   return {
     warehouseAndOrderList,
     productDwl,
+    estimatedTime,
     overviewObj,
     isLoading,
     pagination,

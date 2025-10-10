@@ -28,6 +28,7 @@ function getResponsiveTableWidth() {
 const WarehouseTrackingComponents = ({
   warehouseAndOrderList = [],
   productDwl = [],
+  estimatedTime = "",
   overviewObj = {},
   isLoading = false,
   pagination = {},
@@ -108,7 +109,12 @@ const WarehouseTrackingComponents = ({
           />
           <Space>
             <label>Final Est Receiving Date</label>
-            <Input placeholder="dd-mm-yyyy" readOnly={true} />
+            <Input
+              type="string"
+              value={estimatedTime}
+              placeholder="dd-mm-yyyy"
+              readOnly={true}
+            />
           </Space>
         </Row>
         <Row span={24}>

@@ -1,3 +1,74 @@
-.container {
-    width: 100%;
+/* UsersManagement.module.css */
+.card {
+  border-radius: 15px !important;
+  box-shadow: 0 3.5px 5.5px rgba(0,0,0,0.02);
+}
+
+.titleDim { color: #A0AEC0 !important; margin: 0 !important; }
+
+.filtersRow { margin-top: 12px; margin-bottom: 12px; }
+
+.fieldLabel { font-size: 14px; color: #999999; display: flex; justify-content: center; }
+
+/* search/role/status เป็น pill เทาอ่อน */
+.searchPill {
+  border-radius: 20px !important;
+  background: #F4F4F4 !important;
+  border: none !important;
+  height: 40px;
+  width: 100% !important;
+  padding-inline: 14px;
+}
+
+
+.selectPill :global(.ant-select-selector) {
+  border-radius: 20px !important;
+  background: #F4F4F4 !important;
+  border: none !important;
+  height: 40px !important;
+  width: 100% !important;
+  align-items: center;
+}
+
+.btnPill {
+  border-radius: 20px !important;
+  height: 40px;
+  width: 100%;
+  padding-inline: 18px;
+  background: #424CA1 !important;
+  border-color: #424CA1 !important;
+}
+
+/* Table: เส้นคั่นแถวเท่านั้น
+.table :global(.ant-table) { border: 1px solid #EEF0F3; }
+.table :global(.ant-table-thead > tr > th) {
+  font-weight: 700;
+  color: #2D3748;
+  background: #fff;
+}
+.table :global(.ant-table-tbody > tr > td) { border: none !important; }
+.table :global(.ant-table-tbody > tr:not(:last-child) > td) {
+  border-bottom: 1px solid #E2E8F0 !important;
+} */
+
+/* Tag Active/Inactive เป็นเม็ดยาว */
+.tagActive {
+  background: #008E11 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #008E11 !important;
+  border-radius: 715px !important;
+  padding: 2px 16px;
+}
+.tagInactive {
+  background: #898989 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #898989 !important;
+  border-radius: 715px !important;
+  padding: 2px 16px;
+}
+
+.linkBtn { padding: 0 !important; }
+
+.width100 {
+ width: 100%;
 }

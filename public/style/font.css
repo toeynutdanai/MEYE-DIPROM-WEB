@@ -1,68 +1,160 @@
-/*Roboto*/
+/* fonts.css - ใช้ Kanit เป็นฟอนต์หลัก (Thai + Latin) */
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-Thin.ttf) format('truetype');
-    font-weight: 100;
-    font-style: normal;
+  font-family: 'Kanit';
+  src: local('Kanit Thin'),
+       url(/fonts/Kanit/Kanit-Thin.ttf) format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit Thin Italic'),
+       url(/fonts/Kanit/Kanit-ThinItalic.ttf) format('truetype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-ExtraLight.ttf) format('truetype');
-    font-weight: 200;
-    font-style: normal;
+  font-family: 'Kanit';
+  src: local('Kanit ExtraLight'),
+       url(/fonts/Kanit/Kanit-ExtraLight.ttf) format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit ExtraLight Italic'),
+       url(/fonts/Kanit/Kanit-ExtraLightItalic.ttf) format('truetype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-Light.ttf) format('truetype');
-    font-weight: 300;
-    font-style: normal;
+  font-family: 'Kanit';
+  src: local('Kanit Light'),
+       url(/fonts/Kanit/Kanit-Light.ttf) format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit Light Italic'),
+       url(/fonts/Kanit/Kanit-LightItalic.ttf) format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-Regular.ttf) format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Kanit';
+  src: local('Kanit Regular'),
+       url(/fonts/Kanit/Kanit-Regular.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit Italic'),
+       url(/fonts/Kanit/Kanit-Italic.ttf) format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-Medium.ttf) format('truetype');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Kanit';
+  src: local('Kanit Medium'),
+       url(/fonts/Kanit/Kanit-Medium.ttf) format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit Medium Italic'),
+       url(/fonts/Kanit/Kanit-MediumItalic.ttf) format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-SemiBold.ttf) format('truetype');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Kanit';
+  src: local('Kanit SemiBold'),
+       url(/fonts/Kanit/Kanit-SemiBold.ttf) format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit SemiBold Italic'),
+       url(/fonts/Kanit/Kanit-SemiBoldItalic.ttf) format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-Bold.ttf) format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Kanit';
+  src: local('Kanit Bold'),
+       url(/fonts/Kanit/Kanit-Bold.ttf) format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit Bold Italic'),
+       url(/fonts/Kanit/Kanit-BoldItalic.ttf) format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* หมายเหตุ: ใน zip ไฟล์ชื่อ ExtraBold ถูกเดาด้วยน้ำหนัก 700 เช่นกัน
+   ถ้าต้องการแยกน้ำหนัก 800 ชัดเจน ให้ตั้ง 800 ที่นี่ */
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit ExtraBold'),
+       url(/fonts/Kanit/Kanit-ExtraBold.ttf) format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit ExtraBold Italic'),
+       url(/fonts/Kanit/Kanit-ExtraBoldItalic.ttf) format('truetype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-ExtraBold.ttf) format('truetype');
-    font-weight: 800;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Kanit';
+  src: local('Kanit Black'),
+       url(/fonts/Kanit/Kanit-Black.ttf) format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Kanit';
+  src: local('Kanit Black Italic'),
+       url(/fonts/Kanit/Kanit-BlackItalic.ttf) format('truetype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
 }
 
-@font-face {
-    font-family: 'NotoSansThai';
-    src: url(/fonts/NotoSansThai/NotoSansThai-Black.ttf) format('truetype');
-    font-weight: 900;
-    font-style: normal;
+/* ตั้งค่าฟอนต์ทั้งระบบ */
+html, body {
+  font-family: 'Kanit', system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans Thai', 'Prompt', 'Helvetica Neue', Arial, sans-serif;
 }
