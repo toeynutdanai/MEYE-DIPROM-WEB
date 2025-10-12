@@ -379,12 +379,15 @@
     "system_log": {
       "entity": "System Log",
       "header": "System Log",
+      "access_header": "Access Log",
+      "interface_header": "Interface Log",
       "label":{
         "username": "Username",
-        "login_date_time":"Login date time",
-        "logout_date_time":"Logout date time",
-        "ip_address": "Ip address",
-        "status_login": "Status login" 
+        "log_date_time":"Date/Time",
+        "log_date":"Date",
+        "action": "Action",
+        "file_name":"File Name",
+        "status" : "Success/Fail Records"
       }
     },
     "company": {
