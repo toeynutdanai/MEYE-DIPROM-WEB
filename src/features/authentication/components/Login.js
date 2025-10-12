@@ -41,10 +41,10 @@ function Login({
                     <Form
                       style={{
                         maxWidth: "100%",
-                        ...(!isPortrait ? { height: "50vh" } : {})
+                        // ...(!isPortrait ? { height: "50vh" } : {})
                       }}
                     >
-                      <Flex vertical gap={50}>
+                      <Flex vertical gap="middle">
                         <p className={styles.formHeader}>
                           {t("sign_in.label.sign_in")}
                         </p>
@@ -52,7 +52,7 @@ function Login({
                         <div>
                           <Typography.Title
                             level={5}
-                            style={{ textAlign: "left" }}
+                            style={{ textAlign: "left",fontSize: 'clamp(18px, 0.9vw, 24px)' }}
                           >
                             {t("sign_in.placeholders.username")}
                           </Typography.Title>
@@ -60,9 +60,9 @@ function Login({
                           <Input
                             required
                             name="username"
-                            size="large"
+                            // size="large"
                             type="text"
-                            placeholder={`Enter Your Email`}
+                            placeholder={`Enter Your username`}
                             className={styles.input}
                           />
                         </div>
@@ -70,14 +70,14 @@ function Login({
                         <div>
                           <Typography.Title
                             level={5}
-                            style={{ textAlign: "left" }}
+                            style={{ textAlign: "left",fontSize: 'clamp(18px, 0.9vw, 24px)' }}
                           >
                             {t("sign_in.placeholders.password")}
                           </Typography.Title>
 
                           <Password
                             name="password"
-                            size="large"
+                            // size="large"
                             placeholder={`Ex. Password123!`}
                             className={styles.input}
                           />

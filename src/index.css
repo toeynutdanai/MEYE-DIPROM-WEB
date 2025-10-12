@@ -27,7 +27,7 @@
   padding: 0;
   margin: 0;
 
-  font-family: NotoSansThai, NotoSans, sans-serif;
+  font-family: Kanit,NotoSansThai, NotoSans, sans-serif;
 }
 
 /* 
@@ -140,7 +140,7 @@ code {
 
 .ant-input,
 .ant-input-number-input {
-  font-family: NotoSansThai, NotoSans, -apple-system, BlinkMacSystemFont,
+  font-family: Kanit,NotoSansThai, NotoSans, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif !important;
 }
@@ -172,4 +172,11 @@ code {
 
 .ant-table-column-sorter {
   color: var(--white-color) !important; /* กำหนดสีของตัวอักษรเป็นสีดำเมื่อมีการเรียงลำดับ */
+}
+
+h1,h2,h3,small{
+  font-weight: 500;
+}
+small{
+  font-weight: 300;
 }

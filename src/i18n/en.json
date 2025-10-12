@@ -150,7 +150,7 @@
       "sub_header": "Create your account to sign in.",
       "sub_header_address": "Create your company information.",
       "already_account": "Already have an account?",
-      "sign_in": "Sign in",
+      "sign_in": "Log in",
       "accept_tc": "I agree the",
       "tc": "Terms & Condition",
       "nextBtn": "NEXT",
@@ -183,7 +183,7 @@
       }
     },
     "sign_in": {
-      "entity": "Sign In",
+      "entity": "Log In",
       "header": "Blood Pressure Monitoring.",
       "label": {
         "sign_in": "Log In",

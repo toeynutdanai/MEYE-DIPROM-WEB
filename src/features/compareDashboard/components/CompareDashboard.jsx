@@ -57,7 +57,7 @@ const CompareDashboardComponents = ({
       ]}
     >
       <Row gutter={[20, 20]} align="stretch">
-        <CardStateContainer
+        {/* <CardStateContainer
           label={t("compare_dashboard.overview.planned_production")}
           state={overviewObj?.plannedProduction}
           icon={<FolderOpenOutlined />}
@@ -92,7 +92,7 @@ const CompareDashboardComponents = ({
           height="fit-content"
           width="auto"
           isLoading={isLoading}
-        />
+        /> */}
 
         <Col span={24}>
           <Space direction="vertical" size={24} style={{ width: "100%" }}>
@@ -135,8 +135,8 @@ const CompareDashboardComponents = ({
         </Col>
 
         <Col xs={24} xl={12}>
-          <h2>Actual & Planned</h2>
           <CardContainer width={"100%"} height="auto">
+            <h3>Actual & Planned</h3>
             <ActualVsPlannedChart
               dataSource={actualVsPlanObj}
               isLoading={isLoading}
@@ -145,8 +145,8 @@ const CompareDashboardComponents = ({
         </Col>
 
         <Col xs={24} xl={12}>
-          <h2>Waste Product Compare</h2>
           <CardContainer width={tableWidth} height="fit-content">
+            <h3>Waste Product Compare</h3>
             <WastProductCompareChart
               dataSource={wasteProductCompareObj}
               isLoading={isLoading}
@@ -159,7 +159,7 @@ const CompareDashboardComponents = ({
           <CardContainer width={tableWidth} height="fit-content">
             <Space direction="vertical" size={24} style={{ width: "100%" }}>
               <Row justify="space-between" align="middle">
-                <h3>Compare Product : </h3>
+                <h3>Compare Product : {productOptions.filter(option => option.value === selectedProducts[0]).map(option => option.label)}</h3>
                 <Button
                   type="default"
                   aria-label="Download"
@@ -175,7 +175,7 @@ const CompareDashboardComponents = ({
                     justifyContent: "center",
                   }}
                 >
-                  <DownloadOutlined />
+                  <DownloadOutlined style={{ fontSize: '20px',fontWeight: 'bold' }}/>
                 </Button>
               </Row>
               <CompareProductTable

@@ -1,7 +1,7 @@
 import { Spin } from "antd";
 import { Bar } from "react-chartjs-2";
 
-const OEEFactorsChart = ({ dataSource = [], isLoading = false }) => {
+const OEEFactorsChart = ({ factorTitle="",dataSource = [], isLoading = false }) => {
   const rows = Array.isArray(dataSource) ? dataSource : [];
 
   const labels = rows.map((r) => r?.period);
@@ -13,7 +13,7 @@ const OEEFactorsChart = ({ dataSource = [], isLoading = false }) => {
     labels,
     datasets: [
       {
-        label: "Factor",
+        label: factorTitle,
         data: factor,
         borderColor: "#ffb1c1",
         backgroundColor: "#ffb1c1",

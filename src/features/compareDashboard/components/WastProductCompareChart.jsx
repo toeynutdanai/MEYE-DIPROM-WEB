@@ -15,8 +15,8 @@ const WastProductCompareChart = ({ dataSource = [], isLoading = false }) => {
       {
         label: "Waste",
         data: waste,
-        borderColor: "rgb(54, 162, 235)",
-        backgroundColor: "rgb(54, 162, 235)",
+        borderColor: "#FFB1C1",
+        backgroundColor: "#FFB1C1",
         // tension: 0.1,
         // stack: 'combined',
         type: "bar",

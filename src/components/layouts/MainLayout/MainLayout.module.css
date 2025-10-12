@@ -39,7 +39,7 @@
 
 .logo {
   margin-bottom: 10px;
-  width: 100%;
+  width: 75%;
   /* max-width: 120px; */
 }
 
@@ -75,7 +75,7 @@
   font-size: calc(0.5vw + 0.4vh);
   /* font-weight: 500; */
   font-variant: normal;
-  font-weight: bold;
+  font-weight: 500;
   color: var(--purple-color);
   white-space: normal !important;
   word-break: break-word;
@@ -140,9 +140,8 @@
 }
 
 .title {
-  font-weight: bold;
-  font-size: 15px;
-  background-color: #f8f9fa;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .hamburger {

@@ -242,12 +242,14 @@ const MainLayout = ({
                     onClick={() => dispatch(setCollapsed(!collapsed))}
                   />
                 ) : (
+                  <Row justify={"center"}>
                   <img
                     onClick={() => dispatch(setCollapsed(!collapsed))}
                     src={Logo}
                     className={styles.logo}
                     alt="logo"
                   />
+                  </Row>
                 )}
                 {/* <hr style={{border: 'none',backgroundColor: '#e1e1e1', height: '1px',}}/> */}
                 <Menu
@@ -310,19 +312,28 @@ const MainLayout = ({
               <Row className={styles.header}>
                 <Col span={12}>
                   <Row align="middle" justify="space-between">
-                    <Space size="1" direction="vertical">
+                    {/* <Space size="1" direction="vertical">
                       <Breadcrumb breadcrumb={breadcrumb} />
                       <div className={styles.title} style={{}}>
                         {title}
                       </div>
-                    </Space>
+                    </Space> */}
+                    <Flex gap="small" align="start" vertical>
+                      <Breadcrumb breadcrumb={breadcrumb} />
+                      <div className={styles.title} style={{}}>
+                        {title}
+                      </div>
+                    </Flex>
                   </Row>
                 </Col>
                 <Col span={11}>
                   <Flex justify="right">
-                    <Space justify="right" size={24}>
+                    {/* <Space justify="right" size={24}>
                       <User />
-                    </Space>
+                    </Space> */}
+                    <Flex gap="small" align="end" vertical>
+                      <User />
+                    </Flex>
                   </Flex>
                 </Col>
                 <Col span={1} />

@@ -61,7 +61,7 @@ const WarehouseTrackingComponents = ({
       ]}
     >
       <Space className={styles.container} direction="vertical" size={24}>
-        <Row gutter={[20, 20]} align="stretch">
+        {/* <Row gutter={[20, 20]} align="stretch">
           <CardStateContainer
             label={t("warehouse_and_order.overview.oee")}
             state={overviewObj.oee}
@@ -94,7 +94,7 @@ const WarehouseTrackingComponents = ({
             height="fit-content"
             width="auto"
           />
-        </Row>
+        </Row> */}
 
         <Row span={24} justify="space-between">
           <Select
@@ -108,7 +108,7 @@ const WarehouseTrackingComponents = ({
             required={true}
           />
           <Space>
-            <label>Final Est Receiving Date</label>
+            <label>Final Estimated Receiving Date</label>
             <Input
               type="string"
               value={estimatedTime}
@@ -140,7 +140,7 @@ const WarehouseTrackingComponents = ({
                       justifyContent: "center",
                     }}
                   >
-                    <DownloadOutlined />
+                    <DownloadOutlined style={{ fontSize: '20px',fontWeight: 'bold' }}/>
                   </Button>
                 </Row>
                 <WarehouseTrackingTable
