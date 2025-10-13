@@ -52,21 +52,17 @@ const CompanyComponents = ({ companyObj = {}, onSubmit = () => {} }) => {
     >
       <Card className={styles.container}>
         <Space className={styles.container} direction="vertical" size={24}>
-          <h2>Company Detail</h2>
+          <h3>Company Detail</h3>
           <Row gutter={[20, 20]} align="stretch" style={{marginLeft: "10px", marginRight: "10px"}}>
             <Col span={7}>
               <Space direction="vertical" className={styles.container}>
-                <Typography.Title level={5}>
-                  {t("company.label.companyCode")}
-                </Typography.Title>
+                <label>{t("company.label.companyCode")}</label>
                 <Input value={companyCode} disabled={true} />
               </Space>
             </Col>
             <Col span={17}>
               <Space direction="vertical" className={styles.container}>
-                <Typography.Title level={5}>
-                  {t("company.label.companyName")}
-                </Typography.Title>
+                <label>{t("company.label.companyName")}</label>
                 <Flex align="start" gap="small">
                   <Input
                     disabled={disableName}
@@ -102,9 +98,7 @@ const CompanyComponents = ({ companyObj = {}, onSubmit = () => {} }) => {
 
             <Col span={24}>
               <Space direction="vertical" className={styles.container}>
-                <Typography.Title level={5}>
-                  {t("company.label.companyDescription")}
-                </Typography.Title>
+                <label>{t("company.label.companyDescription")}</label>
                 <Flex gap="small" align="start">
                   <TextArea
                     rows={5}

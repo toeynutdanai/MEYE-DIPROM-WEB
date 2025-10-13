@@ -149,7 +149,7 @@ const RoleComponents = ({
                     <div />
                 ) : (
                     <Card className={styles.container}>
-                        <h2>{t("role.header")}</h2>
+                        <h3>{t("role.header")}</h3>
                         <Space className={styles.container} direction="vertical" size={24}>
                             <RoleTable
                                 columns={columns}

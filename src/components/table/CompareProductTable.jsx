@@ -12,7 +12,7 @@ const SystemLogTable = ({
 
   const columnsMonthly = [
     {
-      title: <div className="text-table">Reference</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.reference")}</div>,
       dataIndex: "reference",
       key: "reference",
       width: "5%",
@@ -22,7 +22,7 @@ const SystemLogTable = ({
       }
     },
     {
-      title: <div className="text-table">Plan Date</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.plan_date")}</div>,
       dataIndex: "planDate",
       key: "planDate",
       width: "5%",
@@ -32,7 +32,7 @@ const SystemLogTable = ({
       }
     },
     {
-      title: <div className="text-table">Plan Period</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.plan_period")}</div>,
       dataIndex: "planPeriod",
       key: "planPeriod",
       width: "5%",
@@ -42,7 +42,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Plan Qty</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.plan_qty")}</div>,
       dataIndex: "planQty",
       key: "planQty",
       width: "5%",
@@ -52,7 +52,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Actual Period</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.actual_period")}</div>,
       dataIndex: "actualPeriod",
       key: "actualPeriod",
       width: "5%",
@@ -62,7 +62,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Actual Good Qty</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.actual_good_qty")}</div>,
       dataIndex: "actualGoodQty",
       key: "actualGoodQty",
       width: "5%",
@@ -72,7 +72,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Actual Waste Qty</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.actual_waste_qty")}</div>,
       dataIndex: "actualWasteQty",
       key: "actualWasteQty",
       width: "5%",
@@ -82,7 +82,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Unit</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.unit")}</div>,
       dataIndex: "unit",
       key: "unit",
       width: "5%",
@@ -92,7 +92,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Actual Machine Running Time (hr/day)</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.actual_machine_running_time")}</div>,
       dataIndex: "actualMachineRunningTime",
       key: "actualMachineRunningTime",
       width: "5%",
@@ -105,7 +105,7 @@ const SystemLogTable = ({
 
   const columnsYearly = [
     {
-      title: <div className="text-table">Plan Month</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.plan_month")}</div>,
       dataIndex: "planMonth",
       key: "planMonth",
       width: "5%",
@@ -115,7 +115,7 @@ const SystemLogTable = ({
       }
     },
     {
-      title: <div className="text-table">Plan Qty</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.plan_qty")}</div>,
       dataIndex: "planQty",
       key: "planQty",
       width: "5%",
@@ -125,7 +125,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Total Actual Good Qty</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.total_actual_good_qty")}</div>,
       dataIndex: "totalActualGoodQty",
       key: "totalActualGoodQty",
       width: "5%",
@@ -135,7 +135,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Total Actual Waste Qty</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.total_actual_waste_qty")}</div>,
       dataIndex: "totalActualWasteQty",
       key: "totalActualWasteQty",
       width: "5%",
@@ -145,7 +145,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Unit</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.unit")}</div>,
       dataIndex: "unit",
       key: "unit",
       width: "5%",
@@ -155,7 +155,7 @@ const SystemLogTable = ({
       },
     },
     {
-      title: <div className="text-table">Actual Machine Running Time (hr/day)</div>,
+      title: <div className="text-table">{t("compare_dashboard.label.actual_machine_running_time")}</div>,
       dataIndex: "actualMachineRunningTime",
       key: "actualMachineRunningTime",
       width: "5%",
@@ -181,7 +181,7 @@ const SystemLogTable = ({
         pageSize: pagination.pageSize,
         total: pagination.total,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "25", "50", "100"],
+        pageSizeOptions: ["10", "25", "50", "100"],
       }}
       loading={isLoading}
       onChange={onChange}

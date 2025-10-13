@@ -310,7 +310,18 @@
         "per_production":"% Production",
         "per_time_utilization":"% Time Utilization",
         "actual_production": "Actual Production",
-        "actual_machine_running_time": "Actual Machine Running Time(hr)"
+        "reference":"Reference",
+        "plan_date":"Plan Date",
+        "plan_period":"Plan Period",
+        "plan_qty":"Plan Qty",
+        "actual_period":"Actual Period",
+        "actual_good_qty":"Actual Good Qty",
+        "actual_waste_qty":"Actual Waste Qty",
+        "unit":"Unit",
+        "actual_machine_running_time":"Actual Machine Running Time (hr/day)",
+        "plan_month":"Plan Month",
+        "total_actual_good_qty":"Total Actual Good Qty",
+        "total_actual_waste_qty":"Total Actual Waste Qty"
       }
     },
     "oee_dashboard": {
@@ -324,6 +335,7 @@
       },
       "label":{
         "machine_name": "Machine Name",
+        "period": "Period",
         "per_oee": "OEE (%)",
         "per_availability":"Availability (%)",
         "per_performance":"Performance (%)",
