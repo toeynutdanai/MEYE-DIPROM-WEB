@@ -4,17 +4,13 @@ const logSlice = createSlice({
   name: "log",
   initialState: {
     isLoading: false,
-    logList: [],
   },
   reducers: {
     setIsLoading(state, action) {
       state.isLoading = action.payload;
     },
-    setLogList(state, action) {
-      state.logList = Array.isArray(action.payload) ? action.payload : [];
-    },
   },
 });
 
-export const { setIsLoading, setLogList } = logSlice.actions;
+export const { setIsLoading} = logSlice.actions;
 export default logSlice.reducer;

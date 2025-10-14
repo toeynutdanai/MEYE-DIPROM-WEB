@@ -1,86 +1,143 @@
-.customStyle{
-    border-radius: 20px;
-   
-    
+/* ===== Modal / Card frame ===== */
+.modalRoot :global(.ant-modal-content) {
+  padding: 0; /* เราจะจัด layout เองให้ชิดสเปก */
+  background: transparent;
+  box-shadow: none;
+  border-radius: 20px; /* โค้งมนรวม */
+}
+.modalRoot :global(.ant-modal-body) {
+  padding: 0;
 }
 
-.cancelContainer{
-    color: var(--font, #2BA4DD);
-    border-radius: 6px;
-    border: 1px solid var(--font, #2BA4DD);
-    background: #FFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    size:"large"
+.card {
+  /* การ์ดภายใน: ขาว, ขอบ, โค้งมน 20px, ขนาดใกล้ 680x485 (ให้ responsive) */
+  background: #FFFFFF;
+  border: 1px solid #CACACA;
+  border-radius: 20px;
+  padding: 24px 24px 16px 24px;
 }
 
-.cancelSave{
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.container{
- width: 100%;
-
-}
-
-.label {
-    font-size: 14px;
-}
-
-.miniplusBtn {
-    width: 20px !important;
-    height: 20px !important;
-    color: var(--primary-color) !important;
-}
-.miniDisbleplusBtn {
-    width: 20px !important;
-    height: 20px !important;
-    color: grey !important;
-}
-.miniMinusBtn {
-    width: 20px !important;
-    height: 20px !important;
-    color: var(--error-color) !important;
-}
-
-.sealContainer {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    border: 1px solid #00000025;
-    border-radius: 10px;
-    background-color: #d9d9d9;
+/* Header */
+.headerRow {
+  margin-bottom: 8px;
 }
 
 .infoTopic {
-    font-size: 20px;
-    color: grey !important;
+  font-size: 18px;          /* 18px ตามสเปก User */
+  line-height: 140%;
+  color: #A0AEC0 !important; /* เทาอ่อน */
+  margin: 0;
 }
 
-.bordered_table {
-  border: 1px solid #d9d9d9; /* เพิ่มขอบให้กับตาราง */
-  border-radius: 2px; /* ทำให้มุมขอบโค้งมนเล็กน้อย */
-}
-.bordered_table .ant-table-cell {
-  /* padding: 5px 10px; */
-  border-right: 1px solid #f0f0f0; /* เส้นแบ่ง Cell แนวตั้ง */
-  border-bottom: 1px solid #f0f0f0; /* เส้นแบ่ง Cell แนวนอน */
-}
-.bordered_table .ant-table-cell:last-child {
-  border-right: none;
+/* Close icon "X" สีเทาอ่อน */
+.closeIcon {
+  display: inline-block;
+  width: 10px;
+  height: 21px;
+  color: #D1D1D1;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
 }
 
-.bordered_table .ant-table-row:last-child .ant-table-cell {
-  border-bottom: none;
-}
-.bordered_table .ant-table-wrapper .ant-table-cell {
-  border: 1px solid #d9d9d9; /* เพิ่มขอบให้กับตาราง */
-  border-radius: 2px; /* ทำให้มุมขอบโค้งมนเล็กน้อย */
-}
-.bordered_table .ant-table-tbody>tr>td {
-  padding: 5px 15px; /* กำหนด padding ด้านบน-ล่าง 10px, ซ้าย-ขวา 15px */
+/* เนื้อหา */
+.container { width: 100%; }
+
+/* Label สเปกหัวข้อฟิลด์ */
+.labelBold {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 150%;
+  color: #2D3748;
 }
 
-.bordered_table .ant-table-row:hover {
-  background-color: inherit !important; /* หรือตั้งค่าสีพื้นหลังที่ต้องการ */
-  cursor: default !important; /* เปลี่ยน cursor กลับเป็น default */
+/* ตัวหนังสือ placeholder ที่ช่อง (ส่วนนี้ขึ้นกับคอมโพเนนต์ Input ของคุณ)
+   ถ้าเจาะไปที่ antd input ตรง ๆ: */
+:global(.ant-input::placeholder),
+:global(.ant-input-affix-wrapper input::placeholder),
+:global(.ant-select-selection-placeholder) {
+  color: #676767;
+  font-family: Poppins, Inter, Roboto, "Noto Sans Thai", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* ขนาดช่องให้ดูเตี้ยลงใกล้ 30px (antd size=large ปกติสูงกว่าเล็กน้อย)
+   ปรับ padding ลดลงเพื่ออารมณ์ใกล้ 30px */
+:global(.ant-input-affix-wrapper-lg),
+:global(.ant-input-lg),
+:global(.ant-select-single.ant-select-lg .ant-select-selector) {
+  min-height: 32px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-radius: 7px; /* ตามสเปกช่อง */
+}
+
+/* Status radio ให้ดูแนวเดียวกับสเปก (วงกลมเล็ก / สี) */
+.statusBlock { margin-top: 8px; }
+.statusGroup :global(.ant-radio-wrapper) {
+  margin-right: 24px;
+  color: #2D3748;
+  font-size: 14px;
+}
+.statusGroup :global(.ant-radio-inner) {
+  width: 13px;
+  height: 13px;
+  border-color: #CACACA;
+}
+.statusGroup :global(.ant-radio-checked .ant-radio-inner) {
+  border-color: #424CA1;
+}
+.statusGroup :global(.ant-radio-checked .ant-radio-inner::after) {
+  background-color: #424CA1;
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  margin-left: -4.5px;
+}
+
+/* Footer buttons */
+.footerRow { margin-top: 8px; }
+
+.btnReset {
+  color: #FFFFFF;
+  background: #999999;
+  border-radius: 5px;
+  border: none;
+  height: 42px;            /* สเปก 42px */
+  padding: 0 16px;
+}
+.btnReset:hover,
+.btnReset:focus {
+  color: #FFFFFF;
+  background: #8a8a8a;
+  border: none;
+}
+
+.btnSave {
+  color: #FFFFFF;
+  background: #424CA1;
+  border-radius: 5px;
+  border: none;
+  height: 42px;            /* สเปก 42px */
+  padding: 0 16px;
+  box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+}
+.btnSave:hover,
+.btnSave:focus {
+  color: #FFFFFF;
+  background: #3b4493;
+  border: none;
+}
+
+/* ไอคอนตา (stub) เผื่ออยากมีไอคอนเหมือนสเปก */
+.eyeStub {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: #757575;
+  mask: none; /* ใช้ svg จริงแทนได้ถ้าต้องการ */
+  border-radius: 2px;
 }

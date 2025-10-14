@@ -78,7 +78,7 @@ const WarehourTrackingTable = ({
       // width: "20%",
       sorter: (a, b) => a.statusStock.localeCompare(b.statusStock),
       render: (_, record) => {
-        return record.statusStock;
+        return (record.statusStock=='Available'?<label style={{color:'#F65778'}}>Available</label> : (record.statusStock=='Unavailable'?<label style={{color:'#008E11'}}>Unavailable</label> : <label style={{color:'#898989'}}>Out of Stock</label>));
       },
     },
     {
@@ -118,7 +118,7 @@ const WarehourTrackingTable = ({
         pageSize: pagination.pageSize,
         total: pagination.total,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "25", "50", "100"],
+        pageSizeOptions: ["10", "25", "50", "100"],
       }}
       loading={isLoading}
       onChange={onChange}

@@ -9,13 +9,12 @@
 }
 
 .header {
-  /* font-size: 2rem; */
-  /* font-weight: bold; */
-  /* text-align: center; */
+  position: sticky;
+  top: 0;
+  z-index: 999;
   background: white;
-  /* display: flex; */
   align-items: center;
-  height: 64px;
+  height: 68px;
   flex-flow: nowrap;
   justify-content: space-between;
 }
@@ -40,15 +39,24 @@
   width: 100%;
   position: relative; /* สำคัญ: ทำให้ลูกหลานที่ position: absolute อ้างอิงจากตัวมัน */
   width: 100%; /* กำหนดความกว้างของ container ให้รูปภาพปรับตาม */
-  height: 200px; /* กำหนดความสูงของ container หากจำเป็น หรือปล่อยให้รูปภาพกำหนด */
+  height: 300px; /* กำหนดความสูงของ container หากจำเป็น หรือปล่อยให้รูปภาพกำหนด */
   display: inline-block; /* เพื่อให้ width และ height ทำงานได้ดีกับ block-level elements อื่นๆ */
   overflow: hidden; /* ถ้าข้อความยาวเกินรูปจะได้ไม่ล้นออกมา */
 }
 
-.banner_container img { /* Ant Design Image component จะ render เป็น img */
+.banner_container img, .banner_container_footer img {
   width: 100%;
   height: 100%;
   object-fit: cover; /* ทำให้รูปภาพครอบคลุมพื้นที่โดยไม่บิดเบี้ยว */
+}
+
+.banner_container_footer {
+  width: 100%;
+  position: relative;
+  width: 100%;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
 }
 
 .banner_text {
@@ -58,7 +66,7 @@
   transform: translate(-50%, -50%); /* ปรับตำแหน่งให้กึ่งกลางที่แท้จริง */
   color: white; /* สีข้อความ */
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 500;
   text-align: center;
   background-color: rgba(0, 0, 0, 0); /* เพิ่มพื้นหลังให้ข้อความอ่านง่ายขึ้น */
   padding: 10px 20px;
@@ -84,4 +92,8 @@
 
 .content{
   background-image: linear-gradient(rgb(141 140 171),rgb(255, 255, 255));
+}
+.gradient-avatar {
+  background-image: linear-gradient(to top right, rgb(104 112 180), rgb(172 92 129));
+  border: 0px solid transparent;
 }

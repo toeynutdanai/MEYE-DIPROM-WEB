@@ -150,7 +150,7 @@
       "sub_header": "Create your account to sign in.",
       "sub_header_address": "Create your company information.",
       "already_account": "Already have an account?",
-      "sign_in": "Sign in",
+      "sign_in": "Log in",
       "accept_tc": "I agree the",
       "tc": "Terms & Condition",
       "nextBtn": "NEXT",
@@ -183,7 +183,7 @@
       }
     },
     "sign_in": {
-      "entity": "Sign In",
+      "entity": "Log In",
       "header": "Blood Pressure Monitoring.",
       "label": {
         "sign_in": "Log In",
@@ -310,7 +310,18 @@
         "per_production":"% Production",
         "per_time_utilization":"% Time Utilization",
         "actual_production": "Actual Production",
-        "actual_machine_running_time": "Actual Machine Running Time(hr)"
+        "reference":"Reference",
+        "plan_date":"Plan Date",
+        "plan_period":"Plan Period",
+        "plan_qty":"Plan Qty",
+        "actual_period":"Actual Period",
+        "actual_good_qty":"Actual Good Qty",
+        "actual_waste_qty":"Actual Waste Qty",
+        "unit":"Unit",
+        "actual_machine_running_time":"Actual Machine Running Time (hr/day)",
+        "plan_month":"Plan Month",
+        "total_actual_good_qty":"Total Actual Good Qty",
+        "total_actual_waste_qty":"Total Actual Waste Qty"
       }
     },
     "oee_dashboard": {
@@ -324,6 +335,7 @@
       },
       "label":{
         "machine_name": "Machine Name",
+        "period": "Period",
         "per_oee": "OEE (%)",
         "per_availability":"Availability (%)",
         "per_performance":"Performance (%)",
@@ -379,12 +391,15 @@
     "system_log": {
       "entity": "System Log",
       "header": "System Log",
+      "access_header": "Access Log",
+      "interface_header": "Interface Log",
       "label":{
         "username": "Username",
-        "login_date_time":"Login date time",
-        "logout_date_time":"Logout date time",
-        "ip_address": "Ip address",
-        "status_login": "Status login" 
+        "log_date_time":"Date/Time",
+        "log_date":"Date",
+        "action": "Action",
+        "file_name":"File Name",
+        "status" : "Success/Fail Records"
       }
     },
     "company": {

@@ -25,7 +25,7 @@ const OEETable = ({
       },
     },
     {
-      title: <div className="text-table">Period</div>,
+      title: <div className="text-table">{t("oee_dashboard.label.period")}</div>,
       dataIndex: "period",
       key: "period",
       // width: "20%",
@@ -133,7 +133,7 @@ const OEETable = ({
         pageSize: pagination.pageSize,
         total: pagination.total,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "25", "50", "100"],
+        pageSizeOptions: ["10", "25", "50", "100"],
       }}
       loading={isLoading}
       onChange={onChange}

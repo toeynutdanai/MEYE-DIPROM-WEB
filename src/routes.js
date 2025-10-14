@@ -4,8 +4,6 @@ import MenuHome from "features/menu/pages/Menu";
 
 import ChangePassword from "features/authentication/pages/ChangePassword";
 import Login from "features/authentication/pages/Login";
-import ResetPassword from "features/authentication/pages/ResetPassword";
-//import SignUp from "features/authentication/pages/SignUp";
 import PrivateRoute from "PrivateRoute";
 
 import Company from "features/company/pages/Company";
@@ -15,60 +13,26 @@ import OEEDashboard from "features/oeeDashboard/pages/OEEDashboard";
 import Role from "features/role/pages/Role";
 import SystemLog from "features/systemLog/pages/SystemLog";
 import UserManagement from "features/userManagement/pages/UserManagement";
-import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
-import UserManagementEdit from "features/userManagement/pages/UserManagementEdit";
 import WarehouseTracking from "features/warehouseTracking/pages/WarehouseTracking";
-// import { Menu } from "antd";
+import ForgotPassword from "features/authentication/pages/ForgotPassword";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <PrivateRoute element={<MenuHome />} />,
-    errorElement: <NotFound />,
-  },
   {
     path: "/sign_in",
     element: <Login />,
   },
-  // {
-  //   path: "/sign_up",
-  //   element: <SignUp />,
-  // },
-  // {
-  //   path: "/forgot_password",
-  //   element: <ForgotPassword />,
-  // },
   {
-    path: "/resetPassword",
-    element: <ResetPassword />,
+    path: "/forgotPassword",
+    element: <ForgotPassword />,
   },
   {
     path: "/change_password",
     element: <ChangePassword />,
   },
-  // {
-  //   path: "/patient",
-  //   element: <PrivateRoute element={<PatientList />} />,
-  // },
-  // {
-  //   path: "/patient/:id",
-  //   element: <PrivateRoute element={<Patient />} />,
-  // },
-  // {
-  //   path: "/patient/:id/edit",
-  //   element: <PrivateRoute element={<PatientEdit />} />,
-  // },
-  // {
-  //   path: "/blood_pressure",
-  //   element: <PrivateRoute element={<BloodPressureList />} />,
-  // },
-  // {
-  //   path: "/blood_pressure/:id/edit",
-  //   element: <PrivateRoute element={<BloodPressureEdit />} />,
-  // },
   {
-    path: "/system_log",
-    element: <PrivateRoute element={<SystemLog />} />,
+    path: "/",
+    element: <PrivateRoute element={<MenuHome />} />,
+    errorElement: <NotFound />,
   },
   {
     path: "/compare_dashboard",
@@ -95,12 +59,8 @@ const router = createBrowserRouter([
     element: <PrivateRoute element={<UserManagement />} />,
   },
   {
-    path: "/authorize/create_user_management",
-    element: <PrivateRoute element={<UserManagementCreate />} />,
-  },
-  {
-    path: "/authorize/user_management/:id/edit",
-    element: <PrivateRoute element={<UserManagementEdit />} />,
+    path: "/system_log",
+    element: <PrivateRoute element={<SystemLog />} />,
   },
 ]);
 

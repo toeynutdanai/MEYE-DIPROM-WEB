@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Modal, Space ,Row} from "antd";
+import { Avatar, Dropdown, Modal, Space ,Row, Flex} from "antd";
 // import { ModalCustom } from "./Modal";
 import i18n from "i18n";
 import { useCallback ,useState} from "react";
@@ -78,10 +78,15 @@ const User = () => {
   
 
   return (
-    <Row><div style={{ display: "flex",flexDirection: "column",lineHeight: "15px",justifyContent: "center",textAlign: "right",fontSize: "90%" ,padding: "3px 15px"}} >
+    <Row>
+      {/* <div style={{ display: "flex",flexDirection: "column",lineHeight: "15px",justifyContent: "center",textAlign: "right",fontSize: "90%" ,padding: "3px 15px"}} >
       <span style={{ padding: 2 }}>{profile}</span>
       <span style={{ padding: 2 }}>{company}</span>
-    </div>
+    </div> */}
+      <Flex  align="end" vertical style={{padding: "3px 15px"}}>
+      <span style={{ padding: 2 }}>{profile}</span>
+      <span style={{ padding: 2 }}>{company}</span>
+    </Flex>
     <div>
     <Dropdown
       menu={{
@@ -107,7 +112,7 @@ const User = () => {
         ],
       }}
     >
-      <Avatar size={40} icon={<UserOutlined />} />
+      <Avatar size={45} icon={<UserOutlined />} />
     </Dropdown>
 
       <ModalChangePassword

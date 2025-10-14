@@ -64,7 +64,7 @@ const OEEDashboardComponents = ({
       ]}
     >
       <Row gutter={[20, 20]} align="stretch">
-        <CardStateContainer
+        {/* <CardStateContainer
           label={t("oee_dashboard.overview.oee")}
           state={overviewObj?.oee}
           icon={<FolderOpenOutlined />}
@@ -95,7 +95,7 @@ const OEEDashboardComponents = ({
           iconColor="var(--purple-color)"
           height="fit-content"
           width="auto"
-        />
+        /> */}
 
         <Col xs={24} xl={12}>
           <Space direction="vertical" size={24} style={{ width: "100%" }}>
@@ -104,6 +104,7 @@ const OEEDashboardComponents = ({
                 options={["Monthly", "Yearly"]}
                 value={scope}
                 onChange={(v) => setScope(v)}
+                style={{ border: "1px solid rgba(0,0,0,0.08)" }}
               />
               {scope === "Monthly" ? (
                 <Select
@@ -138,6 +139,7 @@ const OEEDashboardComponents = ({
                 options={["Availability", "Performance", "Quality"]}
                 value={factor}
                 onChange={(v) => setFactor(v)}
+                style={{ border: "1px solid rgba(0,0,0,0.08)" }}
               />
             </Space>
 
@@ -145,7 +147,7 @@ const OEEDashboardComponents = ({
               <Row justify="space-between">
                 <h3>{factor}</h3>
               </Row>
-              <OEEFactorsChart dataSource={factorObj} isLoading={isLoading} />
+              <OEEFactorsChart factorTitle={factor} dataSource={factorObj} isLoading={isLoading} />
             </CardContainer>
           </Space>
         </Col>
@@ -240,7 +242,7 @@ const OEEDashboardComponents = ({
                     justifyContent: "center",
                   }}
                 >
-                  <DownloadOutlined />
+                  <DownloadOutlined style={{ fontSize: '20px',fontWeight: 'bold' }}/>
                 </Button>
               </Row>
               <OEETable
