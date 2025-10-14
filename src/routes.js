@@ -13,8 +13,6 @@ import OEEDashboard from "features/oeeDashboard/pages/OEEDashboard";
 import Role from "features/role/pages/Role";
 import SystemLog from "features/systemLog/pages/SystemLog";
 import UserManagement from "features/userManagement/pages/UserManagement";
-import UserManagementCreate from "features/userManagement/pages/UserManagementCreate";
-import UserManagementEdit from "features/userManagement/pages/UserManagementEdit";
 import WarehouseTracking from "features/warehouseTracking/pages/WarehouseTracking";
 import ForgotPassword from "features/authentication/pages/ForgotPassword";
 
@@ -59,14 +57,6 @@ const router = createBrowserRouter([
   {
     path: "/authorize/user_management",
     element: <PrivateRoute element={<UserManagement />} />,
-  },
-  {
-    path: "/authorize/create_user_management",
-    element: <PrivateRoute element={<UserManagementCreate />} />,
-  },
-  {
-    path: "/authorize/user_management/:id/edit",
-    element: <PrivateRoute element={<UserManagementEdit />} />,
   },
   {
     path: "/system_log",

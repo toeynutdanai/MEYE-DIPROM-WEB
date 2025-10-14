@@ -4,7 +4,7 @@ import mainReducer from "components/layouts/MainLayout/slices/mainSlice";
 import loginReducer from "features/authentication/slices/loginSlice";
 import passwordReducer from "features/authentication/slices/passwordSlice";
 import homeSlice from "features/home/slices/homeSlice";
-import adminSlice from "features/userManagement/slices/adminSlice";
+import userManagementSlice from "features/userManagement/slices/userManagementSlice";
 import logSlice from "features/systemLog/slices/logSlice";
 import compareDashboardSlice from "features/compareDashboard/slices/compareDashboardSlice";
 import oeeDashboardSlice from "features/oeeDashboard/slices/oeeDashboardSlice";
@@ -18,7 +18,7 @@ export const store = configureStore({
     login: loginReducer,
     password: passwordReducer,
     main: mainReducer,
-    admin: adminSlice,
+    userManagement: userManagementSlice,
     log: logSlice,
     compareDashboard:compareDashboardSlice,
     oeeDashboard: oeeDashboardSlice,

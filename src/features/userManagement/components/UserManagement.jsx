@@ -1,32 +1,33 @@
-// UsersManagement.jsx
+// features/userManagement/pages/UsersManagement.jsx
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Input, Row, Select, Typography } from "antd";
 import { MainLayout } from "components/layouts";
-import UserManagementTable from "components/table/UserManagementTable";
 import { useTranslation } from "react-i18next";
 import styles from "../styles/UserManagement.module.css";
-import ModalUser from "../../../components/elements/Modal/ModalUser";
+import ModalUser from "components/elements/Modal/ModalUser";
+import UserManagementTable from "components/table/UserManagementTable";
+import useUserManagement from "../hooks/useUserManagement";
 
-export default function UsersManagement({
-  userManagementList = [],
-  isLoading = false,
-  pagination,
-  filter,
-  onChange,
-  onSubmit,
-  onClear,
-  onDelete,
-  search = "",
-  setSearch = () => {},
-  role = "",
-  setRole = () => {},
-  status = "",
-  setStatus = () => {},
-  openModal = false,
-  onAction = () => {},
-  closeAction = () => {},
-}) {
-  // i18n
+export default function UsersManagement() {
+  const {
+    userManagementList,
+    isLoading,
+    pagination,
+    onChange,
+
+    search,
+    setSearch,
+    role,
+    setRole,
+    status,
+    setStatus,
+    onSubmit,
+
+    openModal,
+    onAction,
+    closeAction,
+  } = useUserManagement();
+
   const { t } = useTranslation();
 
   return (
@@ -45,7 +46,7 @@ export default function UsersManagement({
           </Typography.Title>
         </Row>
 
-        {/* Filters row (search + role + status + search button) */}
+        {/* Filters */}
         <Row gutter={[12, 12]} align="middle" className={styles.filtersRow}>
           <Col xs={24} lg={6}>
             <Input
@@ -58,6 +59,7 @@ export default function UsersManagement({
               allowClear
             />
           </Col>
+
           <Col xs={12} lg={1}>
             <div className={styles.fieldLabel}>Role</div>
           </Col>
@@ -77,6 +79,7 @@ export default function UsersManagement({
               ]}
             />
           </Col>
+
           <Col xs={12} lg={1}>
             <div className={styles.fieldLabel}>Status</div>
           </Col>
@@ -94,11 +97,17 @@ export default function UsersManagement({
               ]}
             />
           </Col>
+
           <Col xs={24} lg={2}>
-            <Button type="primary" className={styles.btnPill}>
+            <Button
+              type="primary"
+              className={styles.btnPill}
+              onClick={onSubmit}
+            >
               Search
             </Button>
           </Col>
+
           <Col
             xs={24}
             lg={6}
@@ -108,7 +117,8 @@ export default function UsersManagement({
               type="primary"
               icon={<PlusOutlined />}
               className={styles.btnPill}
-              style={{ width: "150px" }}
+              style={{ width: 150 }}
+              onClick={onAction}
             >
               New User
             </Button>
@@ -118,17 +128,17 @@ export default function UsersManagement({
         {/* Table */}
         <UserManagementTable
           dataSource={userManagementList}
-          isLoading={false}
+          isLoading={isLoading}
           pagination={pagination}
           onChange={onChange}
-          onAction={onAction}
         />
       </Card>
 
+      {/* Modal */}
       <ModalUser
         isModalOpen={openModal}
         handleCancel={closeAction}
-        onSubmit={{}}
+        onSubmit={() => {}}
       />
     </MainLayout>
   );
