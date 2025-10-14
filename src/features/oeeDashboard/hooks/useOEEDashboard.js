@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/en";
 import moment from "moment";
+import { generateRandomString } from "utils/helper";
 dayjs.extend(customParseFormat);
 dayjs.locale("en");
 
@@ -43,11 +44,12 @@ function useOEEDashboard() {
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format("YYYY-MM"));
   const [selectedYear, setSelectedYear] = useState(dayjs().format("YYYY"));
-  const [scope, setScope] = useState("Monthly");
+  // const [duration,setduration ]= scope === "Monthly" ? selectedMonth : selectedYear;
   const [machine, setMachine] = useState({});
   const [factor, setFactor] = useState("Availability");
+  const [scope, setScope] = useState("Monthly");
 
-  const [pagination, setPagination] = useState({ page: 0, size: 25 });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 15, total: 0 });
   const [filter] = useState({});
 
   // ------- services fetchers (เดิมใน hook) -------
@@ -78,13 +80,24 @@ function useOEEDashboard() {
   const getOEEList = useCallback(
     async (params = {}) => {
       try {
+        console.log("params",params.scope)
+        const payload = {
+        requestId: generateRandomString(),
+        scope: scope ?? "",
+        duration: params.duration ?? "",
+        // role: role === "ALL" ? "" : role,
+        // status: status === "ALL" ? "" : status,
+        page: pagination.current -1,
+        size: pagination.pageSize,
+      };
+      console.log("payload",payload)
         dispatch(setIsLoading(true));
-        const response = await services.getOEEList(params);
-        dispatch(setOEEList(response?.data?.data || []));
-        setPagination((prev) => ({
-          page: (response.data?.totalPages ?? 1) - 1,
-          total: response.data?.totalItems ?? 0,
-          size: prev.size,
+        const response = await services.getOEEList(payload);
+        dispatch(setOEEList(response?.data?.data?.content || []));
+        setPagination(() => ({
+          current: response.data?.data?.currentPage,
+          total: response.data?.data?.totalItems ?? 0,
+          pageSize: pagination.pageSize,
         }));
       } catch (error) {
         console.error("Error fetching OEEList:", error);
@@ -160,8 +173,9 @@ function useOEEDashboard() {
 
   // ------- orchestrator (เดิมเป็น props.onChange ใน component) -------
   const handleOnChange = useCallback((values) => {
+    console.log("getOEEList",values)
     getOEEList({
-      pagination: { page: 0, size: 25 },
+      pagination: { page: values.current, size: values.pageSize },
       scope: values.scope,
       duration: values.duration,
     });
@@ -200,6 +214,7 @@ function useOEEDashboard() {
       setMachine(defaultMachine);
       const duration = scope === "Monthly" ? selectedMonth : selectedYear;
       handleOnChange({
+        pagination,
         scope,
         duration,
         machine: defaultMachine.key,
@@ -214,6 +229,7 @@ function useOEEDashboard() {
     if (!machine?.key) return;
     const duration = scope === "Monthly" ? selectedMonth : selectedYear;
     handleOnChange({
+      pagination,
       scope,
       duration,
       machine: machine.key,
@@ -227,6 +243,7 @@ function useOEEDashboard() {
     if (!machine?.key) return;
     const duration = scope === "Monthly" ? selectedMonth : selectedYear;
     handleOnChange({
+      pagination,
       scope,
       duration,
       machine: machine.key,
