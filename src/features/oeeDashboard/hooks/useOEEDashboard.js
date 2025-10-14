@@ -47,6 +47,7 @@ function useOEEDashboard() {
   // const [duration,setduration ]= scope === "Monthly" ? selectedMonth : selectedYear;
   const [machine, setMachine] = useState({});
   const [factor, setFactor] = useState("Availability");
+  const [factorByMachine, setFactorByMachine] = useState("Availability");
   const [scope, setScope] = useState("Monthly");
 
   const [pagination, setPagination] = useState({ current: 1, pageSize: 15, total: 0 });
@@ -364,6 +365,9 @@ function useOEEDashboard() {
     factor,
     setFactor,
     factorObj,
+
+    factorByMachine,
+    setFactorByMachine,
 
     machine,
     handleChangeMachine,

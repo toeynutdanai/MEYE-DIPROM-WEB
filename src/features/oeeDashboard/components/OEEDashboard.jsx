@@ -44,6 +44,9 @@ const OEEDashboardComponents = ({
   setFactor = () => { },
   factorObj = [],
 
+  factorByMachine = "",
+  setFactorByMachine = () => { },
+
   machine,
   machineOptions = [],
   handleChangeMachine = () => { },
@@ -183,6 +186,12 @@ const OEEDashboardComponents = ({
                 onChange={handleChangeMachine}
                 options={machineOptions}
               />
+              <Segmented
+                options={["Availability", "Performance", "Quality"]}
+                value={factorByMachine}
+                onChange={(v) => setFactorByMachine(v)}
+                style={{ border: "1px solid rgba(0,0,0,0.08)" }}
+              />
             </Space>
 
             <CardContainer width={tableWidth} height="fit-content">
@@ -216,7 +225,7 @@ const OEEDashboardComponents = ({
                     unit={"%"}
                   />
                 </Row>
-                <OEEMachineChart dataSource={oeeMachineObj} isLoading={isLoading} />
+                <OEEMachineChart dataSource={oeeMachineObj} isLoading={isLoading} factorByMachine={factorByMachine}/>
               </Space>
             </CardContainer>
           </Space>

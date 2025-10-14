@@ -39,7 +39,9 @@
 
 .logo {
   margin-bottom: 10px;
-  width: 75%;
+  width: 70%;
+  height: 100%;
+  max-height: 60px;
   /* max-width: 120px; */
 }
 
