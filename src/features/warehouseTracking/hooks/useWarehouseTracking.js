@@ -9,6 +9,7 @@ import {
   setWarehouseAndOrderList
 } from "../slices/warehouseTrackingSlice";
 import moment from "moment";
+import { generateRandomString } from "utils/helper";
 
 const k = (s) => (s ? s.split("-").reverse().join("") : "");
 
@@ -27,7 +28,7 @@ function useWarehouseTracking() {
 
   const [productCodes, setProductCodes] = useState([]);
 
-  const [pagination, setPagination] = useState({ page: 0, size: 25 });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 15, total: 0 });
   const [filter, setFilter] = useState({});
   const [estimatedTime, setEstimatedTime] = useState("");
 
@@ -66,17 +67,23 @@ function useWarehouseTracking() {
   const getWarehouseAndOrderList = useCallback(
     async (params = {}) => {
       try {
+        const payload = {
+        requestId: generateRandomString(),
+        productCodes: params.productCodes ?? "",
+        page: pagination.current -1,
+        size: pagination.pageSize,
+      };
         dispatch(setIsLoading(true));
         setProductCodes(params.productCodes);
-        const response = await services.getWarehouseAndOrderList(params);
-        dispatch(setWarehouseAndOrderList(response?.data?.data || []));
-        setPagination({
-          page: response.data.totalPages - 1,
-          total: response.data.totalItems,
-          size: pagination.size,
-        });
+        const response = await services.getWarehouseAndOrderList(payload);
+        dispatch(setWarehouseAndOrderList(response?.data?.data?.content || []));
+        setPagination(() => ({
+          current: response.data?.data?.currentPage,
+          total: response.data?.data?.totalItems ?? 0,
+          pageSize: pagination.pageSize,
+        }));
 
-        setEstimatedTime(maxEtaStr(response?.data?.data));
+        // setEstimatedTime(maxEtaStr(response?.data?.data));
       } catch (error) {
         console.error("Error fetching OEEList:", error);
       } finally {

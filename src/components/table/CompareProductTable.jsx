@@ -12,6 +12,7 @@ function CompareProductTable({
 }) {
   const { t } = useTranslation();
 
+  console.log("dataSource",dataSource)
   const columnsMonthly = [
     {
       title: (

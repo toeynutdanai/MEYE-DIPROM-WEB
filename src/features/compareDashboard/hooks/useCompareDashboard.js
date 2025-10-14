@@ -108,20 +108,18 @@ function useCompareDashboard() {
         console.log(scope,
           duration,
           productCodes,);
-        const res = await services.getCompareProduct({
+        const response = await services.getCompareProduct({
           scope: scope,
           duration: duration,
           productCode: productCodes,
           page: pagination.current -1,
           size: pagination.pageSize,
         });
-        const data = res?.data?.data ?? {};
-        console.log("getCompare",data)
-        dispatch(setCompareProductList(data?.content ?? data ?? []));
+        dispatch(setCompareProductList(response?.data?.data?.content || []));
         setPagination(() => ({
-          current: data?.currentPage,
-          total: data?.totalItems ?? (Array.isArray(data?.items) ? data.items.length : 0),
-          pageSize: data?.pageSize,
+          current: response.data?.data?.currentPage,
+          total: response.data?.data?.totalItems ?? 0,
+          pageSize: pagination.pageSize,
         }));
       } catch (e) {
         console.error("Error fetching compare product list:", e);
