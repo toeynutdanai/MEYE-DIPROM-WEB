@@ -6,28 +6,32 @@ import { useTranslation } from "react-i18next";
 import styles from "../styles/UserManagement.module.css";
 import ModalUser from "components/elements/Modal/ModalUser";
 import UserManagementTable from "components/table/UserManagementTable";
-import useUserManagement from "../hooks/useUserManagement";
 
-export default function UsersManagement() {
-  const {
-    userManagementList,
-    isLoading,
-    pagination,
-    onChange,
+export default function UsersManagement({
+  userManagementList,
+  record,
+  isLoading,
+  pagination,
+  onChange,
 
-    search,
-    setSearch,
-    role,
-    setRole,
-    status,
-    setStatus,
-    onSubmit,
+  search,
+  setSearch,
+  role,
+  rolesOptions,
+  setRole,
+  status,
+  setStatus,
+  onSubmit,
+  onSubmitModal,
+  onEdit,
 
-    openModal,
-    onAction,
-    closeAction,
-  } = useUserManagement();
+  openModal,
+  onAction,
+  closeAction,
 
+  statusModal,
+  setStatusModal,
+}) {
   const { t } = useTranslation();
 
   return (
@@ -70,13 +74,7 @@ export default function UsersManagement() {
               size="large"
               className={styles.selectPill}
               style={{ width: "100%" }}
-              options={[
-                { value: "ALL", label: "ALL" },
-                { value: "Super_Admin", label: "Super_Admin" },
-                { value: "Admin", label: "Admin" },
-                { value: "User_A", label: "User_A" },
-                { value: "User_B", label: "User_B" },
-              ]}
+              options={[{ value: "ALL", label: "ALL" }, ...rolesOptions]}
             />
           </Col>
 
@@ -92,8 +90,8 @@ export default function UsersManagement() {
               style={{ width: "100%" }}
               options={[
                 { value: "ALL", label: "ALL" },
-                { value: "Active", label: "Active" },
-                { value: "Inactive", label: "Inactive" },
+                { value: "ACTIVE", label: "Active" },
+                { value: "INACTIVE", label: "Inactive" },
               ]}
             />
           </Col>
@@ -131,6 +129,7 @@ export default function UsersManagement() {
           isLoading={isLoading}
           pagination={pagination}
           onChange={onChange}
+          onEdit={onEdit}
         />
       </Card>
 
@@ -138,7 +137,10 @@ export default function UsersManagement() {
       <ModalUser
         isModalOpen={openModal}
         handleCancel={closeAction}
-        onSubmit={() => {}}
+        onSubmit={onSubmitModal}
+        roleOptions={rolesOptions}
+        data={record}
+        statusModal={statusModal}
       />
     </MainLayout>
   );

@@ -7,6 +7,7 @@ const userManagementSlice = createSlice({
     isLogin: false,
     userManagementList: [],
     admin: {},
+    roles: [],
   },
   reducers: {
     setIsLoading(state, action) {
@@ -18,8 +19,11 @@ const userManagementSlice = createSlice({
     setAdmin(state, action) {
       state.admin = action.payload;
     },
+    setRoles(state, action){
+      state.roles = action.payload;
+    },
   },
 });
 
-export const { setIsLoading, setUserManagementList, setAdmin } = userManagementSlice.actions;
+export const { setIsLoading, setUserManagementList, setAdmin, setRoles } = userManagementSlice.actions;
 export default userManagementSlice.reducer;
