@@ -81,7 +81,6 @@ function useOEEDashboard() {
   const getOEEList = useCallback(
     async (params = {}) => {
       try {
-        console.log("params",params.scope)
         const payload = {
         requestId: generateRandomString(),
         scope: scope ?? "",
@@ -91,7 +90,6 @@ function useOEEDashboard() {
         page: pagination.current -1,
         size: pagination.pageSize,
       };
-      console.log("payload",payload)
         dispatch(setIsLoading(true));
         const response = await services.getOEEList(payload);
         dispatch(setOEEList(response?.data?.data?.content || []));
@@ -113,7 +111,6 @@ function useOEEDashboard() {
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
-        console.log(params);
         const response = await services.getOEEObj(params);
         dispatch(setOEEObj(response?.data?.data || {}));
       } catch (error) {
@@ -174,7 +171,6 @@ function useOEEDashboard() {
 
   // ------- orchestrator (เดิมเป็น props.onChange ใน component) -------
   const handleOnChange = useCallback((values) => {
-    console.log("getOEEList",values)
     getOEEList({
       pagination: { page: values.current, size: values.pageSize },
       scope: values.scope,

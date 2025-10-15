@@ -14,12 +14,10 @@ const CompareDashboardComponents = ({
   compareProductList = [],
   actualVsPlanObj = {},
   wasteProductCompareObj = {},
-  overviewObj = {},
   isLoading = false,
 
   // local ui states
   pagination = { page: 0, size: 25, total: 0 },
-  filter = {},
 
   // selections & options
   scope = "Monthly", // "Monthly" | "Yearly"
@@ -36,6 +34,7 @@ const CompareDashboardComponents = ({
   handleChangeYear = () => {},
   handleChangeProduct = () => {},
   handleDownloadExcel = () => {},
+  onChange = () => {},
 
   // layout
   tableWidth = "100%",
@@ -51,43 +50,6 @@ const CompareDashboardComponents = ({
       ]}
     >
       <Row gutter={[20, 20]} align="stretch">
-        {/* <CardStateContainer
-          label={t("compare_dashboard.overview.planned_production")}
-          state={overviewObj?.plannedProduction}
-          icon={<FolderOpenOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        />
-        <CardStateContainer
-          label={t("compare_dashboard.overview.actual_production")}
-          state={overviewObj?.actualProduction}
-          icon={<GlobalOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        />
-        <CardStateContainer
-          label={t("compare_dashboard.overview.completion")}
-          state={overviewObj?.completion}
-          icon={<FileTextOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        />
-        <CardStateContainer
-          label={t("compare_dashboard.overview.oee")}
-          state={overviewObj?.oee}
-          icon={<ShoppingCartOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        /> */}
-
         <Col span={24}>
           <Space direction="vertical" size={24} style={{ width: "100%" }}>
             <Space
@@ -184,6 +146,7 @@ const CompareDashboardComponents = ({
                 isLoading={isLoading}
                 pagination={pagination}
                 scope={scope}
+                onChange={onChange}
               />
             </Space>
           </CardContainer>

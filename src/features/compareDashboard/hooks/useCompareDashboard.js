@@ -1,5 +1,5 @@
 // hooks/useCompareDashboard.js
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/compareDashboardApi";
 import {
@@ -8,11 +8,11 @@ import {
   setProductList,
   setActualVsPlanObj,
   setWasteProductCompareObj,
-  setOverviewObj,
 } from "../slices/compareDashboardSlice";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import moment from "moment";
+
 dayjs.extend(customParseFormat);
 dayjs.locale("en");
 
@@ -32,17 +32,29 @@ function useCompareDashboard() {
   const compareProductList = useSelector((s) => s.compareDashboard.compareProductList);
   const actualVsPlanObj = useSelector((s) => s.compareDashboard.actualVsPlanObj);
   const wasteProductCompareObj = useSelector((s) => s.compareDashboard.wasteProductCompareObj);
-  const overviewObj = useSelector((s) => s.compareDashboard.overviewObj);
 
   // Local UI states
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 15, total: 0 });
-  const [filter, setFilter] = useState({});
+  const [pagination, setPagination] = useState({ page: 0, size: 25, total: 0 });
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
 
   const [scope, setScope] = useState("Monthly"); // 'Monthly' | 'Yearly'
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format("YYYY-MM"));
   const [selectedYear, setSelectedYear] = useState(dayjs().format("YYYY"));
   const [selectedProducts, setSelectedProducts] = useState([]);
+
+  // ----- Derived selections
+  const duration = useMemo(
+    () => (scope === "Monthly" ? selectedMonth : selectedYear),
+    [scope, selectedMonth, selectedYear]
+  );
+
+  const productCode = useMemo(
+    () => (Array.isArray(selectedProducts) && selectedProducts.length > 0 ? selectedProducts[0] : undefined),
+    [selectedProducts]
+  );
+
+  // keep last in-flight token to avoid race conditions (axios cancel token-like flag)
+  const inFlightRef = useRef({ token: 0 });
 
   // ----- Options (pure)
   const monthOptions = useMemo(() => {
@@ -88,9 +100,11 @@ function useCompareDashboard() {
       dispatch(setIsLoading(true));
       const res = await services.getProduct();
       const data = res?.data?.data ?? [];
-      dispatch(setProductList(Array.isArray(data) ? data : []));
-      if (Array.isArray(data) && data.length > 0) {
-        const first = data[0];
+      const list = Array.isArray(data) ? data : [];
+      dispatch(setProductList(list));
+      // auto select first product if nothing selected
+      if (list.length > 0 && (!Array.isArray(selectedProducts) || selectedProducts.length === 0)) {
+        const first = list[0];
         const code = first.key;
         setSelectedProducts([code]);
       }
@@ -99,158 +113,203 @@ function useCompareDashboard() {
     } finally {
       dispatch(setIsLoading(false));
     }
-  }, [dispatch]);
+  }, [dispatch, selectedProducts]);
 
-  const getCompare = useCallback(
-    async ({ scope, duration, productCodes }) => {
+  const fetchCompare = useCallback(
+    async (localToken) => {
       try {
-        dispatch(setIsLoading(true));
-        console.log(scope,
-          duration,
-          productCodes,);
+        dispatch(setCompareProductList([]));
         const response = await services.getCompareProduct({
-          scope: scope,
-          duration: duration,
-          productCode: productCodes,
-          page: pagination.current -1,
-          size: pagination.pageSize,
+          scope,
+          duration,
+          productCode,
+          page: pagination.page,
+          size: pagination.size,
         });
+
+        // ignore stale response
+        if (inFlightRef.current.token !== localToken) return;
+
         dispatch(setCompareProductList(response?.data?.data?.content || []));
-        setPagination(() => ({
-          current: response.data?.data?.currentPage,
-          total: response.data?.data?.totalItems ?? 0,
-          pageSize: pagination.pageSize,
+        setPagination((prev) => ({
+          ...prev,
+          page: response.data?.data?.currentPage ?? prev.page ?? 0,
+          size: response.data?.data?.pageSize ?? prev.size ?? 25,
+          total: response.data?.data?.totalItems ?? prev.total ?? 0,
         }));
       } catch (e) {
-        console.error("Error fetching compare product list:", e);
-      } finally {
-        dispatch(setIsLoading(false));
+        if (inFlightRef.current.token === localToken) {
+          console.error("Error fetching compare product list:", e);
+          // keep old compare list on error
+        }
       }
     },
-    [dispatch]
+    [dispatch, scope, duration, productCode, pagination.page, pagination.size]
   );
 
-  const getActualVsPlan = useCallback(
-    async ({ scope, duration, productCodes }) => {
+  const fetchActualVsPlan = useCallback(
+    async (localToken) => {
       try {
-        dispatch(setIsLoading(true));
         const res = await services.getActualVsPlan({
-          scope: scope,
-          duration: duration,
-          productCode: productCodes
+          scope,
+          duration,
+          productCode,
         });
+
+        if (inFlightRef.current.token !== localToken) return;
+
         dispatch(setActualVsPlanObj(res?.data?.data ?? {}));
       } catch (e) {
-        console.error("Error fetching actual vs planned:", e);
-      } finally {
-        dispatch(setIsLoading(false));
+        if (inFlightRef.current.token === localToken) {
+          console.error("Error fetching actual vs planned:", e);
+        }
       }
     },
-    [dispatch]
+    [dispatch, scope, duration, productCode]
   );
 
-  const getWasteCompare = useCallback(
-    async ({ scope, duration, productCodes }) => {
+  const fetchWasteCompare = useCallback(
+    async (localToken) => {
       try {
-        dispatch(setIsLoading(true));
         const res = await services.getWasteProductCompare({
-          scope: scope,
-          duration: duration,
-          productCode: productCodes
+          scope,
+          duration,
+          productCode,
         });
+
+        if (inFlightRef.current.token !== localToken) return;
+
         dispatch(setWasteProductCompareObj(res?.data?.data ?? {}));
       } catch (e) {
-        console.error("Error fetching waste product compare:", e);
-      } finally {
-        dispatch(setIsLoading(false));
+        if (inFlightRef.current.token === localToken) {
+          console.error("Error fetching waste product compare:", e);
+        }
       }
     },
-    [dispatch]
+    [dispatch, scope, duration, productCode]
   );
 
-  const getOverview = useCallback(async () => {
-    try {
-      dispatch(setIsLoading(true));
-      const res = await services.getOverviewObj();
-      dispatch(setOverviewObj(res?.data ?? {}));
-    } catch (e) {
-      console.error("Error fetching overview:", e);
-    } finally {
-      dispatch(setIsLoading(false));
-    }
-  }, [dispatch]);
+  // Shoot ALL APIs when selection (scope/duration/product) changes
+  const fetchAllOnSelection = useCallback(async () => {
+    if (!productCode) return; // wait until product is available
+    const localToken = Date.now();
+    inFlightRef.current.token = localToken;
 
-  const handleDownloadExcel = async () => {
     try {
       dispatch(setIsLoading(true));
-      const duration = scope === "Monthly" ? selectedMonth : selectedYear;
+      await Promise.all([
+        fetchCompare(localToken),
+        fetchActualVsPlan(localToken),
+        fetchWasteCompare(localToken),
+      ]);
+    } finally {
+      // ensure this completion still belongs to the latest token
+      if (inFlightRef.current.token === localToken) {
+        dispatch(setIsLoading(false));
+      }
+    }
+  }, [dispatch, productCode, fetchCompare, fetchActualVsPlan, fetchWasteCompare]);
+
+  // Only Compare when pagination changes (avoid re-calling other APIs)
+  const fetchOnlyCompareOnPageChange = useCallback(async () => {
+    if (!productCode) return;
+    const localToken = Date.now();
+    inFlightRef.current.token = localToken;
+
+    try {
+      dispatch(setIsLoading(true));
+      await fetchCompare(localToken);
+    } finally {
+      if (inFlightRef.current.token === localToken) {
+        dispatch(setIsLoading(false));
+      }
+    }
+  }, [dispatch, productCode, fetchCompare]);
+
+  const handleDownloadExcel = useCallback(async () => {
+    try {
+      dispatch(setIsLoading(true));
       const response = await services.downloadCompareProduct({
         scope,
         duration,
-        productCode: selectedProducts[0]
+        productCode,
       });
 
-      console.log(response.data);
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-
       link.setAttribute(
         "download",
         "CompareProduct_" + moment().add(543, "years").format("DD_MM_YYYY") + ".csv"
       );
       document.body.appendChild(link);
       link.click();
-
       link.parentNode.removeChild(link);
+      // revoke later for Safari compatibility
+      setTimeout(() => window.URL.revokeObjectURL(url), 0);
     } catch (error) {
+      console.error("downloadCompareProduct error:", error);
     } finally {
       dispatch(setIsLoading(false));
     }
-  };
-
+  }, [dispatch, scope, duration, productCode]);
 
   // ----- Handlers
-  const handleChangeMonth = useCallback((value) => setSelectedMonth(value), []);
-  const handleChangeYear = useCallback((value) => setSelectedYear(value), []);
+  const handleOnChange = useCallback((tablePagination) => {
+    const current = tablePagination?.current ?? 1;
+    const changeSize = pagination.size !== tablePagination?.pageSize;
+    const size = tablePagination?.pageSize ?? 25;
+    setPagination((prev) => ({ page: changeSize ? 0 : current - 1, size, total: prev.total ?? 0 }));
+  }, []);
+
+  const handleChangeMonth = useCallback((value) =>{
+    setSelectedMonth(value);
+    setPagination((prev) => ({ ...prev, page: 0 }));
+  } , []);
+  const handleChangeYear = useCallback((value) => {
+    setSelectedYear(value);
+    setPagination((prev) => ({ ...prev, page: 0 }));
+  }, []);
   const handleChangeProduct = useCallback((values) => {
-    // values: array ของ code จาก Select (mode="multiple") หรือ string ถ้า single
-    setSelectedProducts(Array.isArray(values) ? values : [values]);
+    const arr = Array.isArray(values) ? values : [values];
+    setSelectedProducts(arr);
+    // reset pagination when product changes (UX expectation)
+    setPagination((prev) => ({ ...prev, page: 0 }));
   }, []);
 
   // ----- Effects
-  // โหลด product list + overview ครั้งแรก
+  // โหลด product list ครั้งแรก
   useEffect(() => {
     getProducts();
-    getOverview();
-  }, [getProducts, getOverview]);
+  }, [getProducts]);
 
-  // ยิง API เมื่อ selection เปลี่ยน
+  // ยิง API ทั้งชุดเมื่อ selection (scope/duration/product) เปลี่ยน
   useEffect(() => {
-    if (!selectedProducts || selectedProducts.length === 0) return;
-    const duration = scope === "Monthly" ? selectedMonth : selectedYear;
-    const args = { scope, duration, productCodes: selectedProducts[0] };
+    fetchAllOnSelection();
+  }, [fetchAllOnSelection, scope, duration, productCode]);
 
-    getCompare(args);
-    getActualVsPlan(args);
-    getWasteCompare(args);
-  }, [
-    scope,
-    selectedMonth,
-    selectedYear,
-    selectedProducts,
-    getCompare,
-    getActualVsPlan,
-    getWasteCompare,
-  ]);
-
-  // responsive width
+  // ยิงเฉพาะ compare เมื่อ page/size เปลี่ยน
   useEffect(() => {
-    const onResize = () => setTableWidth(getResponsiveTableWidth());
+    fetchOnlyCompareOnPageChange();
+  }, [fetchOnlyCompareOnPageChange, pagination.page, pagination.size]);
+
+  // responsive width (rAF throttle)
+  useEffect(() => {
+    let frame = null;
+    const onResize = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        setTableWidth(getResponsiveTableWidth());
+        frame = null;
+      });
+    };
     if (typeof window !== "undefined") {
       window.addEventListener("resize", onResize);
       onResize();
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        window.removeEventListener("resize", onResize);
+        if (frame) cancelAnimationFrame(frame);
+      };
     }
   }, []);
 
@@ -259,12 +318,10 @@ function useCompareDashboard() {
     compareProductList,
     actualVsPlanObj,
     wasteProductCompareObj,
-    overviewObj,
     isLoading,
 
     // local ui states
     pagination,
-    filter,
 
     // selections & options
     scope,
@@ -281,6 +338,7 @@ function useCompareDashboard() {
     handleChangeYear,
     handleChangeProduct,
     handleDownloadExcel,
+    onChange: handleOnChange,
 
     // layout
     tableWidth,

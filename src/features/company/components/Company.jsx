@@ -34,10 +34,8 @@ const CompanyComponents = ({ companyObj = {}, onSubmit = () => {} }) => {
 
   const handleSave = (value) => {
     if (value === "name") {
-      console.log(companyName);
       onSubmit({ companyName: companyName });
     } else if (value === "desc") {
-      console.log(companyDescription);
       onSubmit({ companyDescription: companyDescription });
     }
   };
