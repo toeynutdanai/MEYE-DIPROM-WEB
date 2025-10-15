@@ -1,20 +1,29 @@
 import { Spin } from "antd";
 import { Bar } from "react-chartjs-2";
 
-const OEEFactorsChart = ({ factorTitle="",dataSource = [], isLoading = false }) => {
+const OEEFactorsChart = ({dataSource = [], isLoading = false,factor="" }) => {
   const rows = Array.isArray(dataSource) ? dataSource : [];
 
   const labels = rows.map((r) => r?.period);
-  const factor = rows.map((r) => r?.percent ?? 0);
+  // const factor = rows.map((r) => r?.percent ?? 0);
 
-  const hasAnyValue = factor.some((v) => v !== 0);
+  let factorList = [];
+  if("Availability"==factor){
+    factorList = rows.map((r) => r?.availabilityPercent ?? 0);
+  }else if("Performance"==factor){
+    factorList = rows.map((r) => r?.performancePercent ?? 0);
+  }else if("Quality"==factor){
+    factorList = rows.map((r) => r?.qualityPercent ?? 0);
+  }
+
+  const hasAnyValue = factorList.some((v) => v !== 0);
 
   const data = {
     labels,
     datasets: [
       {
-        label: factorTitle,
-        data: factor,
+        label: factor,
+        data: factorList,
         borderColor: "#ffb1c1",
         backgroundColor: "#ffb1c1",
         type: "bar",

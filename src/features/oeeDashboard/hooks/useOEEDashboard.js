@@ -183,7 +183,6 @@ function useOEEDashboard() {
     getFactorObj({
       scope: values.scope,
       duration: values.duration,
-      factor: values.factor,
     });
     getOEEByMachineList({
       scope: values.scope,
@@ -219,7 +218,7 @@ function useOEEDashboard() {
         factor,
       });
     }
-  }, [machineDwl, scope, selectedMonth, selectedYear, factor, handleOnChange]);
+  }, [machineDwl, scope, selectedMonth, selectedYear, handleOnChange]);
 
   // เมื่อ scope/month/year เปลี่ยน -> fetch ชุดรวม (ไม่ drill-down)
   useEffect(() => {
@@ -233,7 +232,7 @@ function useOEEDashboard() {
       drillDown: false,
       factor,
     });
-  }, [scope, selectedMonth, selectedYear, machine?.key, factor, handleOnChange]);
+  }, [scope, selectedMonth, selectedYear, machine?.key, handleOnChange]);
 
   // เมื่อ machine เปลี่ยน -> fetch drill-down
   useEffect(() => {
@@ -247,7 +246,7 @@ function useOEEDashboard() {
       drillDown: true,
       factor,
     });
-  }, [machine?.key, scope, selectedMonth, selectedYear, factor, handleOnChange]);
+  }, [machine?.key, scope, selectedMonth, selectedYear, handleOnChange]);
 
   // preload ค่ารวม
   useEffect(() => {

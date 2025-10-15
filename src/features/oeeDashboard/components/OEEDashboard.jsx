@@ -150,7 +150,7 @@ const OEEDashboardComponents = ({
               <Row justify="space-between">
                 <h3>{factor}</h3>
               </Row>
-              <OEEFactorsChart factorTitle={factor} dataSource={factorObj} isLoading={isLoading} />
+              <OEEFactorsChart dataSource={factorObj} isLoading={isLoading} factor={factor}/>
             </CardContainer>
           </Space>
         </Col>
