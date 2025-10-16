@@ -70,9 +70,10 @@ const SystemLogComponents = ({
                 setSearch={setSearch}
               />
             <AccessLogTable
-              dataSource={logAccessList}
+              dataSource={logAccessList.content}
               isLoading={isLoading}
               pagination={pagination}
+              onChange={onChange}
             />
             </Space>
           </CardContainer>
@@ -94,9 +95,10 @@ const SystemLogComponents = ({
                 setSearch={setSearch}
               />
               <InterfaceLogTable
-                dataSource={logInterfaceList}
+                dataSource={logInterfaceList.content}
                 isLoading={isLoading}
                 pagination={pagination}
+                onChange={onChange}
                 handleDownloadExcel={handleDownloadExcel}
               />
               </Space>
