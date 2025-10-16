@@ -48,7 +48,6 @@ function CompareProductTable({
 
   return (
     <Table
-      rowKey={(r) => r.reference ?? r.planMonth ?? r.id ?? JSON.stringify(r)}
       columns={scope === "Monthly" ? columnsMonthly : columnsYearly}
       dataSource={dataSource}
       pagination={mappedPagination}
