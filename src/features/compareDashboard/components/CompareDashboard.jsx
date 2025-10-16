@@ -10,16 +10,13 @@ import { WastProductCompareChart } from "../components/WastProductCompareChart";
 // import styles from "../styles/CompareDashboard.module.css";
 
 const CompareDashboardComponents = ({
-  // redux data
   compareProductList = [],
   actualVsPlanObj = {},
   wasteProductCompareObj = {},
   isLoading = false,
 
-  // local ui states
   pagination = { page: 0, size: 25, total: 0 },
 
-  // selections & options
   scope = "Monthly", // "Monthly" | "Yearly"
   selectedMonth = "",
   selectedYear = "",
@@ -28,15 +25,13 @@ const CompareDashboardComponents = ({
   yearOptions = [],
   productOptions = [],
 
-  // handlers
-  setScope = () => {},
+  handleChangeScope = () => {},
   handleChangeMonth = () => {},
   handleChangeYear = () => {},
   handleChangeProduct = () => {},
   handleDownloadExcel = () => {},
-  onChange = () => {},
+  handleOnChange = () => {},
 
-  // layout
   tableWidth = "100%",
 }) => {
   const { t } = useTranslation();
@@ -61,7 +56,7 @@ const CompareDashboardComponents = ({
               <Segmented
                 options={["Monthly", "Yearly"]}
                 value={scope}
-                onChange={(val) => setScope(val)}
+                onChange={handleChangeScope}
                 style={{ border: "1px solid rgba(0,0,0,0.08)" }}
               />
               {scope === "Monthly" ? (
@@ -127,7 +122,7 @@ const CompareDashboardComponents = ({
                   onClick={handleDownloadExcel}
                   loading={isLoading}
                   style={{
-                    width: 32,
+                    width: 24,
                     height: 48,
                     padding: 0,
                     borderRadius: 0,
@@ -146,7 +141,7 @@ const CompareDashboardComponents = ({
                 isLoading={isLoading}
                 pagination={pagination}
                 scope={scope}
-                onChange={onChange}
+                onChange={handleOnChange}
               />
             </Space>
           </CardContainer>

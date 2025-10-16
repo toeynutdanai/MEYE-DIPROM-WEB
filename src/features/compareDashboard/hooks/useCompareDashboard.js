@@ -25,14 +25,12 @@ function getResponsiveTableWidth() {
 export default function useCompareDashboard() {
   const dispatch = useDispatch();
 
-  // Redux states
   const isLoading = useSelector((s) => s.compareDashboard.isLoading);
   const productList = useSelector((s) => s.compareDashboard.productList);
   const compareProductList = useSelector((s) => s.compareDashboard.compareProductList);
   const actualVsPlanObj = useSelector((s) => s.compareDashboard.actualVsPlanObj);
   const wasteProductCompareObj = useSelector((s) => s.compareDashboard.wasteProductCompareObj);
 
-  // Local UI states
   const [pagination, setPagination] = useState({ page: 0, size: 25, total: 0 });
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
 
@@ -41,7 +39,6 @@ export default function useCompareDashboard() {
   const [selectedYear, setSelectedYear] = useState(dayjs().format("YYYY"));
   const [selectedProducts, setSelectedProducts] = useState([]);
 
-  // ----- Derived selections
   const duration = useMemo(
     () => (scope === "Monthly" ? selectedMonth : selectedYear),
     [scope, selectedMonth, selectedYear]
@@ -54,7 +51,6 @@ export default function useCompareDashboard() {
     return undefined;
   }, [selectedProducts]);
 
-  // ----- Options (pure)
   const monthOptions = useMemo(() => {
     const options = [];
     const today = dayjs();
@@ -90,7 +86,6 @@ export default function useCompareDashboard() {
     [productList]
   );
 
-  // ----- Fetchers (simple, direct)
   const getProducts = useCallback(async () => {
     try {
       dispatch(setIsLoading(true));
@@ -98,7 +93,6 @@ export default function useCompareDashboard() {
       const data = Array.isArray(res?.data?.data) ? res.data.data : [];
       dispatch(setProductList(data));
 
-      // auto-select first product once
       if (data.length > 0 && (!Array.isArray(selectedProducts) || selectedProducts.length === 0)) {
         setSelectedProducts([data[0].key]);
       }
@@ -110,12 +104,10 @@ export default function useCompareDashboard() {
   }, [dispatch, selectedProducts]);
 
   const fetchAll = useCallback(async () => {
-    if (!productCode) return; // wait until product is available
+    if (!productCode) return;
 
     try {
       dispatch(setIsLoading(true));
-
-      // 1) Compare list (updates table + pagination)
       const compareRes = await services.getCompareProduct({
         scope,
         duration,
@@ -132,11 +124,9 @@ export default function useCompareDashboard() {
         total: compareData?.totalItems ?? prev.total ?? 0,
       }));
 
-      // 2) Actual vs Plan (straight)
       const avpRes = await services.getActualVsPlan({ scope, duration, productCode });
       dispatch(setActualVsPlanObj(avpRes?.data?.data ?? {}));
 
-      // 3) Waste compare (straight)
       const wasteRes = await services.getWasteProductCompare({ scope, duration, productCode });
       dispatch(setWasteProductCompareObj(wasteRes?.data?.data ?? {}));
     } catch (e) {
@@ -169,7 +159,6 @@ export default function useCompareDashboard() {
     }
   }, [dispatch, scope, duration, productCode]);
 
-  // ----- Handlers
   const handleOnChange = useCallback((tablePagination) => {
     const current = tablePagination?.current ?? 1;
     const nextSize = tablePagination?.pageSize ?? 25;
@@ -182,6 +171,11 @@ export default function useCompareDashboard() {
     }));
   }, [pagination.size]);
 
+  const handleChangeScope = useCallback((value) => {
+    setScope(value);
+    setPagination((prev) => ({ ...prev, page: 0 }));
+  }, []);
+  
   const handleChangeMonth = useCallback((value) => {
     setSelectedMonth(value);
     setPagination((prev) => ({ ...prev, page: 0 }));
@@ -198,19 +192,14 @@ export default function useCompareDashboard() {
     setPagination((prev) => ({ ...prev, page: 0 }));
   }, []);
 
-  // ----- Effects (simple)
-  // 1) Load product list on mount
   useEffect(() => {
     getProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 2) Fetch EVERYTHING directly whenever selection or pagination changes
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
 
-  // 3) Responsive width (throttled by RAF)
   useEffect(() => {
     let frame = null;
     const onResize = () => {
@@ -231,16 +220,13 @@ export default function useCompareDashboard() {
   }, []);
 
   return {
-    // redux data
     compareProductList,
     actualVsPlanObj,
     wasteProductCompareObj,
     isLoading,
 
-    // local ui states
     pagination,
 
-    // selections & options
     scope,
     selectedMonth,
     selectedYear,
@@ -249,15 +235,13 @@ export default function useCompareDashboard() {
     yearOptions,
     productOptions,
 
-    // handlers
-    setScope,
+    handleChangeScope,
     handleChangeMonth,
     handleChangeYear,
     handleChangeProduct,
     handleDownloadExcel,
-    onChange: handleOnChange,
+    handleOnChange,
 
-    // layout
     tableWidth,
   };
 }
