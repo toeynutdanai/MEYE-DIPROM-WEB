@@ -28,7 +28,8 @@ function useWarehouseTracking() {
 
   const [productCodes, setProductCodes] = useState([]);
 
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 15, total: 0 });
+  // const [pagination, setPagination] = useState({ current: 0, pageSize: 25, total: 0 });
+  const [pagination, setPagination] = useState({ page: 0, size: 25,total:0 });
   const [filter, setFilter] = useState({});
   const [estimatedTime, setEstimatedTime] = useState("");
 
@@ -67,24 +68,24 @@ function useWarehouseTracking() {
   const getWarehouseAndOrderList = useCallback(
     async (params = {}) => {
       try {
-        const payload = {
-        requestId: generateRandomString(),
-        productCodes: params.productCodes ?? "",
-        page: pagination.current -1,
-        size: pagination.pageSize,
-      };
+      //   const payload = {
+      //   requestId: generateRandomString(),
+      //   productCodes: params.productCodes ?? "",
+      //   page: pagination.current -1,
+      //   size: pagination.pageSize,
+      // };
         dispatch(setIsLoading(true));
         setProductCodes(params.productCodes);
-        const response = await services.getWarehouseAndOrderList(payload);
+        const response = await services.getWarehouseAndOrderList(params);
         dispatch(setWarehouseAndOrderList(response?.data?.data?.content || []));
         setPagination(() => ({
-          current: response.data?.data?.currentPage,
+          page: response.data?.data?.currentPage,
           total: response.data?.data?.totalItems ?? 0,
-          pageSize: pagination.pageSize,
+          size: params.size,
         }));
 
-        // setEstimatedTime(maxEtaStr(response?.data?.data));
-      } catch (error) {
+        setEstimatedTime(response?.data?.data?.content.length>0? response?.data?.data?.content[0].finalEstimatedTimeArrivalDate : '');
+     } catch (error) {
         console.error("Error fetching OEEList:", error);
       } finally {
         dispatch(setIsLoading(false));
@@ -93,10 +94,24 @@ function useWarehouseTracking() {
     [dispatch, productCodes]
   );
 
-  const handleOnChange = useCallback((values) => {
-    getWarehouseAndOrderList({ pagination: { page: 0, size: 25 }, productCodes: values });
-  }, []
-  );
+  // const handleOnChange = useCallback((values) => {
+  //   getWarehouseAndOrderList({ pagination: { page: 0, size: 25 }, productCodes: values });
+  // }, []
+  // );
+
+   const handleOnChange = useCallback((values) => {
+    const current = values?.current ?? 1;
+    const nextSize = values?.pageSize ?? 25;
+    const sizeChanged = nextSize !== pagination.size;
+    const product = Array.isArray(values) ? values : productCodes;
+    if(Array.isArray(values)){
+      getWarehouseAndOrderList({ page: 0, size: nextSize, productCodes: values });
+    }else{
+      getWarehouseAndOrderList({ page: sizeChanged ? 0 : Math.max(0, current - 1), size: nextSize, productCodes: product });
+    }
+    
+
+  });
 
   useEffect(() => {
     getProductDwl();

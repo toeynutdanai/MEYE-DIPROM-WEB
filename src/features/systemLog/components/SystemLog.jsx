@@ -70,7 +70,7 @@ const SystemLogComponents = ({
                 setSearch={setSearch}
               />
             <AccessLogTable
-              dataSource={logAccessList.content}
+              dataSource={logAccessList}
               isLoading={isLoading}
               pagination={pagination}
               onChange={onChange}
@@ -95,7 +95,7 @@ const SystemLogComponents = ({
                 setSearch={setSearch}
               />
               <InterfaceLogTable
-                dataSource={logInterfaceList.content}
+                dataSource={logInterfaceList}
                 isLoading={isLoading}
                 pagination={pagination}
                 onChange={onChange}

@@ -56,6 +56,7 @@ function CompareProductTable({
         key: "planQty",
         width: "5%",
         sorter: false,
+        align: "right",
       },
       {
         title: (
@@ -78,6 +79,7 @@ function CompareProductTable({
         key: "actualGoodQty",
         width: "5%",
         sorter: false,
+        align: "right",
       },
       {
         title: (
@@ -89,6 +91,7 @@ function CompareProductTable({
         key: "actualWasteQty",
         width: "5%",
         sorter: false,
+        align: "right",
       },
       {
         title: (
@@ -137,6 +140,7 @@ function CompareProductTable({
         key: "planQty",
         width: "5%",
         sorter: false,
+        align: "right",
       },
       {
         title: (
@@ -148,6 +152,7 @@ function CompareProductTable({
         key: "totalActualGoodQty",
         width: "5%",
         sorter: false,
+        align: "right",
       },
       {
         title: (
@@ -159,6 +164,7 @@ function CompareProductTable({
         key: "totalActualWasteQty",
         width: "5%",
         sorter: false,
+        align: "right",
       },
       {
         title: (

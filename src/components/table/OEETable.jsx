@@ -24,22 +24,26 @@ const OEETable = ({
       title: <div className="text-table">{t("oee_dashboard.label.per_oee")}</div>,
       dataIndex: "oeePercent",
       key: "oeePercent",
+      align: "right",
     },
     {
       title: <div className="text-table">{t("oee_dashboard.label.per_availability")}</div>,
       dataIndex: "availabilityPercent",
       key: "availabilityPercent",
       width: "20%",
+      align: "right",
     },
     {
       title: <div className="text-table">{t("oee_dashboard.label.per_performance")}</div>,
       dataIndex: "performancePercent",
       key: "performancePercent",
+      align: "right",
     },
     {
       title: <div className="text-table">{t("oee_dashboard.label.per_quality")}</div>,
       dataIndex: "qualityPercent",
       key: "qualityPercent",
+      align: "right",
     },
     {
       title: <div className="text-table">{t("oee_dashboard.label.average_break_time")}</div>,

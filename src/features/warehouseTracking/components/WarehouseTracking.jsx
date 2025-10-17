@@ -112,7 +112,7 @@ const WarehouseTrackingComponents = ({
             <Input
               type="string"
               value={estimatedTime}
-              placeholder="dd-mm-yyyy"
+              placeholder="dd/mm/yyyy"
               readOnly={true}
             />
           </Space>

@@ -180,3 +180,6 @@ h1,h2,h3,small{
 small{
   font-weight: 300;
 }
+.text-table{
+  font-weight: 400;
+}

@@ -35,12 +35,12 @@ function useSystemLog(){
       try {
         dispatch(setIsLoading(true));
         const response = await services.getAccessLog(params);
-        setLogAccessList(response.data.data || [])
+        setLogAccessList(response.data.data.content || [])
         // dispatch(setLogAccessList(response.data.data || []));
         setPagination({
           page: response.data.data.currentPage,
           total: response.data.data.totalItems,
-          size: pagination.size,
+          size: params.size,
         });
       } catch (error) {
         console.error("Error fetching LogList:", error);
@@ -56,12 +56,12 @@ function useSystemLog(){
       try {
         dispatch(setIsLoading(true));
         const response = await services.getInterfaceLog(params);
-        setLogInterfaceList(response.data.data || [])
+        setLogInterfaceList(response?.data?.data?.content || [])
         // dispatch(setLogAccessList(response.data.data || []));
         setPagination({
-          page: response.data.data.currentPage,
-          total: response.data.data.totalItems,
-          size: pagination.size,
+          page: response?.data?.data?.currentPage,
+          total: response?.data?.data?.totalItems,
+          size: params.size,
         });
       } catch (error) {
         console.error("Error fetching getLogInterfaceList:", error);
@@ -99,11 +99,11 @@ function useSystemLog(){
 
   const handleOnClick = useCallback(() => {
     if (logType === 'Access Log') {
-      getLogAccessList({  ...search,page: 0, size: pagination.size});
+      getLogAccessList({  ...search,page: 0, size: 25});
     } else {
-      getLogInterfaceList({  ...search,page: 0, size: pagination.size});
+      getLogInterfaceList({  ...search,page: 0, size: 25});
     }
-  }
+  },[logType, search, pagination.size, getLogAccessList, getLogInterfaceList]
   );
 
   // ----- Handlers
@@ -111,12 +111,6 @@ function useSystemLog(){
     const current = tablePagination?.current ?? 1;
     const nextSize = tablePagination?.pageSize ?? 25;
     const sizeChanged = nextSize !== pagination.size;
-
-    setPagination((prev) => ({
-      page: sizeChanged ? 0 : Math.max(0, current - 1),
-      size: nextSize,
-      total: prev.total ?? 0,
-    }));
 
     if (logType === 'Access Log') {
       getLogAccessList({  ...search,page: sizeChanged ? 0 : Math.max(0, current - 1), size: nextSize});
