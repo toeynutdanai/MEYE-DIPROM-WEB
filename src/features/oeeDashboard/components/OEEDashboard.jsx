@@ -1,60 +1,51 @@
-// components/OEEDashboard.jsx
-import {
-  DownloadOutlined,
-  FileTextOutlined,
-  FolderOpenOutlined,
-  GlobalOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
+// components/OEEDashboard.jsx (props-driven, works with container that spreads hook props)
+import { DownloadOutlined } from "@ant-design/icons";
 import { Col, Row, Segmented, Select, Space } from "antd";
-import {
-  Button,
-  CardContainer,
-  CardScoreContainer,
-  CardStateContainer,
-} from "components/elements";
+import { Button, CardContainer, CardScoreContainer } from "components/elements";
 import { MainLayout } from "components/layouts";
 import OEETable from "components/table/OEETable";
 import { OEEChart } from "./OEEChart";
 import { OEEFactorsChart } from "./OEEFactorsChart";
 import { OEEMachineChart } from "./OEEMachineChart";
+import { useTranslation } from "react-i18next";
 
 const OEEDashboardComponents = ({
-  // i18n
-  t,
-
-  // store data
   oeeList = [],
   oeeObj = [],
   oeeMachineObj = {},
   oeeByMachineList = [],
-  overviewObj = {},
+  factorObj = [],
   isLoading = false,
 
   tableWidth = "100%",
-  scope = "",
-  setScope = () => { },
+
+  scope = "Monthly",
   selectedMonth = "",
   selectedYear = "",
-  handleChangeMonth = () => { },
-  handleChangeYear = () => { },
-  handleDownloadExcel = () => { },
+  handleChangeScope = () => {},
+  handleChangeMonth = () => {},
+  handleChangeYear = () => {},
+  handleDownloadExcel = () => {},
+  handleOnChange = () => {},
+  handleChangeMachine = () => {},
 
-  factor = "",
-  setFactor = () => { },
-  factorObj = [],
+  factor = "Availability",
+  factorByMachine = "Availability",
+
+  setFactor = () => {},
+  setFactorByMachine = () => {},
 
   machine,
   machineOptions = [],
-  handleChangeMachine = () => { },
 
   monthOptions = [],
   yearOptions = [],
 
-  // table
   pagination,
   onChange,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <MainLayout
       title={t("oee_dashboard.header")}
@@ -64,46 +55,13 @@ const OEEDashboardComponents = ({
       ]}
     >
       <Row gutter={[20, 20]} align="stretch">
-        {/* <CardStateContainer
-          label={t("oee_dashboard.overview.oee")}
-          state={overviewObj?.oee}
-          icon={<FolderOpenOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-        />
-        <CardStateContainer
-          label={t("oee_dashboard.overview.availability")}
-          state={overviewObj?.availability}
-          icon={<GlobalOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-        />
-        <CardStateContainer
-          label={t("oee_dashboard.overview.performance")}
-          state={overviewObj?.performance}
-          icon={<FileTextOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-        />
-        <CardStateContainer
-          label={t("oee_dashboard.overview.quality")}
-          state={overviewObj?.quality}
-          icon={<ShoppingCartOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-        /> */}
-
         <Col xs={24} xl={12}>
           <Space direction="vertical" size={24} style={{ width: "100%" }}>
             <Space direction="horizontal" size={24}>
               <Segmented
                 options={["Monthly", "Yearly"]}
                 value={scope}
-                onChange={(v) => setScope(v)}
+                onChange={handleChangeScope}
                 style={{ border: "1px solid rgba(0,0,0,0.08)" }}
               />
               {scope === "Monthly" ? (
@@ -147,7 +105,11 @@ const OEEDashboardComponents = ({
               <Row justify="space-between">
                 <h3>{factor}</h3>
               </Row>
-              <OEEFactorsChart factorTitle={factor} dataSource={factorObj} isLoading={isLoading} />
+              <OEEFactorsChart
+                dataSource={factorObj}
+                isLoading={isLoading}
+                factor={factor}
+              />
             </CardContainer>
           </Space>
         </Col>
@@ -159,11 +121,12 @@ const OEEDashboardComponents = ({
               <Row gutter={[20, 20]} align="stretch">
                 {(oeeByMachineList || []).map((card) => (
                   <CardScoreContainer
+                    key={card.machineCode || card.machineName}
                     label={card.machineName}
                     state={card.percent}
-                    xs = {24}
-                    md = {12}
-                    lg = {8}
+                    xs={24}
+                    md={12}
+                    lg={8}
                     unit={"%"}
                   />
                 ))}
@@ -182,6 +145,12 @@ const OEEDashboardComponents = ({
                 style={{ width: 200 }}
                 onChange={handleChangeMachine}
                 options={machineOptions}
+              />
+              <Segmented
+                options={["Availability", "Performance", "Quality"]}
+                value={factorByMachine}
+                onChange={(v) => setFactorByMachine(v)}
+                style={{ border: "1px solid rgba(0,0,0,0.08)" }}
               />
             </Space>
 
@@ -216,7 +185,11 @@ const OEEDashboardComponents = ({
                     unit={"%"}
                   />
                 </Row>
-                <OEEMachineChart dataSource={oeeMachineObj} isLoading={isLoading} />
+                <OEEMachineChart
+                  dataSource={oeeMachineObj}
+                  isLoading={isLoading}
+                  factorByMachine={factorByMachine}
+                />
               </Space>
             </CardContainer>
           </Space>
@@ -242,14 +215,16 @@ const OEEDashboardComponents = ({
                     justifyContent: "center",
                   }}
                 >
-                  <DownloadOutlined style={{ fontSize: '20px',fontWeight: 'bold' }}/>
+                  <DownloadOutlined
+                    style={{ fontSize: "20px", fontWeight: "bold" }}
+                  />
                 </Button>
               </Row>
               <OEETable
                 dataSource={oeeList}
                 isLoading={isLoading}
                 pagination={pagination}
-                onChange={onChange}
+                onChange={handleOnChange}
               />
             </Space>
           </CardContainer>

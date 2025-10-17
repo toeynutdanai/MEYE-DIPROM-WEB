@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import { Dropdown, Space, Table } from "antd";
 import { useTranslation } from "react-i18next";
 
@@ -36,6 +37,7 @@ const WarehourTrackingTable = ({
       dataIndex: "stockOnHand",
       key: "stockOnHand",
       width: "20%",
+      align: "right",
       sorter: (a, b) => a.stockOnHand.localeCompare(b.stockOnHand),
       render: (_, record) => {
         return record.stockOnHand;
@@ -46,6 +48,7 @@ const WarehourTrackingTable = ({
       dataIndex: "upcomingStock",
       key: "upcomingStock",
       // width: "20%",
+      align: "right",
       sorter: (a, b) => a.upcomingStock.localeCompare(b.upcomingStock),
       render: (_, record) => {
         return record.upcomingStock;
@@ -56,6 +59,7 @@ const WarehourTrackingTable = ({
       dataIndex: "reservedStock",
       key: "reservedStock",
       // width: "20%",
+      align: "right",
       sorter: (a, b) => a.reservedStock.localeCompare(b.reservedStock),
       render: (_, record) => {
         return record.reservedStock;
@@ -66,6 +70,7 @@ const WarehourTrackingTable = ({
       dataIndex: "availableStock",
       key: "availableStock",
       // width: "20%",
+      align: "right",
       sorter: (a, b) => a.availableStock.localeCompare(b.availableStock),
       render: (_, record) => {
         return record.availableStock;
@@ -76,6 +81,7 @@ const WarehourTrackingTable = ({
       dataIndex: "statusStock",
       key: "statusStock",
       // width: "20%",
+      align: "center",
       sorter: (a, b) => a.statusStock.localeCompare(b.statusStock),
       render: (_, record) => {
         return (record.statusStock=='Available'?<label style={{color:'#F65778'}}>Available</label> : (record.statusStock=='Unavailable'?<label style={{color:'#008E11'}}>Unavailable</label> : <label style={{color:'#898989'}}>Out of Stock</label>));
@@ -86,6 +92,7 @@ const WarehourTrackingTable = ({
       dataIndex: "queueAhead",
       key: "queueAhead",
       // width: "20%",
+      align: "right",
       sorter: (a, b) => a.queueAhead.localeCompare(b.queueAhead),
       render: (_, record) => {
         return record.queueAhead;
@@ -96,6 +103,7 @@ const WarehourTrackingTable = ({
       dataIndex: "estimatedTimeArrival",
       key: "estimatedTimeArrival",
       // width: "20%",
+      align: "center",
       sorter: (a, b) => a.estimatedTimeArrival.localeCompare(b.estimatedTimeArrival),
       render: (_, record) => {
         return record.estimatedTimeArrival;
@@ -103,23 +111,25 @@ const WarehourTrackingTable = ({
     },
   ];
 
+  // map pagination (0-based API -> AntD 1-based UI)
+      const mappedPagination = useMemo(() => ({
+        current: (pagination?.page ?? 0) + 1,
+        pageSize: pagination?.size ?? 25,
+        total: pagination?.total ?? 0,
+        showSizeChanger: true,
+        pageSizeOptions: ["10", "25", "50", "100"],
+        showTotal: (total, range) =>
+          t("paginate.description")
+            .replace("{min}", String(range[0]))
+            .replace("{max}", String(range[1]))
+            .replace("{total}", String(total)),
+      }), [pagination?.page, pagination?.size, pagination?.total, t]);
+
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
-      pagination={{
-        ...pagination,
-        showTotal: (total, range) =>
-          t("paginate.description")
-            .replace("{min}", range[0])
-            .replace("{max}", range[1])
-            .replace("{total}", total),
-        current: pagination.current,
-        pageSize: pagination.pageSize,
-        total: pagination.total,
-        showSizeChanger: true,
-        pageSizeOptions: ["10", "25", "50", "100"],
-      }}
+      pagination={mappedPagination}
       loading={isLoading}
       onChange={onChange}
       scroll={{ x: true }}

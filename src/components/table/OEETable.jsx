@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 const OEETable = ({
   isLoading = false,
-  pagination = {},
+  pagination = { current: 1, pageSize: 25, total: 0 },
   dataSource = [],
   onChange = () => {},
 }) => {
@@ -11,110 +11,49 @@ const OEETable = ({
 
   const columns = [
     {
-      title: (
-        <div className="text-table">
-          {t("oee_dashboard.label.machine_name")}
-        </div>
-      ),
+      title: <div className="text-table">{t("oee_dashboard.label.machine_name")}</div>,
       dataIndex: "machineName",
       key: "machineName",
-      // width: "20%",
-      sorter: (a, b) => a.machineName.localeCompare(b.machineName),
-      render: (_, record) => {
-        return record.machineName;
-      },
     },
     {
       title: <div className="text-table">{t("oee_dashboard.label.period")}</div>,
       dataIndex: "period",
       key: "period",
-      // width: "20%",
-      sorter: (a, b) => a.period.localeCompare(b.period),
-      render: (_, record) => {
-        return record.period;
-      },
     },
     {
-      title: (
-        <div className="text-table">{t("oee_dashboard.label.per_oee")}</div>
-      ),
+      title: <div className="text-table">{t("oee_dashboard.label.per_oee")}</div>,
       dataIndex: "oeePercent",
       key: "oeePercent",
-      // width: "20%",
-      sorter: (a, b) => a.oeePercent.localeCompare(b.oeePercent),
-      render: (_, record) => {
-        return record.oeePercent;
-      },
+      align: "right",
     },
     {
-      title: (
-        <div className="text-table">
-          {t("oee_dashboard.label.per_availability")}
-        </div>
-      ),
+      title: <div className="text-table">{t("oee_dashboard.label.per_availability")}</div>,
       dataIndex: "availabilityPercent",
       key: "availabilityPercent",
       width: "20%",
-      sorter: (a, b) =>
-        a.availabilityPercent.localeCompare(b.availabilityPercent),
-      render: (_, record) => {
-        return record.availabilityPercent;
-      },
+      align: "right",
     },
     {
-      title: (
-        <div className="text-table">
-          {t("oee_dashboard.label.per_performance")}
-        </div>
-      ),
+      title: <div className="text-table">{t("oee_dashboard.label.per_performance")}</div>,
       dataIndex: "performancePercent",
       key: "performancePercent",
-      // width: "20%",
-      sorter: (a, b) =>
-        a.performancePercent.localeCompare(b.performancePercent),
-      render: (_, record) => {
-        return record.performancePercent;
-      },
+      align: "right",
     },
     {
-      title: (
-        <div className="text-table">{t("oee_dashboard.label.per_quality")}</div>
-      ),
+      title: <div className="text-table">{t("oee_dashboard.label.per_quality")}</div>,
       dataIndex: "qualityPercent",
       key: "qualityPercent",
-      // width: "20%",
-      sorter: (a, b) => a.qualityPercent.localeCompare(b.qualityPercent),
-      render: (_, record) => {
-        return record.qualityPercent;
-      },
+      align: "right",
     },
     {
-      title: (
-        <div className="text-table">
-          {t("oee_dashboard.label.average_break_time")}
-        </div>
-      ),
+      title: <div className="text-table">{t("oee_dashboard.label.average_break_time")}</div>,
       dataIndex: "averageBreakTime",
       key: "averageBreakTime",
-      // width: "20%",
-      sorter: (a, b) => a.averageBreakTime.localeCompare(b.averageBreakTime),
-      render: (_, record) => {
-        return record.averageBreakTime;
-      },
     },
     {
-      title: (
-        <div className="text-table">
-          {t("oee_dashboard.label.average_down_time")}
-        </div>
-      ),
+      title: <div className="text-table">{t("oee_dashboard.label.average_down_time")}</div>,
       dataIndex: "averageDownTime",
       key: "averageDownTime",
-      // width: "20%",
-      sorter: (a, b) => a.averageDownTime.localeCompare(b.averageDownTime),
-      render: (_, record) => {
-        return record.averageDownTime;
-      },
     },
   ];
 
@@ -123,23 +62,23 @@ const OEETable = ({
       columns={columns}
       dataSource={dataSource}
       pagination={{
-        ...pagination,
-        showTotal: (total, range) =>
-          t("paginate.description")
-            .replace("{min}", range[0])
-            .replace("{max}", range[1])
-            .replace("{total}", total),
-        current: pagination.current,
-        pageSize: pagination.pageSize,
-        total: pagination.total,
+        current: pagination?.current ?? 1,
+        pageSize: pagination?.pageSize ?? 25,
+        total: pagination?.total ?? 0,
         showSizeChanger: true,
         pageSizeOptions: ["10", "25", "50", "100"],
+        showTotal: (total, range) =>
+          t("paginate.description")
+            .replace("{min}", String(range[0]))
+            .replace("{max}", String(range[1]))
+            .replace("{total}", String(total)),
       }}
       loading={isLoading}
-      onChange={onChange}
-      scroll={{ x: true }}
+      onChange={onChange}              // (pagination) => ...
+      scroll={{ x: "max-content" }}
       bordered={true}
       size="large"
+      rowKey={(row) => row.id || row.key || `${row.machineName}-${row.period}`}
     />
   );
 };

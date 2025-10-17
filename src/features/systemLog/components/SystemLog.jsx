@@ -73,6 +73,7 @@ const SystemLogComponents = ({
               dataSource={logAccessList}
               isLoading={isLoading}
               pagination={pagination}
+              onChange={onChange}
             />
             </Space>
           </CardContainer>
@@ -97,6 +98,7 @@ const SystemLogComponents = ({
                 dataSource={logInterfaceList}
                 isLoading={isLoading}
                 pagination={pagination}
+                onChange={onChange}
                 handleDownloadExcel={handleDownloadExcel}
               />
               </Space>

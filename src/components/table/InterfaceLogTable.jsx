@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import { Button, Table } from "antd";
 import { useTranslation } from "react-i18next";
 import {
@@ -9,6 +10,7 @@ const InterfaceLogTable = ({
   isLoading = false,
   pagination = {},
   dataSource = [],
+  onChange = () => {},
   handleDownloadExcel = ()=>{}
 }) => {
 
@@ -58,25 +60,27 @@ const InterfaceLogTable = ({
     },
   ];
 
+  // map pagination (0-based API -> AntD 1-based UI)
+      const mappedPagination = useMemo(() => ({
+        current: (pagination?.page ?? 0) + 1,
+        pageSize: pagination?.size ?? 25,
+        total: pagination?.total ?? 0,
+        showSizeChanger: true,
+        pageSizeOptions: ["10", "25", "50", "100"],
+        showTotal: (total, range) =>
+          t("paginate.description")
+            .replace("{min}", String(range[0]))
+            .replace("{max}", String(range[1]))
+            .replace("{total}", String(total)),
+      }), [pagination?.page, pagination?.size, pagination?.total, t]);
+
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
-      pagination={{
-        ...pagination,
-        showTotal: (total, range) =>
-          t("paginate.description")
-            .replace("{min}", range[0])
-            .replace("{max}", range[1])
-            .replace("{total}", total),
-        current: pagination.current,
-        pageSize: pagination.pageSize,
-        total: pagination.total,
-        showSizeChanger: true,
-        pageSizeOptions: ["10","25", "50", "100"],
-      }}
+      pagination={mappedPagination}
       loading={isLoading}
-    //   onChange={onChange}
+      onChange={onChange}
       scroll={{ x: true }}
       bordered={true}
       size="large"

@@ -49,7 +49,6 @@ const RoleComponents = ({
             }
             return newPermissions;
         });
-        console.log(rolePermissions);
     };
 
     const handleSave = () => {
@@ -59,7 +58,6 @@ const RoleComponents = ({
                 updatedMapping.push({ roleCode, permissionCode });
             });
         }
-        console.log('Saving data:', updatedMapping);
         onSubmit(updatedMapping);
     };
 

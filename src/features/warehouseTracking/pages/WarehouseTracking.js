@@ -3,7 +3,6 @@ import useWarehouseTracking from "../hooks/useWarehouseTracking";
 
 function WarehouseTracking() {
   const warehouseTrackingProps = useWarehouseTracking();
-  console.log(warehouseTrackingProps)
   return <WarehouseTrackingComponents {...warehouseTrackingProps} />;
 }
 

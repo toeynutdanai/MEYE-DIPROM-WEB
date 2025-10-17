@@ -6,6 +6,7 @@ import styles from "../../features/userManagement/styles/UserManagement.module.c
 
 const UserManagementTable = ({
   onChange = () => {},
+  onEdit = () => {},
   isLoading = false,
   pagination = { current: 1, pageSize: 10, total: 0 },
   dataSource = [],
@@ -37,7 +38,7 @@ const UserManagementTable = ({
       fixed: "right",
       render: (_, record) => (
         <Space size="middle">
-          <Button icon={<EditOutlined />}  />
+          <Button icon={<EditOutlined />} onClick={() => {onEdit(record)}} />
         </Space>
       ),
     },

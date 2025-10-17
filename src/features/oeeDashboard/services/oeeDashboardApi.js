@@ -3,23 +3,7 @@ import api from "lib/api";
 export const getMachineDwl = async (params = {}) => {
   return await api.post("/dropdown/machine", params);
 };
-
-export const getOverviewObj = async (params = {}) => {
-    let  obj = {
-    "status": 200,
-    "message": "success",
-    "data": {
-        "oee":"72.84%",
-        "availability":"87.5%",
-        "performance":"90.48%",
-        "quality":"92.11%"
-    },
-}
   
-  return obj;
-//   return await api.post("/dropdown/machine", params);
-};
-
 export const getOEEList = async (params = {}) => {
   return await api.post("/dataTable/oeeMachine", params);
 };

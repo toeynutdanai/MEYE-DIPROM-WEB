@@ -22,7 +22,7 @@ function useSystemLog(){
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector((state) => state.log.isLoading);
-  const [pagination, setPagination] = useState({ page: 1, size: 25 });
+  const [pagination, setPagination] = useState({ page: 0, size: 25,total:0 });
   const [filter, setFilter] = useState({});
   const [logType, setLogType] = useState("Access Log"); // 'Access Log' | 'Interface Log'
   const [logAccessList, setLogAccessList] = useState([]); 
@@ -34,35 +34,35 @@ function useSystemLog(){
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
-        const response = await services.getAccessLog(params.search);
-        setLogAccessList(response.data.data || [])
+        const response = await services.getAccessLog(params);
+        setLogAccessList(response.data.data.content || [])
         // dispatch(setLogAccessList(response.data.data || []));
-        // setPagination({
-        //   page: response.data.totalPages - 1,
-        //   total: response.data.totalItems,
-        //   size: pagination.size,
-        // });
+        setPagination({
+          page: response.data.data.currentPage,
+          total: response.data.data.totalItems,
+          size: params.size,
+        });
       } catch (error) {
         console.error("Error fetching LogList:", error);
       } finally {
         dispatch(setIsLoading(false));
       }
     },
-    [dispatch, filter, pagination.size]
+    [dispatch, filter, pagination.page, pagination.size]
   );
 
   const getLogInterfaceList = useCallback(
     async (params = {}) => {
       try {
         dispatch(setIsLoading(true));
-        const response = await services.getInterfaceLog(params.search);
-        setLogInterfaceList(response.data.data || [])
+        const response = await services.getInterfaceLog(params);
+        setLogInterfaceList(response?.data?.data?.content || [])
         // dispatch(setLogAccessList(response.data.data || []));
-        // setPagination({
-        //   page: response.data.totalPages - 1,
-        //   total: response.data.totalItems,
-        //   size: pagination.size,
-        // });
+        setPagination({
+          page: response?.data?.data?.currentPage,
+          total: response?.data?.data?.totalItems,
+          size: params.size,
+        });
       } catch (error) {
         console.error("Error fetching getLogInterfaceList:", error);
       } finally {
@@ -79,8 +79,6 @@ function useSystemLog(){
           logId,
           interfaceCode
         });
-  
-        console.log(response.data);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -101,12 +99,25 @@ function useSystemLog(){
 
   const handleOnClick = useCallback(() => {
     if (logType === 'Access Log') {
-      getLogAccessList({ pagination: { page: 0, size: 25 }, search });
+      getLogAccessList({  ...search,page: 0, size: 25});
     } else {
-      getLogInterfaceList({ pagination: { page: 0, size: 25 }, search });
+      getLogInterfaceList({  ...search,page: 0, size: 25});
     }
-  }
+  },[logType, search, pagination.size, getLogAccessList, getLogInterfaceList]
   );
+
+  // ----- Handlers
+  const handleOnChange = useCallback((tablePagination) => {
+    const current = tablePagination?.current ?? 1;
+    const nextSize = tablePagination?.pageSize ?? 25;
+    const sizeChanged = nextSize !== pagination.size;
+
+    if (logType === 'Access Log') {
+      getLogAccessList({  ...search,page: sizeChanged ? 0 : Math.max(0, current - 1), size: nextSize});
+    } else {
+      getLogInterfaceList({  ...search,page: sizeChanged ? 0 : Math.max(0, current - 1), size: nextSize});
+    }
+  });
 
   useEffect(() => {   
     handleOnClick(); 
@@ -126,7 +137,7 @@ function useSystemLog(){
     isLoading,
     pagination,
     filter,
-    // onChange: handleOnChange,
+    onChange: handleOnChange,
     onClick: handleOnClick,
     handleDownloadExcel: handleDownloadExcel,
     logAccessList,

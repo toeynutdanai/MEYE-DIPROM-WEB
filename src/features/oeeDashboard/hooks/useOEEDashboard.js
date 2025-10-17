@@ -1,5 +1,5 @@
+// hooks/useOEEDashboard.js (simplified: "load data straight")
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/oeeDashboardApi";
 import {
@@ -9,250 +9,58 @@ import {
   setOEEMachineObj,
   setFactorObj,
   setMachineDwl,
-  setOverviewObj,
   setOEEByMachineList,
 } from "../slices/oeeDashboardSlice";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/en";
-import moment from "moment";
+
 dayjs.extend(customParseFormat);
 dayjs.locale("en");
 
-// util เดิมจากคอมโพเนนต์
 function getResponsiveTableWidth() {
+  if (typeof window === "undefined") return "100%";
   return window.innerWidth > 1100
     ? "100%"
     : `${document.documentElement.clientWidth - 26}px`;
 }
 
-function useOEEDashboard() {
-  const { t } = useTranslation();
+export default function useOEEDashboard() {
   const dispatch = useDispatch();
 
-  const isLoading = useSelector((state) => state.oeeDashboard.isLoading);
-  const oeeList = useSelector((state) => state.oeeDashboard.oeeList);
-  const oeeObj = useSelector((state) => state.oeeDashboard.oeeObj);
-  const oeeMachineObj = useSelector((state) => state.oeeDashboard.oeeMachineObj);
-  const factorObj = useSelector((state) => state.oeeDashboard.factorObj);
-  const machineDwl = useSelector((state) => state.oeeDashboard.machineDwl);
-  const overviewObj = useSelector((state) => state.oeeDashboard.overviewObj);
-  const oeeByMachineList = useSelector((state) => state.oeeDashboard.oeeByMachineList);
+  // store states
+  const isLoading = useSelector((s) => s.oeeDashboard.isLoading);
+  const oeeList = useSelector((s) => s.oeeDashboard.oeeList);
+  const oeeObj = useSelector((s) => s.oeeDashboard.oeeObj);
+  const oeeMachineObj = useSelector((s) => s.oeeDashboard.oeeMachineObj);
+  const factorObj = useSelector((s) => s.oeeDashboard.factorObj);
+  const machineDwl = useSelector((s) => s.oeeDashboard.machineDwl);
+  const oeeByMachineList = useSelector((s) => s.oeeDashboard.oeeByMachineList);
 
-  // moved from component
+  // local states
   const [tableWidth, setTableWidth] = useState(getResponsiveTableWidth());
+  const [scope, setScope] = useState("Monthly"); // "Monthly" | "Yearly"
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format("YYYY-MM"));
   const [selectedYear, setSelectedYear] = useState(dayjs().format("YYYY"));
-  const [scope, setScope] = useState("Monthly");
-  const [machine, setMachine] = useState({});
+  const [machine, setMachine] = useState(null); // { key, value }
   const [factor, setFactor] = useState("Availability");
+  const [factorByMachine, setFactorByMachine] = useState("Availability");
 
-  const [pagination, setPagination] = useState({ page: 0, size: 25 });
-  const [filter] = useState({});
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 25, total: 0 }); // antd is 1-based
 
-  // ------- services fetchers (เดิมใน hook) -------
-  const getMachineDwl = useCallback(async () => {
-    try {
-      dispatch(setIsLoading(true));
-      const response = await services.getMachineDwl();
-      dispatch(setMachineDwl(response.data.data || []));
-    } catch (error) {
-      console.error("Error fetching MachineDwl:", error);
-    } finally {
-      dispatch(setIsLoading(false));
-    }
-  }, [dispatch]);
-
-  const getOverviewObj = useCallback(async () => {
-    try {
-      dispatch(setIsLoading(true));
-      const response = await services.getOverviewObj();
-      dispatch(setOverviewObj(response.data || {}));
-    } catch (error) {
-      console.error("Error fetching Overview:", error);
-    } finally {
-      dispatch(setIsLoading(false));
-    }
-  }, [dispatch]);
-
-  const getOEEList = useCallback(
-    async (params = {}) => {
-      try {
-        dispatch(setIsLoading(true));
-        const response = await services.getOEEList(params);
-        dispatch(setOEEList(response?.data?.data || []));
-        setPagination((prev) => ({
-          page: (response.data?.totalPages ?? 1) - 1,
-          total: response.data?.totalItems ?? 0,
-          size: prev.size,
-        }));
-      } catch (error) {
-        console.error("Error fetching OEEList:", error);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
-    },
-    [dispatch]
+  // derived
+  const duration = useMemo(
+    () => (scope === "Monthly" ? selectedMonth : selectedYear),
+    [scope, selectedMonth, selectedYear]
   );
 
-  const getOEEObj = useCallback(
-    async (params = {}) => {
-      try {
-        dispatch(setIsLoading(true));
-        console.log(params);
-        const response = await services.getOEEObj(params);
-        dispatch(setOEEObj(response?.data?.data || {}));
-      } catch (error) {
-        console.error("Error fetching OEEObj:", error);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
-    },
-    [dispatch]
-  );
-
-  const getOEEMachineObj = useCallback(
-    async (params = {}) => {
-      try {
-        dispatch(setIsLoading(true));
-        const response = await services.getOEEMachineObj(params);
-        dispatch(setOEEMachineObj(response?.data?.data || {}));
-      } catch (error) {
-        console.error("Error fetching OEEMachineObj:", error);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
-    },
-    [dispatch]
-  );
-
-  const getFactorObj = useCallback(
-    async (params = {}) => {
-      try {
-        dispatch(setIsLoading(true));
-        const response = await services.getFactorObj(params);
-        dispatch(setFactorObj(response?.data?.data || {}));
-      } catch (error) {
-        console.error("Error fetching FactorObj:", error);
-      } finally {
-        dispatch(setIsLoading(false));
-      }
-    },
-    [dispatch]
-  );
-
-  const getOEEByMachineList = useCallback(async (params = {}) => {
-    try {
-      dispatch(setIsLoading(true));
-      const response = await services.getOEEByMachineList(params);
-      dispatch(setOEEByMachineList(response?.data?.data || []));
-      setPagination((prev) => ({
-        page: (response.data?.totalPages ?? 1) - 1,
-        total: response.data?.totalItems ?? 0,
-        size: prev.size,
-      }));
-    } catch (error) {
-      console.error("Error fetching OEEByMachineList:", error);
-    } finally {
-      dispatch(setIsLoading(false));
-    }
-  }, [dispatch]);
-
-  // ------- orchestrator (เดิมเป็น props.onChange ใน component) -------
-  const handleOnChange = useCallback((values) => {
-    getOEEList({
-      pagination: { page: 0, size: 25 },
-      scope: values.scope,
-      duration: values.duration,
-    });
-    getOEEObj({
-      scope: values.scope,
-      duration: values.duration,
-    });
-    getFactorObj({
-      scope: values.scope,
-      duration: values.duration,
-      factor: values.factor,
-    });
-    getOEEByMachineList({
-      scope: values.scope,
-      duration: values.duration,
-    });
-    getOEEMachineObj({
-      scope: values.scope,
-      duration: values.duration,
-      machineCode: values.machine,
-    });
-  }, [getOEEMachineObj, getOEEList, getOEEObj, getFactorObj, getOEEByMachineList]);
-
-  // ------- effects ที่ย้ายมาจาก component -------
-  useEffect(() => {
-    const onResize = () => setTableWidth(getResponsiveTableWidth());
-    window.addEventListener("resize", onResize);
-    onResize();
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // ตั้งค่าเริ่มต้น machine เมื่อโหลด dropdown เสร็จ
-  useEffect(() => {
-    if (Array.isArray(machineDwl) && machineDwl.length > 0) {
-      const defaultMachine = machineDwl[0];
-      setMachine(defaultMachine);
-      const duration = scope === "Monthly" ? selectedMonth : selectedYear;
-      handleOnChange({
-        scope,
-        duration,
-        machine: defaultMachine.key,
-        drillDown: false,
-        factor,
-      });
-    }
-  }, [machineDwl, scope, selectedMonth, selectedYear, factor, handleOnChange]);
-
-  // เมื่อ scope/month/year เปลี่ยน -> fetch ชุดรวม (ไม่ drill-down)
-  useEffect(() => {
-    if (!machine?.key) return;
-    const duration = scope === "Monthly" ? selectedMonth : selectedYear;
-    handleOnChange({
-      scope,
-      duration,
-      machine: machine.key,
-      drillDown: false,
-      factor,
-    });
-  }, [scope, selectedMonth, selectedYear, machine?.key, factor, handleOnChange]);
-
-  // เมื่อ machine เปลี่ยน -> fetch drill-down
-  useEffect(() => {
-    if (!machine?.key) return;
-    const duration = scope === "Monthly" ? selectedMonth : selectedYear;
-    handleOnChange({
-      scope,
-      duration,
-      machine: machine.key,
-      drillDown: true,
-      factor,
-    });
-  }, [machine?.key, scope, selectedMonth, selectedYear, factor, handleOnChange]);
-
-  // preload ค่ารวม
-  useEffect(() => {
-    getMachineDwl();
-    getOverviewObj();
-  }, [getMachineDwl, getOverviewObj]);
-
-  // ------- options & handlers (เดิมใน component) -------
   const monthOptions = useMemo(() => {
     const options = [];
     const today = dayjs();
     const lastYear = dayjs().subtract(1, "year");
-    let currentMonth = today;
-    while (currentMonth.isAfter(lastYear) || currentMonth.isSame(lastYear, "month")) {
-      options.push({
-        value: currentMonth.format("YYYY-MM"),
-        label: currentMonth.format("MMMM-YYYY"),
-      });
-      currentMonth = currentMonth.subtract(1, "month");
+    let cur = today;
+    while (cur.isAfter(lastYear) || cur.isSame(lastYear, "month")) {
+      options.push({ value: cur.format("YYYY-MM"), label: cur.format("MMMM-YYYY") });
+      cur = cur.subtract(1, "month");
     }
     return options;
   }, []);
@@ -260,107 +68,212 @@ function useOEEDashboard() {
   const yearOptions = useMemo(() => {
     const options = [];
     const today = dayjs();
-    const lastYear = dayjs().subtract(4, "year");
-    let currentYear = today;
-    while (currentYear.isAfter(lastYear) || currentYear.isSame(lastYear, "year")) {
-      options.push({
-        value: currentYear.format("YYYY"),
-        label: currentYear.format("YYYY"),
-      });
-      currentYear = currentYear.subtract(1, "year");
+    const last = dayjs().subtract(4, "year");
+    let cur = today;
+    while (cur.isAfter(last) || cur.isSame(last, "year")) {
+      options.push({ value: cur.format("YYYY"), label: cur.format("YYYY") });
+      cur = cur.subtract(1, "year");
     }
     return options;
   }, []);
 
   const machineOptions = useMemo(
-    () =>
-      (machineDwl || []).map((m) => ({
-        value: m.key,
-        label: m.value,
-      })),
+    () => (machineDwl ?? []).map((m) => ({ value: m.key, label: m.value })),
     [machineDwl]
   );
+
+  const loadMachines = useCallback(async () => {
+    try {
+      const res = await services.getMachineDwl();
+      dispatch(setMachineDwl(res?.data?.data ?? []));
+      if (!machine && res?.data?.data.length > 0) {
+        setMachine(res?.data?.data[0]);
+      }
+    } catch (e) {
+      console.error("getMachineDwl error", e);
+    }
+  }, [dispatch, machine]);
+
+  const fetchAll = useCallback(async () => {
+    if (!machine?.key) return;
+    dispatch(setIsLoading(true));
+    try {
+      const base = { scope, duration };
+
+      // 0) list (with pagination 0-based for backend)
+      const listPromise = services.getOEEList({
+        ...base,
+        page: Math.max(0, (pagination.current ?? 1) - 1),
+        size: pagination.pageSize,
+      });
+
+      // 1) summary cards
+      const oeeObjPromise = services.getOEEObj(base);
+      const factorPromise = services.getFactorObj(base);
+
+      // 2) machine-level
+      const byMachinePromise = services.getOEEByMachineList(base);
+      const machineObjPromise = services.getOEEMachineObj({ ...base, machineCode: machine.key });
+
+      const [listRes, oeeRes, factorRes, byMachineRes, machineRes] = await Promise.all([
+        listPromise,
+        oeeObjPromise,
+        factorPromise,
+        byMachinePromise,
+        machineObjPromise,
+      ]);
+
+      // update store
+      const listData = listRes?.data?.data ?? {};
+      dispatch(setOEEList(listData?.content || []));
+      setPagination({
+        current: (listData?.currentPage ?? 0) + 1, // backend -> antd (1-based)
+        pageSize: listData?.pageSize,
+        total: listData?.totalItems ?? 0
+      });
+
+      dispatch(setOEEObj(oeeRes?.data?.data || {}));
+      dispatch(setFactorObj(factorRes?.data?.data || {}));
+      dispatch(setOEEByMachineList(byMachineRes?.data?.data || []));
+      dispatch(setOEEMachineObj(machineRes?.data?.data || {}));
+    } catch (e) {
+      console.error("fetchAll error", e);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }, [dispatch, machine?.key, scope, duration, pagination.current, pagination.pageSize]);
+
+  // effects
+  useEffect(() => {
+    loadMachines();
+  }, []);
+
+  useEffect(() => {
+    fetchAll();
+  }, [fetchAll]);
+
+  useEffect(() => {
+    let frame = null;
+    const onResize = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        setTableWidth(getResponsiveTableWidth());
+        frame = null;
+      });
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", onResize);
+      onResize();
+      return () => {
+        window.removeEventListener("resize", onResize);
+        if (frame) cancelAnimationFrame(frame);
+      };
+    }
+  }, []);
+
+  // handlers
+  const handleChangeScope = useCallback((value) => {
+    setScope(value);
+  }, []);
 
   const handleChangeMonth = useCallback((value) => {
     setSelectedMonth(value);
+    setPagination((p) => ({ ...p, current: 1 }));
   }, []);
+
   const handleChangeYear = useCallback((value) => {
     setSelectedYear(value);
+    setPagination((p) => ({ ...p, current: 1 }));
   }, []);
-  const handleChangeMachine = useCallback(
-    (value) => {
-      const found = (machineDwl || []).find((m) => m.key === value);
-      if (found) setMachine(found);
-    },
-    [machineDwl]
-  );
 
-  const handleDownloadExcel = async () => {
+  const handleChangeMachine = useCallback(
+    async (machineKey) => {
       try {
+        // หา object ของเครื่องเพื่อเอาไปแสดงชื่อ
+        const found = (machineDwl ?? []).find((m) => m.key === machineKey);
+        if (found) setMachine(found);
+
+        const base = { scope, duration };
+
         dispatch(setIsLoading(true));
-        const duration = scope === "Monthly" ? selectedMonth : selectedYear;
-        const response = await services.downloadOEEMachine({
-          scope,
-          duration
+        const res = await services.getOEEMachineObj({
+          ...base,
+          machineCode: machineKey, // << ใช้ค่านี้เลย ไม่ใช่ value.key
         });
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-  
-        link.setAttribute(
-          "download",
-          "OEE_Machine_" + moment().add(543, "years").format("DD_MM_YYYY") + ".csv"
-        );
-        document.body.appendChild(link);
-        link.click();
-  
-        link.parentNode.removeChild(link);
-      } catch (error) {
+        dispatch(setOEEMachineObj(res?.data?.data ?? {}));
+      } catch (e) {
+        console.error("getOEEMachineObj error:", e);
       } finally {
         dispatch(setIsLoading(false));
       }
-    };
+    },
+    [dispatch, machineDwl, scope, duration]
+  );
 
-  // expose ให้คอมโพเนนต์ใช้
+  const handleOnChange = useCallback(({ current, pageSize }) => {
+    setPagination((p) => ({
+      ...p,
+      current: pageSize !== p.pageSize ? 1 : current, // reset to page 1 on size change
+      pageSize,
+    }));
+  }, []);
+
+  const handleDownloadExcel = useCallback(async () => {
+    try {
+      dispatch(setIsLoading(true));
+      const res = await services.downloadOEEMachine({ scope, duration });
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.setAttribute("download", `OEE_Machine_${dayjs().add(543, "year").format("DD_MM_YYYY")}.csv`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => window.URL.revokeObjectURL(url), 0);
+    } catch (e) {
+      console.error("downloadOEEMachine error", e);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }, [dispatch, scope, duration]);
+
   return {
-    // data from store
+    // store data
+    isLoading,
     oeeList,
     oeeObj,
     oeeMachineObj,
-    oeeByMachineList,
+    factorObj,
     machineDwl,
-    overviewObj,
-    isLoading,
+    oeeByMachineList,
 
-    // pagination/filter (เดิมใน hook)
+    // ui
+    tableWidth,
     pagination,
 
-    // presentational states moved from component
-    tableWidth,
+    // selections
     scope,
-    setScope,
     selectedMonth,
     selectedYear,
-    handleChangeMonth,
-    handleChangeYear,
-
-    factor,
-    setFactor,
-    factorObj,
-
     machine,
-    handleChangeMachine,
-    handleDownloadExcel,
+    factor,
+    factorByMachine,
+
+    setFactor,
+    setFactorByMachine,
 
     // options
     monthOptions,
     yearOptions,
     machineOptions,
 
-    // orchestrator (ถ้าคอมโพเนนต์อื่นอยากเรียกเอง)
-    onChange: handleOnChange,
-    t,
+    // handlers
+    handleChangeScope,
+    handleChangeMonth,
+    handleChangeYear,
+    handleChangeMachine,
+    handleOnChange,
+    handleDownloadExcel,
+    // handleDownloadExcel,
   };
 }
-
-export default useOEEDashboard;

@@ -10,18 +10,13 @@ import { WastProductCompareChart } from "../components/WastProductCompareChart";
 // import styles from "../styles/CompareDashboard.module.css";
 
 const CompareDashboardComponents = ({
-  // redux data
   compareProductList = [],
   actualVsPlanObj = {},
   wasteProductCompareObj = {},
-  overviewObj = {},
   isLoading = false,
 
-  // local ui states
   pagination = { page: 0, size: 25, total: 0 },
-  filter = {},
 
-  // selections & options
   scope = "Monthly", // "Monthly" | "Yearly"
   selectedMonth = "",
   selectedYear = "",
@@ -30,14 +25,13 @@ const CompareDashboardComponents = ({
   yearOptions = [],
   productOptions = [],
 
-  // handlers
-  setScope = () => {},
+  handleChangeScope = () => {},
   handleChangeMonth = () => {},
   handleChangeYear = () => {},
   handleChangeProduct = () => {},
   handleDownloadExcel = () => {},
+  handleOnChange = () => {},
 
-  // layout
   tableWidth = "100%",
 }) => {
   const { t } = useTranslation();
@@ -51,43 +45,6 @@ const CompareDashboardComponents = ({
       ]}
     >
       <Row gutter={[20, 20]} align="stretch">
-        {/* <CardStateContainer
-          label={t("compare_dashboard.overview.planned_production")}
-          state={overviewObj?.plannedProduction}
-          icon={<FolderOpenOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        />
-        <CardStateContainer
-          label={t("compare_dashboard.overview.actual_production")}
-          state={overviewObj?.actualProduction}
-          icon={<GlobalOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        />
-        <CardStateContainer
-          label={t("compare_dashboard.overview.completion")}
-          state={overviewObj?.completion}
-          icon={<FileTextOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        />
-        <CardStateContainer
-          label={t("compare_dashboard.overview.oee")}
-          state={overviewObj?.oee}
-          icon={<ShoppingCartOutlined />}
-          iconColor="var(--purple-color)"
-          height="fit-content"
-          width="auto"
-          isLoading={isLoading}
-        /> */}
-
         <Col span={24}>
           <Space direction="vertical" size={24} style={{ width: "100%" }}>
             <Space
@@ -99,7 +56,7 @@ const CompareDashboardComponents = ({
               <Segmented
                 options={["Monthly", "Yearly"]}
                 value={scope}
-                onChange={(val) => setScope(val)}
+                onChange={handleChangeScope}
                 style={{ border: "1px solid rgba(0,0,0,0.08)" }}
               />
               {scope === "Monthly" ? (
@@ -165,7 +122,7 @@ const CompareDashboardComponents = ({
                   onClick={handleDownloadExcel}
                   loading={isLoading}
                   style={{
-                    width: 32,
+                    width: 24,
                     height: 48,
                     padding: 0,
                     borderRadius: 0,
@@ -184,6 +141,7 @@ const CompareDashboardComponents = ({
                 isLoading={isLoading}
                 pagination={pagination}
                 scope={scope}
+                onChange={handleOnChange}
               />
             </Space>
           </CardContainer>

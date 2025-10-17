@@ -1,11 +1,22 @@
 import { Spin } from "antd";
 import { Line } from "react-chartjs-2";
 
-const OEEMachineChart = ({ dataSource = [], isLoading = false }) => {
+const OEEMachineChart = ({ dataSource = [], isLoading = false ,factorByMachine=""}) => {
   const rows = Array.isArray(dataSource.chart) ? dataSource.chart : [];
+   
+
 
   const labels = rows.map((r) => r?.period);
-  const drill = rows.map((r) => r?.percent ?? 0);
+  // const drill = rows.map((r) => r?.percent ?? 0);
+
+  let drill = [];
+  if("Availability"==factorByMachine){
+    drill = rows.map((r) => r?.availabilityPercent ?? 0);
+  }else if("Performance"==factorByMachine){
+    drill = rows.map((r) => r?.performancePercent ?? 0);
+  }else if("Quality"==factorByMachine){
+    drill = rows.map((r) => r?.qualityPercent ?? 0);
+  }
 
   const hasAnyValue = drill.some((v) => v !== 0);
 

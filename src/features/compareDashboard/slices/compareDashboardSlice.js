@@ -6,7 +6,6 @@ const initialState = {
   productList: [],
   actualVsPlanObj: {},
   wasteProductCompareObj: {},
-  overviewObj: {},
   pagination: { page: 1, pageSize: 25, total: 0 },
   filter: {},
 };
@@ -24,8 +23,7 @@ const compareDashboardSlice = createSlice({
     },
 
     setCompareProductList(state, action) {
-      const list = Array.isArray(action.payload) ? action.payload : [];
-      state.compareProductList = list;
+      state.compareProductList = action.payload ?? [];
     },
 
     setProductList(state, action) {
@@ -39,10 +37,6 @@ const compareDashboardSlice = createSlice({
 
     setWasteProductCompareObj(state, action) {
       state.wasteProductCompareObj = action.payload ?? {};
-    },
-
-    setOverviewObj(state, action) {
-      state.overviewObj = action.payload ?? {};
     },
 
     setPagination(state, action) {
@@ -65,7 +59,6 @@ export const {
   setProductList,
   setActualVsPlanObj,
   setWasteProductCompareObj,
-  setOverviewObj,
   setPagination,
   resetCompareDashboard,
 } = compareDashboardSlice.actions;

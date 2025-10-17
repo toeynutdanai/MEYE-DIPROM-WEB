@@ -3,8 +3,10 @@ import { Form, Formik } from "formik";
 import { Button, Col, Modal, Row, Space, Typography, Radio } from "antd";
 import { Input, Select } from "components/form";
 import { useTranslation } from "react-i18next";
-import { CloseOutlined } from "@ant-design/icons";
-
+import schemaAdd, {
+  initialValues,
+} from "../../../features/userManagement/schemas/userManagementCreateSchema";
+import schemaEdit from "../../../features/userManagement/schemas/userManagementEditSchema";
 import styles from "./Modal.module.css";
 
 function ModalUser({
@@ -13,66 +15,77 @@ function ModalUser({
   className = "",
   isModalOpen = false,
   roleOptions = [],
-  companyOptions = [],
-  defaultStatus = "Active",
+  defaultStatus = "ACTIVE", // "ACTIVE" | "INACTIVE"
   onSubmit = () => {},
   handleCancel = () => {},
+  data = {},
+  statusModal = false,
 }) {
   const { t } = useTranslation();
 
   return (
-    <Modal
-      title={null}
-      open={isModalOpen}
-      onCancel={handleCancel}
-      footer={null}
-      width={width}
-      centered
-      maskClosable={false}
-      rootClassName={cx(styles.modalRoot, className)}
-      closeIcon={<span className={styles.closeIcon}>X</span>}
+    <Formik
+      enableReinitialize
+      initialValues={{
+        ...initialValues,
+        status: data.status ? defaultStatus : data.status,
+        firstname: data.firstName,
+        lastname: data.firstName,
+        role: data.roleCodes,
+        username: data.username,
+        password: statusModal ? "*********" : null,
+        confirmPassword: statusModal ? "*********" : null,
+      }}
+      validationSchema={statusModal ? schemaEdit : schemaAdd}
+      onSubmit={onSubmit}
+      validateOnChange
+      validateOnBlur
     >
-      <div className={styles.card}>
-        {/* Header */}
-        <Row
-          justify="space-between"
-          align="middle"
-          className={styles.headerRow}
-        >
-          <Col>
-            <Typography.Title level={4} className={styles.infoTopic}>
-              {title}
-            </Typography.Title>
-          </Col>
-          <Col />
-        </Row>
+      {({
+        resetForm,
+        values,
+        setFieldValue,
+        validateForm,
+        isSubmitting,
+        isValid,
+        submitForm,
+        errors,
+      }) => (
+        <Form>
+          <Modal
+            title={null}
+            open={isModalOpen}
+            onCancel={handleCancel}
+            footer={null}
+            width={width}
+            centered
+            maskClosable={false}
+            rootClassName={cx(styles.modalRoot, className)}
+            closeIcon={<span className={styles.closeIcon}>X</span>}
+            destroyOnClose // ปิดแล้ว unmount → state ฟอร์มถูกล้าง
+            afterClose={() => resetForm()} // กันค่าค้างรอบก่อน
+          >
+            <div className={styles.card}>
+              {/* Header */}
+              <Row
+                justify="space-between"
+                align="middle"
+                className={styles.headerRow}
+              >
+                <Col>
+                  <Typography.Title level={4} className={styles.infoTopic}>
+                    {title}
+                  </Typography.Title>
+                </Col>
+                <Col />
+              </Row>
 
-        <Formik
-          enableReinitialize
-          initialValues={{
-            username: "",
-            firstname: "",
-            lastname: "",
-            password: "",
-            confirmPassword: "",
-            role: "",
-            company: "",
-            status: defaultStatus, // "Active" | "Inactive"
-          }}
-          validationSchema={{}}
-          onSubmit={(values, { resetForm }) => {
-            onSubmit(values, handleCancel);
-            // resetForm();  // แล้วแต่ต้องการ
-          }}
-        >
-          {({ resetForm }) => (
-            <Form>
               <Space
                 className={styles.container}
                 size={24}
                 direction="vertical"
               >
-                {/* แถวชื่อผู้ใช้ */}
+                {/* แถวข้อมูล */}
                 <Row gutter={[24, 10]}>
                   <Col xs={24} md={12}>
                     <Input
@@ -82,13 +95,11 @@ function ModalUser({
                       }
                       placeholder="Username"
                       size="large"
+                      disabled={statusModal}
                     />
                   </Col>
                   <Col xs={24} md={12} />
-                </Row>
 
-                {/* Firstname / Lastname */}
-                <Row gutter={[24, 10]}>
                   <Col xs={24} md={12}>
                     <Input
                       name="firstname"
@@ -109,10 +120,7 @@ function ModalUser({
                       size="large"
                     />
                   </Col>
-                </Row>
 
-                {/* Password / Confirm Password */}
-                <Row gutter={[24, 10]}>
                   <Col xs={24} md={12}>
                     <Input
                       name="password"
@@ -122,7 +130,7 @@ function ModalUser({
                       }
                       placeholder="Password"
                       size="large"
-                      suffix={<span className={styles.eyeStub} />}
+                      disabled={statusModal}
                     />
                   </Col>
                   <Col xs={24} md={12}>
@@ -136,44 +144,33 @@ function ModalUser({
                       }
                       placeholder="Confirm Password"
                       size="large"
+                      disabled={statusModal}
                     />
                   </Col>
-                </Row>
 
-                {/* Role / Company */}
-                <Row gutter={[24, 10]}>
                   <Col xs={24} md={12}>
                     <Select
                       name="role"
                       label={<span className={styles.labelBold}>Role*</span>}
                       placeholder="Role"
                       size="large"
-                      options={roleOptions}
+                      options={roleOptions} // [{value: 'ADMIN', label:'Admin'}...]
                     />
                   </Col>
-                  <Col xs={24} md={12}>
-                    <Select
-                      name="company"
-                      label={<span className={styles.labelBold}>Company*</span>}
-                      placeholder="Company"
-                      size="large"
-                      options={companyOptions}
-                    />
-                  </Col>
-                </Row>
 
-                {/* Status */}
-                <Row>
                   <Col xs={24} md={12}>
                     <div className={styles.statusBlock}>
                       <div className={styles.labelBold}>Status*</div>
                       <Radio.Group
                         name="status"
                         className={styles.statusGroup}
-                        defaultValue={defaultStatus}
+                        value={values.status} // ผูกกับ Formik
+                        onChange={(e) =>
+                          setFieldValue("status", e.target.value)
+                        }
                         options={[
-                          { label: "Active", value: "Active" },
-                          { label: "Inactive", value: "Inactive" },
+                          { label: "Active", value: "ACTIVE" },
+                          { label: "Inactive", value: "INACTIVE" },
                         ]}
                       />
                     </div>
@@ -184,10 +181,14 @@ function ModalUser({
                 <Row justify="end" className={styles.footerRow}>
                   <Space size={12}>
                     <Button
-                      key="reset"
-                      onClick={() => resetForm()}
+                      key="resetPasswordOnly"
+                      onClick={() => {
+                        setFieldValue("password", "");
+                        setFieldValue("confirmPassword", "");
+                      }}
                       className={styles.btnReset}
                       size="middle"
+                      disabled={!statusModal}
                     >
                       Reset Password
                     </Button>
@@ -195,17 +196,24 @@ function ModalUser({
                       htmlType="submit"
                       className={styles.btnSave}
                       size="middle"
+                      disabled={isSubmitting}
+                      onClick={async () => {
+                        const errs = await validateForm();
+                        if (Object.keys(errs).length === 0) {
+                          await submitForm(); // เรียก onSubmit แน่นอน
+                        }
+                      }}
                     >
                       Save
                     </Button>
                   </Space>
                 </Row>
               </Space>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </Modal>
+            </div>
+          </Modal>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

@@ -43,27 +43,6 @@ const User = () => {
     });
   };
 
-  
-
-  // const doChangePassword = async (values) => {
-  //   try {
-  //     console.log("changePassword:",values)
-  //     dispatch(setIsLoading(true));
-  //     const modifiedValues = {
-  //       ...values,
-  //       requestId: generateRandomString(),
-  //     };
-  //     await changePassword(modifiedValues);
-  //     alert({ message: "Success" });
-  //     dispatch(setIsLoading(true));
-  //     window.history.back();
-  //   } catch (error) {
-  //     alert({ type: "error", resultObject: error });
-  //   } finally {
-  //     dispatch(setIsLoading(false));
-  //   }
-  // };
-
   const odChangePassword = (e) => {
     setIsModalOpen(true);
   };
