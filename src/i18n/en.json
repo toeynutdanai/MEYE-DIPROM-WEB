@@ -199,7 +199,7 @@
       "status": {
         "successful": "Login successful. ",
         "failed": "Login failed!!!",
-        "failed_description": "Because the username and password do not match."
+        "failed_description": "Incorrect username or password. Please try again."
       },
       "validate": {
         "invalid_username": "Invalid username",
@@ -284,7 +284,8 @@
       "status": {
         "successful": "Reset password successful. ",
         "failed": "Reset password failed.",
-        "failed_description": "Email and number don't match."
+        "failed_description": "Email and number don't match.",
+        "info" : "Kindly contact your company's system administrator (IT) for a password reset."
       }
     },
     "menu": {

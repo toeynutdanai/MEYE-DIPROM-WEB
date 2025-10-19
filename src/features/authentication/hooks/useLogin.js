@@ -69,9 +69,7 @@ function useLogin() {
     Modal.info({
       title: "Information",
       content: (
-        <p>
-          รบกวนติดต่อผู้ดูแลระบบของบริษัทท่าน (IT) เพื่อทำการ Reset Password
-        </p>
+        <p>{t("forgot.status.info")}</p>
       ),
       onOk() { },
     });
