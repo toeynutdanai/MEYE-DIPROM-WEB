@@ -13,7 +13,7 @@ const OEEChart = ({ dataSource = [], isLoading = false }) => {
     labels,
     datasets: [
       {
-        label: "Machine",
+        label: "OEE",
         data: oee,
         borderColor: "#ffb1c1",
         backgroundColor: "#ffb1c1",
