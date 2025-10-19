@@ -8,6 +8,10 @@ export const getRoles = async (params = {}) => {
   return await api.post("/dropdown/roles", params);
 };
 
-export const userManagement = async (params = {}) => {
-  return await api.post("/userManagement", params);
+export const addUserManagement = async (params = {}) => {
+  return await api.post("/addUserManagement", params);
+};
+
+export const updateUserManagement = async (params = {}) => {
+  return await api.post("/updateUserManagement", params);
 };

@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import * as services from "../services/userManagementApi";
 import { setIsLoading, setUserManagementList, setRoles } from "../slices/userManagementSlice";
 import { generateRandomString } from "utils/helper";
+import alert from "components/elements/Alert";
 import { type } from "@testing-library/user-event/dist/type";
+import { Empty } from "antd";
 
 const isBlank = (v) => v == null || String(v).trim() === "";
 
@@ -14,6 +16,7 @@ function useUserManagement() {
   const userManagementList = useSelector((s) => s.userManagement.userManagementList);
   const rolesList = useSelector((s) => s.userManagement.roles);
 
+  const [openModal, setOpenModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [record, setRecord] = useState({});
   const [uiSearch, setUiSearch] = useState("");
@@ -72,10 +75,34 @@ function useUserManagement() {
     }
   }, [dispatch, pagination.current, pagination.pageSize, qSearch, qRole, qStatus]);
 
-  const userManagement = useCallback(async (params) => {
+  const addUserManagement = useCallback(async (params) => {
     try {
       dispatch(setIsLoading(true));
-      const res = await services.userManagement({ roles: [params.role], ...params });
+      const res = await services.addUserManagement({ roles: [params.role], ...params });
+      if (res?.data?.status === 200) {
+        alert({
+          type: "success",
+          className: "my-noti",
+          message: "Success",
+          description: "Your data has been successfully saved.",
+        })
+      } else {
+        alert({
+          type: "error",
+          resultObject: res, // รองรับทั้งรูปแบบ API และข้อความธรรมดา
+        });
+      }
+    } catch (err) {
+      console.error("addUserManagement error:", err);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }, [dispatch]);
+
+  const updateUserManagement = useCallback(async (params) => {
+    try {
+      dispatch(setIsLoading(true));
+      const res = await services.updateUserManagement({ roles: [params.role], ...params });
     } catch (err) {
       console.error("addUserManagement error:", err);
     } finally {
@@ -95,7 +122,7 @@ function useUserManagement() {
 
   const handleAddUser = async (values, { setSubmitting, resetForm }) => {
     try {
-      await userManagement({ type: "New", ...values });
+      await addUserManagement({ type: "New", ...values });
       closeAction();
     } catch (e) {
       console.error("create user error:", e);
@@ -107,12 +134,13 @@ function useUserManagement() {
 
   const handleEditUser = async (values, { setSubmitting, resetForm }) => {
     try {
-      await userManagement({
+      await updateUserManagement({
         type: "Update",
         firstname: values.firstname,
         lastname: values.lastname,
         role: values.role,
         status: values.status,
+        username: values.username,
       });
       closeAction();
     } catch (e) {
@@ -142,13 +170,17 @@ function useUserManagement() {
   }, []);
 
   const handleEdit = (record) => {
+    setStatusModal(true);
     setRecord(record); // เก็บค่าทั้งแถว
     setOpenModal(true);
-    setStatusModal(true);
   };
 
-  const [openModal, setOpenModal] = useState(false);
-  const onAction = useCallback(() => setOpenModal(true), []);
+
+  const onAction = useCallback(() => {
+    setStatusModal(false);
+    setRecord();
+    setOpenModal(true);
+  }, []);
   const closeAction = useCallback(() => setOpenModal(false), []);
 
   return {
