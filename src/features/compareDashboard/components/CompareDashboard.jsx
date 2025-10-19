@@ -46,42 +46,49 @@ const CompareDashboardComponents = ({
     >
       <Row gutter={[20, 20]} align="stretch">
         <Col span={24}>
-          <Space direction="vertical" size={24} style={{ width: "100%" }}>
-            <Space
-              direction="horizontal"
+          <Space direction="vertical" size={12} style={{ width: "100%" }}>
+            <Row
+              horizontal
               wrap
-              size={12}
+              gutter={24}
               style={{ width: "100%" }}
             >
+              <Col xs={8} xl={4} >
               <Segmented
                 options={["Monthly", "Yearly"]}
                 value={scope}
                 onChange={handleChangeScope}
-                style={{ border: "1px solid rgba(0,0,0,0.08)" }}
+                style={{ border: "1px solid rgba(0,0,0,0.08)"}}
+                block
               />
+              </Col>
+              <Col xs={8} xl={4}>
               {scope === "Monthly" ? (
                 <Select
                   value={selectedMonth}
-                  style={{ width: 150 }}
+                  style={{ width: '100%' }}
                   onChange={handleChangeMonth}
                   options={monthOptions}
                 />
               ) : (
                 <Select
                   value={selectedYear}
-                  style={{ width: 150 }}
+                  style={{ width: '100%' }}
                   onChange={handleChangeYear}
                   options={yearOptions}
                 />
               )}
+              </Col>
+              <Col xs={8} xl={4}>
               <Select
                 value={selectedProducts}
                 placeholder="Select"
-                style={{ width: 190 }}
+                style={{ width: '100%' }}
                 onChange={handleChangeProduct}
                 options={productOptions}
               />
-            </Space>
+              </Col>
+            </Row>
           </Space>
         </Col>
 

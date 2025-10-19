@@ -318,10 +318,11 @@
         "actual_good_qty":"Actual Good Qty",
         "actual_waste_qty":"Actual Waste Qty",
         "unit":"Unit",
-        "actual_machine_running_time":"Actual Machine Running Time (hr/day)",
+        "actual_machine_running_time_per_day":"Actual Machine Running Time (hr/day)",
         "plan_month":"Plan Month",
         "total_actual_good_qty":"Total Actual Good Qty",
-        "total_actual_waste_qty":"Total Actual Waste Qty"
+        "total_actual_waste_qty":"Total Actual Waste Qty",
+        "actual_machine_running_time":"Actual Machine Running Time (hr)"
       }
     },
     "oee_dashboard": {

@@ -105,7 +105,7 @@ function CompareProductTable({
       {
         title: (
           <div className="text-table">
-            {t("compare_dashboard.label.actual_machine_running_time")}
+            {t("compare_dashboard.label.actual_machine_running_time_per_day")}
           </div>
         ),
         dataIndex: "actualMachineRunningTime",

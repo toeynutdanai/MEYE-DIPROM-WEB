@@ -24,7 +24,7 @@ const OEEMachineChart = ({ dataSource = [], isLoading = false ,factorByMachine="
     labels,
     datasets: [
       {
-        label: "Machine",
+        label: factorByMachine,
         data: drill,
         borderColor: "#ffb1c1",
         backgroundColor: "#ffb1c1",

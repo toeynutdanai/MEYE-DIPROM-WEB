@@ -84,7 +84,7 @@ const WarehourTrackingTable = ({
       align: "center",
       sorter: (a, b) => a.statusStock.localeCompare(b.statusStock),
       render: (_, record) => {
-        return (record.statusStock=='Available'?<label style={{color:'#F65778'}}>Available</label> : (record.statusStock=='Unavailable'?<label style={{color:'#008E11'}}>Unavailable</label> : <label style={{color:'#898989'}}>Out of Stock</label>));
+        return (record.statusStock=='Available'?<label style={{color:'#008E11'}}>Available</label> : (record.statusStock=='Unavailable'?<label style={{color:'#F65778'}}>Unavailable</label> : <label style={{color:'#898989'}}>Out of Stock</label>));
       },
     },
     {
