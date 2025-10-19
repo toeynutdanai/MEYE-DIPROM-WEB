@@ -57,29 +57,39 @@ const OEEDashboardComponents = ({
       <Row gutter={[20, 20]} align="stretch">
         <Col xs={24} xl={12}>
           <Space direction="vertical" size={24} style={{ width: "100%" }}>
-            <Space direction="horizontal" size={24}>
+            <Row
+              horizontal
+              wrap
+              gutter={24}
+              style={{ width: "100%" }}
+            >
+              <Col xs={8} xl={8} >
               <Segmented
                 options={["Monthly", "Yearly"]}
                 value={scope}
                 onChange={handleChangeScope}
                 style={{ border: "1px solid rgba(0,0,0,0.08)" }}
+                block
               />
+              </Col>
+              <Col xs={16} xl={16} >
               {scope === "Monthly" ? (
                 <Select
                   value={selectedMonth}
-                  style={{ width: 200 }}
+                  style={{  width: '100%' }}
                   onChange={handleChangeMonth}
                   options={monthOptions}
                 />
               ) : (
                 <Select
                   value={selectedYear}
-                  style={{ width: 200 }}
+                  style={{  width: '100%' }}
                   onChange={handleChangeYear}
                   options={yearOptions}
                 />
               )}
-            </Space>
+              </Col>
+            </Row>
 
             <CardContainer width={"100%"} height="auto">
               <Row justify="space-between">
