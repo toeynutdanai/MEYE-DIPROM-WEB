@@ -1,26 +1,29 @@
-import cx from "classnames";
-import { Form, Formik } from "formik";
+import {
+  InfoCircleOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Col,
   Modal,
+  Radio,
   Row,
   Space,
-  Typography,
-  Radio,
   Tooltip,
+  Typography,
   message,
 } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import cx from "classnames";
 import { Input, Select } from "components/form";
+import { Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import schemaAdd, {
   initialValues,
 } from "../../../features/userManagement/schemas/userManagementCreateSchema";
 import schemaEdit from "../../../features/userManagement/schemas/userManagementEditSchema";
 import styles from "./Modal.module.css";
-
-const DEFAULT_RESET_PASSWORD = "P@ssw0rd#meye_c001";
+import { useState } from "react";
 
 function ModalUser({
   title = "User",
@@ -31,10 +34,14 @@ function ModalUser({
   defaultStatus = "ACTIVE", // "ACTIVE" | "INACTIVE"
   onSubmit = () => {},
   handleCancel = () => {},
+  handleResetClick = () => {},
   data = {},
   statusModal = false, // true = edit mode (disable user/pass)
 }) {
   const { t } = useTranslation();
+  const [showPwd, setShowPwd] = useState(false);
+
+  const keepFocus = (e) => e.preventDefault();
 
   return (
     <Formik
@@ -50,7 +57,7 @@ function ModalUser({
         lastname: data.lastName ?? "",
         role: data.roleCodes ?? undefined,
         username: data.username ?? "",
-        password: statusModal ? "*********" : "",
+        password: statusModal ? data.password || "*********" : "",
         confirmPassword: statusModal ? "*********" : "",
       }}
       validationSchema={statusModal ? schemaEdit : schemaAdd}
@@ -72,7 +79,8 @@ function ModalUser({
           if (dirty) {
             Modal.confirm({
               title: "Are you sure?",
-              content: "Are you sure that you want to exit? All unsaved changes will be lost.",
+              content:
+                "Are you sure that you want to exit? All unsaved changes will be lost.",
               okText: "Confirm",
               cancelText: "Cancel",
               onOk: () => {
@@ -107,7 +115,9 @@ function ModalUser({
             className={styles.labelBold}
             style={{ display: "inline-flex", gap: 6, alignItems: "center" }}
           >
-            Password<span style={{color:"#FF0000"}}>*</span>
+            <span>
+              Password<span style={{ color: "#FF0000" }}>*</span>
+            </span>
             <Tooltip
               placement="right"
               title={
@@ -130,7 +140,7 @@ function ModalUser({
                 </p>
               }
             >
-              <InfoCircleOutlined style={{color: "#306CFE"}} />
+              <InfoCircleOutlined style={{ color: "#306CFE" }} />
             </Tooltip>
           </span>
         );
@@ -148,7 +158,7 @@ function ModalUser({
               rootClassName={cx(styles.modalRoot, className)}
               closeIcon={<span className={styles.closeIcon}>X</span>}
               destroyOnClose
-              afterClose={() => resetForm()}
+              afterClose={() => {resetForm(); setShowPwd(false)}}
             >
               <div className={styles.card}>
                 {/* Header */}
@@ -176,7 +186,9 @@ function ModalUser({
                       <Input
                         name="username"
                         label={
-                          <span className={styles.labelBold}>Username<span style={{color:"#FF0000"}}>*</span></span>
+                          <span className={styles.labelBold}>
+                            Username<span style={{ color: "#FF0000" }}>*</span>
+                          </span>
                         }
                         placeholder="Username"
                         size="large"
@@ -189,7 +201,9 @@ function ModalUser({
                       <Input
                         name="firstname"
                         label={
-                          <span className={styles.labelBold}>Firstname<span style={{color:"#FF0000"}}>*</span></span>
+                          <span className={styles.labelBold}>
+                            Firstname<span style={{ color: "#FF0000" }}>*</span>
+                          </span>
                         }
                         placeholder="Firstname"
                         size="large"
@@ -199,7 +213,9 @@ function ModalUser({
                       <Input
                         name="lastname"
                         label={
-                          <span className={styles.labelBold}>Lastname<span style={{color:"#FF0000"}}>*</span></span>
+                          <span className={styles.labelBold}>
+                            Lastname<span style={{ color: "#FF0000" }}>*</span>
+                          </span>
                         }
                         placeholder="Lastname"
                         size="large"
@@ -209,18 +225,43 @@ function ModalUser({
                     <Col xs={24} md={12}>
                       <Input
                         name="password"
-                        type="password"
+                        type={showPwd ? "text" : "password"}
                         label={passwordLabel}
                         placeholder="Password"
                         size="large"
                         disabled={statusModal}
+                        autoComplete="new-password"
+                        suffix={
+                          <span
+                            className={styles.eyeSuffix}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={
+                              showPwd ? "Hide password" : "Show password"
+                            }
+                            aria-pressed={showPwd}
+                            onMouseDown={keepFocus}
+                            onClick={() => setShowPwd((v) => !v)}
+                          >
+                            {showPwd ? (
+                              <EyeInvisibleOutlined />
+                            ) : (
+                              <EyeOutlined />
+                            )}
+                          </span>
+                        }
                       />
                     </Col>
                     <Col xs={24} md={12}>
                       <Input
                         name="confirmPassword"
                         type="password"
-                        label={<span className={styles.labelBold}>Confirm Password<span style={{color:"#FF0000"}}>*</span></span>}
+                        label={
+                          <span className={styles.labelBold}>
+                            Confirm Password
+                            <span style={{ color: "#FF0000" }}>*</span>
+                          </span>
+                        }
                         placeholder="Confirm Password"
                         size="large"
                         disabled={statusModal}
@@ -230,7 +271,11 @@ function ModalUser({
                     <Col xs={24} md={12}>
                       <Select
                         name="role"
-                        label={<span className={styles.labelBold}>Role<span style={{color:"#FF0000"}}>*</span></span>}
+                        label={
+                          <span className={styles.labelBold}>
+                            Role<span style={{ color: "#FF0000" }}>*</span>
+                          </span>
+                        }
                         placeholder="Role"
                         size="large"
                         options={roleOptions}
@@ -239,7 +284,9 @@ function ModalUser({
 
                     <Col xs={24} md={12}>
                       <div className={styles.statusBlock}>
-                        <div className={styles.labelBold}>Status<span style={{color:"#FF0000"}}>*</span></div>
+                        <div className={styles.labelBold}>
+                          Status<span style={{ color: "#FF0000" }}>*</span>
+                        </div>
                         <Radio.Group
                           name="status"
                           className={styles.statusGroup}
@@ -261,17 +308,7 @@ function ModalUser({
                     <Space size={12}>
                       <Button
                         key="resetPasswordOnly"
-                        onClick={() => {
-                          // ใส่รหัสรีเซ็ตใหม่เข้าไปทั้งสองช่อง (ให้เห็นทันที)
-                          setFieldValue("password", DEFAULT_RESET_PASSWORD);
-                          setFieldValue(
-                            "confirmPassword",
-                            DEFAULT_RESET_PASSWORD
-                          );
-                          message.success(
-                            t("password.reset_ok") || "Password has been reset."
-                          );
-                        }}
+                        onClick={() => handleResetClick(values.username)}
                         className={styles.btnReset}
                         size="middle"
                         disabled={!statusModal}

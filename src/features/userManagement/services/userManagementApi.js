@@ -15,3 +15,8 @@ export const addUserManagement = async (params = {}) => {
 export const updateUserManagement = async (params = {}) => {
   return await api.post("/updateUserManagement", params);
 };
+
+export const resetPassword = async (params = {}) => {
+  return await api.post("/resetPassword", params);
+};
+

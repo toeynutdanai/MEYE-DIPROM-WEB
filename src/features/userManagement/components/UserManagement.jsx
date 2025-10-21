@@ -28,6 +28,7 @@ export default function UsersManagement({
   openModal,
   onAction,
   closeAction,
+  handleResetClick,
 
   statusModal,
   setStatusModal,
@@ -137,6 +138,7 @@ export default function UsersManagement({
       <ModalUser
         isModalOpen={openModal}
         handleCancel={closeAction}
+        handleResetClick={handleResetClick}
         onSubmit={onSubmitModal}
         roleOptions={rolesOptions}
         data={record}
