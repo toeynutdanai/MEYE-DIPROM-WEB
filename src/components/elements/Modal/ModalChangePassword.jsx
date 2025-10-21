@@ -2,7 +2,7 @@ import cx from "classnames";
 import { Form, Formik } from "formik";
 import { useTranslation ,Translation} from "react-i18next";
 
-import { Col, Divider, Modal, Row, Space,Table } from "antd";
+import { Col, Divider, Modal, Row, Space,Table,Typography} from "antd";
 import { Button } from "components/elements";
 import SubInfoSwitch from "components/elements/InfoSwitch/SubInfoSwitch";
 import { Input, Select } from "components/form";
@@ -54,11 +54,7 @@ function ModalChangePassword({
 
   return (
     <Modal
-      title={
-        <b className={styles.infoTopic}>
-          {title}
-        </b>
-      }
+      title={null}
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -80,6 +76,18 @@ function ModalChangePassword({
                 size={24}
                 direction="vertical"
               >
+                <Row
+                  justify="space-between"
+                  align="middle"
+                  className={styles.headerRow}
+                >
+                  <Col>
+                    <Typography.Title level={4} className={styles.infoTopic}>
+                      {title}
+                    </Typography.Title>
+                  </Col>
+                  <Col />
+                </Row>
                 
                 <Row justify="left" gutter={[6, 10]}>
                   <Col span={12}>

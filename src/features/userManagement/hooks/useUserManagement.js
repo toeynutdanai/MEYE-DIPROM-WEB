@@ -1,10 +1,10 @@
 // features/userManagement/hooks/useUserManagement.js
+import alert from "components/elements/Alert";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as services from "../services/userManagementApi";
-import { setIsLoading, setUserManagementList, setRoles } from "../slices/userManagementSlice";
 import { generateRandomString } from "utils/helper";
-import { type } from "@testing-library/user-event/dist/type";
+import * as services from "../services/userManagementApi";
+import { setIsLoading, setRoles, setUserManagementList } from "../slices/userManagementSlice";
 
 const isBlank = (v) => v == null || String(v).trim() === "";
 
@@ -14,6 +14,7 @@ function useUserManagement() {
   const userManagementList = useSelector((s) => s.userManagement.userManagementList);
   const rolesList = useSelector((s) => s.userManagement.roles);
 
+  const [openModal, setOpenModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [record, setRecord] = useState({});
   const [uiSearch, setUiSearch] = useState("");
@@ -72,12 +73,98 @@ function useUserManagement() {
     }
   }, [dispatch, pagination.current, pagination.pageSize, qSearch, qRole, qStatus]);
 
-  const userManagement = useCallback(async (params) => {
+  const addUserManagement = useCallback(async (params) => {
     try {
       dispatch(setIsLoading(true));
-      const res = await services.userManagement({ roles: [params.role], ...params });
+      const res = await services.addUserManagement({ roles: [params.role], ...params });
+      if (res?.data?.status === 200) {
+        alert({
+          type: "success",
+          className: "my-noti",
+          message: "Success",
+          description: "Your data has been successfully saved.",
+        })
+      } else {
+        alert({
+          type: "error",
+          className: "my-noti",
+          message: "Error",
+          description: "A problem has been occurred while submitting your data. Please try again.",
+        });
+      }
     } catch (err) {
-      console.error("addUserManagement error:", err);
+      alert({
+        type: "error",
+        className: "my-noti",
+        message: "Error",
+        description: "A problem has been occurred while submitting your data. Please try again.",
+      });
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }, [dispatch]);
+
+  const updateUserManagement = useCallback(async (params) => {
+    try {
+      dispatch(setIsLoading(true));
+      const res = await services.updateUserManagement({ roles: [params.role], ...params });
+      if (res?.data?.status === 200) {
+        alert({
+          type: "success",
+          className: "my-noti",
+          message: "Success",
+          description: "Your data has been successfully saved.",
+        })
+      } else {
+        alert({
+          type: "error",
+          className: "my-noti",
+          message: "Error",
+          description: "A problem has been occurred while submitting your data. Please try again.",
+        });
+      }
+    } catch (err) {
+      alert({
+        type: "error",
+        className: "my-noti",
+        message: "Error",
+        description: "A problem has been occurred while submitting your data. Please try again.",
+      });
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }, [dispatch]);
+
+  const resetPassword = useCallback(async (params) => {
+    try {
+      dispatch(setIsLoading(true));
+      const res = await services.resetPassword({ ...params });
+      if (res?.data?.status === 200) {
+        alert({
+          type: "success",
+          className: "my-noti",
+          message: "Success",
+          description: "Your data has been successfully saved.",
+        })
+      } else {
+        alert({
+          type: "error",
+          className: "my-noti",
+          message: "Error",
+          description: "A problem has been occurred while submitting your data. Please try again.",
+        });
+      }
+      setRecord(prev => ({
+        ...prev,
+        password: `P@ssw0rd#${res.data.data.companyCode}`,
+      }));
+    } catch (err) {
+      alert({
+        type: "error",
+        className: "my-noti",
+        message: "Error",
+        description: "A problem has been occurred while submitting your data. Please try again.",
+      });
     } finally {
       dispatch(setIsLoading(false));
     }
@@ -95,7 +182,7 @@ function useUserManagement() {
 
   const handleAddUser = async (values, { setSubmitting, resetForm }) => {
     try {
-      await userManagement({ type: "New", ...values });
+      await addUserManagement({ type: "New", ...values });
       closeAction();
     } catch (e) {
       console.error("create user error:", e);
@@ -107,12 +194,13 @@ function useUserManagement() {
 
   const handleEditUser = async (values, { setSubmitting, resetForm }) => {
     try {
-      await userManagement({
+      await updateUserManagement({
         type: "Update",
         firstname: values.firstname,
         lastname: values.lastname,
         role: values.role,
         status: values.status,
+        username: values.username,
       });
       closeAction();
     } catch (e) {
@@ -121,6 +209,12 @@ function useUserManagement() {
       setSubmitting(false);
       await fetchList();
     }
+  };
+
+  const handleResetClick = async (values) => {
+    await resetPassword({
+      username: values
+    });
   };
 
   const handleSubmit = useCallback(() => {
@@ -142,13 +236,16 @@ function useUserManagement() {
   }, []);
 
   const handleEdit = (record) => {
+    setStatusModal(true);
     setRecord(record); // เก็บค่าทั้งแถว
     setOpenModal(true);
-    setStatusModal(true);
   };
 
-  const [openModal, setOpenModal] = useState(false);
-  const onAction = useCallback(() => setOpenModal(true), []);
+  const onAction = useCallback(() => {
+    setStatusModal(false);
+    setRecord();
+    setOpenModal(true);
+  }, []);
   const closeAction = useCallback(() => setOpenModal(false), []);
 
   return {
@@ -170,6 +267,7 @@ function useUserManagement() {
     onSubmit: handleSubmit,
     onClear: handleClear,
     onEdit: handleEdit,
+    handleResetClick,
 
     onSubmitModal: statusModal ? handleEditUser : handleAddUser,
     // modal

@@ -11,6 +11,7 @@
     "antd": "^5.12.2",
     "axios": "^1.7.7",
     "chart.js": "^4.4.1",
+    "dompurify": "^3.3.0",
     "formik": "^2.4.5",
     "humps": "^2.0.1",
     "i18next": "^23.7.8",
@@ -43,7 +44,6 @@
     "build:serve:dev": "npm install && npx env-cmd -f ./.env.local react-scripts build && npx serve -s build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-
     "start:sit": "env-cmd -f ./.env.sit react-scripts start",
     "build:sit": "cross-env CI=false env-cmd -f ./.env.sit react-scripts build",
     "serve:sit": "env-cmd -f ./.env.sit npx serve -s build",

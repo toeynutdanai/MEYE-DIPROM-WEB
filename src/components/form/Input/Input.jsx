@@ -12,14 +12,19 @@ const Input = ({
   placeholder = "",
   type = "text",
   size = "middle",
-  onChange = () => { },
+  onChange = () => {},
   className = "",
   subclassName = "",
   required = false,
   disabled = false,
   useTimeout = null,
   autoSize = false,
-  autoComplete = ""
+  autoComplete = "",
+  /** ⭐️ เพิ่ม prop ใหม่ให้ส่งต่อได้ */
+  prefix,
+  suffix,
+  allowClear,
+  ...rest // เผื่อ prop อื่น ๆ ของ AntdInput
 }) => {
   const [timeoutId, setTimeoutId] = useState(null);
   const [field, meta, helpers] = useField(name);
@@ -56,6 +61,7 @@ const Input = ({
           {required && <span className="error">*</span>}
         </label>
       )}
+
       {type === "text" || type === "password" ? (
         <AntdInput
           id={name}
@@ -72,6 +78,11 @@ const Input = ({
           data-type={type}
           size={size}
           autoComplete={autoComplete}
+          /** ⭐️ ส่งต่อให้ AntdInput */
+          prefix={prefix}
+          suffix={suffix}
+          allowClear={allowClear}
+          {...rest}
         />
       ) : (
         <AntdInput.TextArea
@@ -81,16 +92,15 @@ const Input = ({
           className={cx(styles.input, subclassName)}
           name={name}
           placeholder={placeholder}
-          type={type}
           value={value || ""}
           onChange={handleChange}
           onBlur={onBlur}
           data-state={touched && error ? "error" : ""}
           status={touched && error ? "error" : ""}
           disabled={disabled}
-          data-type={type}
           size={size}
           autoComplete={autoComplete}
+          {...rest}
         />
       )}
 
