@@ -110,6 +110,24 @@ function ModalUser({
           await submitForm();
         };
 
+        const pwdGuide = `Standard Password:
+        1. กำหนดให้ Password ต้องมีจำนวนตัวอักษร และอักขระพิเศษรวมกันไม่น้อยกว่า 8 ตัวอักษร (>=8)
+        2. กำหนด Standard ของ Password ต้องประกอบด้วย
+          2.1 ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ อย่างน้อย 1 ตัว
+          2.2 ตัวอักษรภาษาอังกฤษพิมพ์เล็ก อย่างน้อย 1 ตัว
+          2.3 อักขระพิเศษ อย่างน้อย 1 ตัว โดยจะต้องเป็นอักขระพิเศษดังนี้
+              + | บวก
+              - | ลบ/ขีดกลาง
+              # | แฮช/ชาร์ป
+              < | น้อยกว่า
+              > | มากกว่า
+              = | เท่ากับ
+              @ | แอท
+              _ | ขีดล่าง/underscore
+              ! | อัศเจรีย์
+              $ | Dollar Sign / ดอลลาร์ไซน์
+          2.4 ไม่อนุญาตให้ระบุด้วยตัวอักษรภาษาไทย`;
+
         const passwordLabel = (
           <span
             className={styles.labelBold}
@@ -121,23 +139,15 @@ function ModalUser({
             <Tooltip
               placement="right"
               title={
-                <p>
-                  &nbsp;&nbsp;Standard Password:
-                  <br />
-                  &nbsp;&nbsp;1. กำหนดให้ Password ต้องมีจำนวนตัวอักษร
-                  และอักขระพิเศษรวมกันไม่น้อยกว่า 8 ตัวอักษร
-                  <br />
-                  &nbsp;&nbsp;2. กำหนด Standard ของ Password ต้องประกอบด้วย
-                  <br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่
-                  อย่างน้อย 1 ตัว
-                  <br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2. ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่
-                  อย่างน้อย 1 ตัว
-                  <br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.3. อักขระพิเศษ อย่างน้อย 1 ตัว
-                  โดยจะต้องเป็นอักขระพิเศษดังนี้
-                </p>
+                <div
+                  style={{
+                    whiteSpace: "break-spaces",
+                    lineHeight: 1.6,
+                    maxWidth: 400,
+                  }}
+                >
+                  {pwdGuide}
+                </div>
               }
             >
               <InfoCircleOutlined style={{ color: "#306CFE" }} />
@@ -158,7 +168,10 @@ function ModalUser({
               rootClassName={cx(styles.modalRoot, className)}
               closeIcon={<span className={styles.closeIcon}>X</span>}
               destroyOnClose
-              afterClose={() => {resetForm(); setShowPwd(false)}}
+              afterClose={() => {
+                resetForm();
+                setShowPwd(false);
+              }}
             >
               <div className={styles.card}>
                 {/* Header */}
