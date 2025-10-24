@@ -46,9 +46,7 @@ export default function UsersManagement({
     >
       <Card className={styles.card} bodyStyle={{ padding: 24 }}>
         <Row justify="space-between" align="middle">
-          <Typography.Title level={4} className={styles.titleDim}>
-            Users Management
-          </Typography.Title>
+          <h3>Users Management</h3>
         </Row>
 
         {/* Filters */}

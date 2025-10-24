@@ -60,9 +60,7 @@ const SystemLogComponents = ({
               size={12}
               style={{ width: "100%" }}
             >
-              <Typography.Title level={4} className={styles.titleDim}>
-                {t("system_log.access_header")}
-              </Typography.Title>
+              <h3>{t("system_log.access_header")}</h3>
               <SystemLogSearch
                 onClick={onClick}
                 logType={logType}
@@ -85,9 +83,7 @@ const SystemLogComponents = ({
               size={12}
               style={{ width: "100%" }}
             >
-              <Typography.Title level={4} className={styles.titleDim}>
-                {t("system_log.interface_header")}
-              </Typography.Title>
+              <h3>{t("system_log.interface_header")}</h3>
               <SystemLogSearch
                 onClick={onClick}
                 logType={logType}

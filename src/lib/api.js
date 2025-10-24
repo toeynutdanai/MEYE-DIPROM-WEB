@@ -3,9 +3,16 @@ import axios from "axios";
 import config from "config";
 import jsonToFormData from "lib/jsonToFormData";
 import session from "utils/session";
+import alert from "components/elements/Alert";
 
 const setAppError = (e, message) => {
-  alert(message);
+  // alert(message);
+  alert({
+    type: "error",
+    className: "my-noti",
+    message: "Error",
+    description: message
+  });
   return Promise.reject({ ...e, message });
 };
 
@@ -17,6 +24,7 @@ class Api {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true, ////จำเป็นสำหรับ HttpOnly Cookie
     });
 
     this.http.interceptors.request.use(
@@ -42,9 +50,43 @@ class Api {
           return this.handleSuccess(response);
         else return this.handleError(response);
       },
-      (error) => this.handleError(error)
+      async (error) => {
+        const originalRequest = error.config;
+        if (error.response?.status === 401 && error.response?.data?.message==='token_expired' && !originalRequest._retry) {
+          originalRequest._retry = true;
+          try {
+            const token = await this.refresh();
+            if(token===''){
+              return this.onSessionExpired(error);
+            }
+
+            originalRequest.headers["Authorization"] = 'Bearer ' + token;
+            return this.http(originalRequest);
+          } catch (_error) {
+            return this.handleError(error)
+          }
+        }else{
+          return this.handleError(error);
+        }
+      }
     );
   }
+
+  refresh = async () => {
+    try {
+      const response = await this.post("/auth/refresh");
+      const token = response?.data?.token || '';
+      if (token) {
+        session.setAuthToken(token);
+        return token;
+      } else {
+        return '';
+      }
+    } catch (error) {
+      console.log(error)
+      return '';
+    }
+};
 
   prepareRequestHeaders(headers) {
     const token = session.getAuthToken();
@@ -119,6 +161,10 @@ class Api {
       e,
       "การเชื่อมต่อกับเซิฟเวอร์มีปัญหา กรุณาลองใหม่อีกครั้งภายหลัง"
     );
+  }
+
+  onSessionExpired(e) {
+    return setAppError(e,"Session expired, please login again.");
   }
 
   handleError(e) {

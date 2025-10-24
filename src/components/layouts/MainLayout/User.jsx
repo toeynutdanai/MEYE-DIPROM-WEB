@@ -1,6 +1,4 @@
 import { Avatar, Dropdown, Modal, Space ,Row, Flex} from "antd";
-// import { ModalCustom } from "./Modal";
-import i18n from "i18n";
 import { useCallback ,useState} from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,11 +10,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
-import { generateRandomString } from "utils/helper";
-import EN from "components/elements/LanguageSwitcher/EN.json";
-import TH from "components/elements/LanguageSwitcher/TH.json";
 import ModalChangePassword from "components/elements/Modal/ModalChangePassword";
-import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import session from "utils/session";
 import useChangePassword from "features/authentication/hooks/useChangePassword"
@@ -30,7 +24,7 @@ const User = () => {
   const company = window.localStorage.getItem("companyCode")+" - "+window.localStorage.getItem("companyName");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const odSignOut = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     Modal.confirm({
       title: "Are you sure?",
       content: <p>Are you sure logout?</p>,
@@ -55,6 +49,13 @@ const User = () => {
     setIsModalOpen(false);
   };
   
+  const handleMenuClick = (e) => {
+  if(e.key === "1"){
+    odChangePassword();
+  }if(e.key === "2"){
+    odSignOut();
+  }
+};
 
   return (
     <Row>
@@ -77,18 +78,17 @@ const User = () => {
           {
             key: "1",
             label: (
-              <span onClick={(odChangePassword) }>
-                {t("user.label.change_password")}
-              </span>
+              <span >{t("user.label.change_password")}</span>
             ),
             icon: <LockOutlined />,
           },
           {
             key: "2",
-            label: <span onClick={odSignOut}>{t("user.label.sign_out")}</span>,
+            label: <span>{t("user.label.sign_out")}</span>,
             icon: <LoginOutlined />,
           },
         ],
+        onClick: handleMenuClick,
       }}
     >
       <Avatar size={45} icon={<UserOutlined />} />

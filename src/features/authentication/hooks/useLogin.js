@@ -34,7 +34,7 @@ function useLogin() {
         };
 
         const response = await login(modifiedValues);
-        const token = response.data.token || null;
+        const token = response?.data?.token || null;
 
         if (token) {
           session.setAuthToken(token);

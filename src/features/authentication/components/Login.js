@@ -60,7 +60,6 @@ function Login({
                           <Input
                             required
                             name="username"
-                            // size="large"
                             type="text"
                             placeholder={`Enter Your username`}
                             className={styles.input}
@@ -77,13 +76,10 @@ function Login({
 
                           <Password
                             name="password"
-                            // size="large"
-                            placeholder={`Ex. Password123!`}
+                            placeholder={`Enter Your Password`}
                             className={styles.input}
                           />
-                        </div>
-
-                        <Row
+                          <Row
                           align="middle"
                           justify="end"
                           style={{
@@ -99,6 +95,7 @@ function Login({
                             {t("sign_in.label.forgot_password")}
                           </label>
                         </Row>
+                        </div>
 
                         <Button
                           className={styles.button}

@@ -27,6 +27,7 @@ class Api {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     });
 
     this.http.interceptors.request.use(
@@ -52,7 +53,24 @@ class Api {
           return this.handleSuccess(response);
         else return this.handleError(response);
       },
-      (error) => this.handleError(error)
+      async (error) => {
+        const originalRequest = error.config;
+        if (error.response?.status === 401 && error.response?.data?.message==='token_expired' && !originalRequest._retry) {
+          originalRequest._retry = true;
+          try {
+            const rs = await this.http.post("/auth/refresh");
+            const token = rs?.data?.token || '';
+            session.setAuthToken(token);
+            originalRequest.headers["Authorization"] = 'Bearer ' + token;
+
+            return this.http(originalRequest);
+          } catch (_error) {
+            this.handleError(error)
+          }
+        }else{
+          this.handleError(error);
+        }
+      }
     );
   }
 

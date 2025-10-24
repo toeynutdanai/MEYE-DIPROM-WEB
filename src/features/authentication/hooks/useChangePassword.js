@@ -81,14 +81,24 @@ function useChangePassword() {
       cancelText: "CANCEL",
       async onOk() {
         try {
-          await changePassword(modifiedValues);
-          alert({
-            type: "success",
-            message: "Success",
-            description: "Your password has been successfully changed.",
-          });
-          session.removeAuthToken();
-          navigate("/sign_in");
+          const res = await changePassword(modifiedValues);
+          if (res?.data?.status === 200) {
+            alert({
+              type: "success",
+              message: "Success",
+              description: "Your password has been successfully changed.",
+            });
+            session.removeAuthToken();
+            navigate("/sign_in");
+          }else{
+            alert({
+              type: "error",
+              message: "Error",
+              description:
+                "The information is incorrect. Please check and correct it again.",
+            });
+          }
+          
         } catch (error) {
           alert({
             type: "error",
