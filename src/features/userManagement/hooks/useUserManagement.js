@@ -25,7 +25,7 @@ function useUserManagement() {
   const [qStatus, setQStatus] = useState("ALL");
 
   // antd pagination (1-based)
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 25, total: 0 });
 
   const rolesOptions = useMemo(() => {
     return (rolesList ?? []).map((p) => ({ value: p.key, label: p.value }));

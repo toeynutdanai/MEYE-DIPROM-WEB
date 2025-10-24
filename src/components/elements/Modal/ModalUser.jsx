@@ -102,9 +102,9 @@ function ModalUser({
               return acc;
             }, {});
             setTouched(touchedAll, true);
-            message.error(
-              t("form.fix_errors") || "Please fill in required fields."
-            );
+            // message.error(
+            //   t("form.fix_errors") || "Please fill in required fields."
+            // );
             return;
           }
           await submitForm();

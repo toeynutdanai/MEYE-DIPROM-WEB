@@ -54,7 +54,7 @@ const UserManagementTable = ({
       pagination={{
         ...pagination,
         showSizeChanger: true,
-        pageSizeOptions: ["5", "10", "25", "50", "100"],
+        pageSizeOptions: ["10", "25", "50", "100"],
         showTotal: (total, range) =>
           t("paginate.description")
             .replace("{min}", String(range[0]))
