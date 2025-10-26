@@ -76,9 +76,10 @@
 }
 
 /* Status radio ให้ดูแนวเดียวกับสเปก (วงกลมเล็ก / สี) */
-.statusBlock { margin-top: 8px; }
+/* .statusBlock { margin-top: 8px; } */
 .statusGroup :global(.ant-radio-wrapper) {
   margin-right: 24px;
+  margin-top: 8px;
   color: #2D3748;
   font-size: 14px;
 }

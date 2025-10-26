@@ -198,7 +198,7 @@
       },
       "status": {
         "successful": "Login successful. ",
-        "failed": "Login failed!!!",
+        "failed": "Login failed.",
         "failed_description": "Incorrect username or password. Please try again."
       },
       "validate": {

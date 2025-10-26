@@ -126,7 +126,10 @@ const MenuComponents = () => {
         <Row className={styles.banner_container_footer}>
           <img src={BannerFooter} alt="banner" preview={false} />
         </Row>
-        <small>{t("footer")}</small>
+        <Row style={{marginBottom: 4, justifyContent: 'center'}}>
+          <small>{t("footer")}</small>
+        </Row>
+          
       </Footer>
     </Layout>
   )
