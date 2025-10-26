@@ -138,12 +138,13 @@ function ModalUser({
             </span>
             <Tooltip
               placement="right"
+              overlayInnerStyle={{ width: 450 }}
               title={
                 <div
                   style={{
                     whiteSpace: "break-spaces",
                     lineHeight: 1.6,
-                    maxWidth: 400,
+                    maxWidth: 450,
                   }}
                 >
                   {pwdGuide}
@@ -204,7 +205,6 @@ function ModalUser({
                           </span>
                         }
                         placeholder="Username"
-                        size="large"
                         disabled={statusModal}
                       />
                     </Col>
@@ -219,7 +219,6 @@ function ModalUser({
                           </span>
                         }
                         placeholder="Firstname"
-                        size="large"
                       />
                     </Col>
                     <Col xs={24} md={12}>
@@ -231,7 +230,6 @@ function ModalUser({
                           </span>
                         }
                         placeholder="Lastname"
-                        size="large"
                       />
                     </Col>
 
@@ -241,7 +239,6 @@ function ModalUser({
                         type={showPwd ? "text" : "password"}
                         label={passwordLabel}
                         placeholder="Password"
-                        size="large"
                         disabled={statusModal}
                         autoComplete="new-password"
                         suffix={
@@ -276,7 +273,6 @@ function ModalUser({
                           </span>
                         }
                         placeholder="Confirm Password"
-                        size="large"
                         disabled={statusModal}
                       />
                     </Col>
@@ -290,7 +286,6 @@ function ModalUser({
                           </span>
                         }
                         placeholder="Role"
-                        size="large"
                         options={roleOptions}
                       />
                     </Col>
@@ -323,7 +318,7 @@ function ModalUser({
                         key="resetPasswordOnly"
                         onClick={() => handleResetClick(values.username)}
                         className={styles.btnReset}
-                        size="middle"
+                        // size="middle"
                         disabled={!statusModal}
                       >
                         Reset Password
@@ -331,7 +326,7 @@ function ModalUser({
                       <Button
                         htmlType="button"
                         className={styles.btnSave}
-                        size="middle"
+                        // size="middle"
                         loading={isSubmitting}
                         onClick={handleSaveClick}
                       >

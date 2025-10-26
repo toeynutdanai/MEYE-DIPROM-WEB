@@ -14,6 +14,11 @@ import ModalChangePassword from "components/elements/Modal/ModalChangePassword";
 import { useTranslation } from "react-i18next";
 import session from "utils/session";
 import useChangePassword from "features/authentication/hooks/useChangePassword"
+import api from "lib/api";
+
+const logout = async (params = {}) => {
+  return await api.post(`/auth/logout`);
+};
 
 const User = () => {
 
@@ -29,6 +34,7 @@ const User = () => {
       title: "Are you sure?",
       content: <p>Are you sure logout?</p>,
       onOk() {
+        logout();
         session.removeAuthToken();
         navigate("/sign_in");
       },
