@@ -4,6 +4,8 @@ import { MainLayout } from "components/layouts";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "../styles/Company.module.css";
+import schemaEdit from "../schemas/companySchema";
+import { Form, Formik } from "formik";
 const { TextArea } = Input;
 
 const CompanyComponents = ({ companyObj = {}, onSubmit = () => {} }) => {
@@ -60,37 +62,63 @@ const CompanyComponents = ({ companyObj = {}, onSubmit = () => {} }) => {
             </Col>
             <Col span={17}>
               <Space direction="vertical" className={styles.container}>
-                <label>{t("company.label.companyName")}</label>
-                <Flex align="start" gap="small">
-                  <Input
-                    disabled={disableName}
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
-                    rules={[{ required: true }]}
-                  />
-                  <Button
-                    icon={<EditOutlined />}
-                    disabled={!disableName}
-                    onClick={() =>
-                      setDisableName((disableName) => !disableName)
-                    }
-                  />
-                  <Button
-                    icon={<CheckOutlined />}
-                    className={styles.buttonSave}
-                    disabled={disableName}
-                    onClick={() => handleSave("name")}
-                    htmlType="submit"
-                  />
-                  <Button
-                    icon={<CloseOutlined />}
-                    className={styles.buttonCancel}
-                    disabled={disableName}
-                    onClick={() =>
-                      setDisableName((disableName) => !disableName)
-                    }
-                  />
-                </Flex>
+                <label>{t("company.label.companyName")} <span style={{ color: "#FF0000" }}>*</span></label>
+
+                <Formik
+                enableReinitialize
+                  initialValues={{
+                    companyName: companyName || "",
+                  }}
+                  validationSchema={schemaEdit}
+                  onSubmit={(values) => {
+                    handleSave("name", values.companyName);
+                  }}
+                >{({ values, errors, touched, handleChange, isValid }) => (
+                  <Flex align="start" gap="small">
+                      <Input
+                        name="companyName"
+                        disabled={disableName}
+                        // value={companyName}
+                        value={values.companyName}
+                        // onChange={(e) => setCompanyName(e.target.value)}
+                        rules={[{ required: true }]}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setCompanyName(e.target.value);
+                        }}
+                        status={errors.companyName && touched.companyName ? "error" : ""}
+                      />
+                      {errors.companyName && touched.companyName && (
+                        <Typography.Text type="danger">
+                          {errors.companyName}
+                        </Typography.Text>
+                      )}
+                    <Button
+                      icon={<EditOutlined />}
+                      disabled={!disableName}
+                      onClick={() =>
+                        setDisableName((disableName) => !disableName)
+                      }
+                    />
+                    <Button
+                      icon={<CheckOutlined />}
+                      className={styles.buttonSave}
+                      disabled={disableName || !isValid}
+                      onClick={() => handleSave("name")}
+                      htmlType="submit"
+                    />
+                    <Button
+                      icon={<CloseOutlined />}
+                      className={styles.buttonCancel}
+                      disabled={disableName}
+                      onClick={() =>
+                        setDisableName((disableName) => !disableName)
+                      }
+                    />
+                  </Flex>
+                )}
+                </Formik>
+
               </Space>
             </Col>
 

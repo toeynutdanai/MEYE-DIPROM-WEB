@@ -52,6 +52,16 @@ class Api {
       },
       async (error) => {
         const originalRequest = error.config;
+
+        if (error.response?.data instanceof Blob && error.response?.data.type === "text/plain") {
+          try {
+            const text = await error.response.data.text();
+            error.response.data = JSON.parse(text);
+          } catch (e) {
+            console.warn("Cannot parse blob response", e);
+          }
+        }
+
         if (error.response?.status === 401 && error.response?.data?.message==='token_expired' && !originalRequest._retry) {
           originalRequest._retry = true;
           try {

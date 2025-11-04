@@ -401,7 +401,8 @@
         "log_date":"Date",
         "action": "Action",
         "file_name":"File Name",
-        "status" : "Success/Fail Records"
+        "status" : "Success/Fail Records",
+        "remark" : "Message"
       }
     },
     "company": {
