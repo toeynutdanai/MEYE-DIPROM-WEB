@@ -85,19 +85,31 @@ function useUserManagement() {
           description: "Your data has been successfully saved.",
         })
       } else {
+        let msg = '';
+        if (res?.data?.error === "Business Error") {
+          msg =res?.data?.message;
+        } else {
+          msg="A problem has been occurred while submitting your data. Please try again.";
+        }
         alert({
           type: "error",
           className: "my-noti",
           message: "Error",
-          description: "A problem has been occurred while submitting your data. Please try again.",
+          description: msg,
         });
       }
     } catch (err) {
+      let msg = '';
+      if (err?.response?.data?.error === "Business Error") {
+        msg = err?.response?.data?.message;
+      } else {
+        msg = "A problem has been occurred while submitting your data. Please try again.";
+      }
       alert({
         type: "error",
         className: "my-noti",
         message: "Error",
-        description: "A problem has been occurred while submitting your data. Please try again.",
+        description: msg,
       });
     } finally {
       dispatch(setIsLoading(false));
@@ -116,19 +128,31 @@ function useUserManagement() {
           description: "Your data has been successfully saved.",
         })
       } else {
+        let msg = '';
+        if (res?.data?.error === "Business Error") {
+          msg =res?.data?.message;
+        } else {
+          msg="A problem has been occurred while submitting your data. Please try again.";
+        }
         alert({
           type: "error",
           className: "my-noti",
           message: "Error",
-          description: "A problem has been occurred while submitting your data. Please try again.",
+          description: msg,
         });
       }
     } catch (err) {
+      let msg = '';
+      if (err?.response?.data?.error === "Business Error") {
+        msg = err?.response?.data?.message;
+      } else {
+        msg = "A problem has been occurred while submitting your data. Please try again.";
+      }
       alert({
         type: "error",
         className: "my-noti",
         message: "Error",
-        description: "A problem has been occurred while submitting your data. Please try again.",
+        description: msg,
       });
     } finally {
       dispatch(setIsLoading(false));

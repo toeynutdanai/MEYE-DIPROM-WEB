@@ -79,7 +79,7 @@ function useSystemLog(){
           logId,
           interfaceCode
         });
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const url = window.URL.createObjectURL(new Blob([response.data], { type: "text/csv;charset=utf-8;" }));
         const link = document.createElement("a");
         link.href = url;
   

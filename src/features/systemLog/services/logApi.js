@@ -9,7 +9,9 @@ export const getInterfaceLog = async (params = {}) => {
 };
 
 export const downloadLogInterfaceFail = async (params = {}) => {
-  return await api.post("/export/csv/interfaceFile", params);
+  return await api.post("/export/csv/interfaceFile", params, {
+    responseType: "blob",
+  });
 };
 
 

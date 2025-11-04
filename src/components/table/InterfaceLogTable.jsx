@@ -22,7 +22,6 @@ const InterfaceLogTable = ({
       dataIndex: "dateTime",
       key: "dateTime",
       width: "20%",
-    //   sorter: (a, b) => a.createDateTime.localeCompare(b.createDateTime),
       render: (_, record) => {
         return record.dateTime;
       },
@@ -32,7 +31,6 @@ const InterfaceLogTable = ({
       dataIndex: "fileName",
       key: "fileName",
       width: "20%",
-    //   sorter: (a, b) => a.username.localeCompare(b.username),
       render: (_, record) => {
         return record.fileName;
       }
@@ -42,9 +40,17 @@ const InterfaceLogTable = ({
       dataIndex: "status",
       key: "status",
       width: "20%",
-    //   sorter: (a, b) => a.username.localeCompare(b.username),
       render: (_, record) => {
         return record.status;
+      }
+    },
+    {
+      title: <div className="text-table">{t("system_log.label.remark")}</div>,
+      dataIndex: "remark",
+      key: "remark",
+      width: "20%",
+      render: (_, record) => {
+        return record.remark;
       }
     },
     {
@@ -53,7 +59,6 @@ const InterfaceLogTable = ({
       key: "logId",
       width: "20%",
       render: (_, record) => {
-        // return record.activity;
         return <Button onClick={(e)=>handleDownloadExcel(record.logId,record.interfaceCode)}><DownloadOutlined style={{ fontSize: '20px',fontWeight: 'bold' }}/></Button>;
       },
       align: "center",
